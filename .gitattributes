@@ -1,0 +1,14 @@
+# Set default behavior to automatically normalize line endings.
+* text=auto
+
+# Set default behavior for command prompt diff.
+*.cs diff=csharp
+
+# Set the merge driver for project and solution files
+*.sln merge=binary
+*.csproj merge=binary
+
+# behavior for image files
+*.png binary
+*.jpg binary
+*.gif binary

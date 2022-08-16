@@ -1,0 +1,56 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <BuildOutputTargetFolder>analyzers</BuildOutputTargetFolder>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+        <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <AssemblyName>Essy.DependencyManagement.Modularity.Generator</AssemblyName>
+        <RootNamespace>DependencyManagement.Modularity.Generator</RootNamespace>
+        <LangVersion>10</LangVersion>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <Title>Essy.DependencyManagement.Modularity.Generator</Title>
+        <Version>1.0.4-alpha</Version>
+        <Authors>Roma F.;Timur F.</Authors>
+        <Description>
+            A very fast dependency injection and component container, with many interesting features, and without reflexion.
+            The Modularity Generator library contains generator that generate modules extensions for Injection library.
+        </Description>
+        <PackageProjectUrl>https://github.com/essy-ecosystem/dependency-management</PackageProjectUrl>
+        <PackageIcon>icon-128.png</PackageIcon>
+        <RepositoryUrl>https://github.com/essy-ecosystem/dependency-management.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>di;ioc;modularity;generator</PackageTags>
+        <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
+        <PackageLicenseFile>License.txt</PackageLicenseFile>
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4-beta1.22310.1">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.3.0-2.final"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="..\..\Assets\icon-128.png" Pack="true" Visible="false" PackagePath=""/>
+        <None Include="..\..\License.txt" Pack="true" Visible="false" PackagePath=""/>
+        <None Include="..\..\ReadMe.md" Pack="true" Visible="false" PackagePath=""/>
+    </ItemGroup>
+
+</Project>
