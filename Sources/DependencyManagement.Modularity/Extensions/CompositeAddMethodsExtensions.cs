@@ -11,7 +11,7 @@ public static class CompositeAddMethodsExtensions
         return new ModuleBuilder<T>(composite);
     }
 
-    public static void AddModule<T>(this IComposite composite, IModule module)
+    public static void AddModule(this IComposite composite, IModule module)
     {
         module.Load(composite);
     }
