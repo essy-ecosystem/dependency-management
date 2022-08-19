@@ -14,7 +14,7 @@
         <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
-
+    
     <PropertyGroup>
         <Title>Essy.DependencyManagement.Composition</Title>
         <Version>1.0.4-alpha</Version>
@@ -25,7 +25,7 @@
         </Description>
         <PackageProjectUrl>https://github.com/essy-ecosystem/dependency-management</PackageProjectUrl>
         <PackageIcon>icon-128.png</PackageIcon>
-        <RepositoryUrl>https://github.com/essy-ecosystem/dependency-macnagement.git</RepositoryUrl>
+        <RepositoryUrl>https://github.com/essy-ecosystem/dependency-management.git</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageTags>di;ioc;modularity;generator</PackageTags>
         <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
