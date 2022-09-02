@@ -26,7 +26,7 @@ public static class CompositeStrategyMethodsExtensions
         rootComposite.TrySetLazyStrategy(() => new SingletonStrategy());
         rootComposite.TrySetLazyStrategy(() => new ThreadStrategy());
         rootComposite.TrySetLazyStrategy(() => new ContainerStrategy());
-        rootComposite.TrySetLazyStrategy(() => new ThreadCompositeStrategy());
+        rootComposite.TrySetLazyStrategy(() => new ThreadContainerStrategy());
 
         return composite;
     }
