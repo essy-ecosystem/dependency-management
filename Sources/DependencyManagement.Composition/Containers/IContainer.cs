@@ -1,6 +1,6 @@
 namespace DependencyManagement.Composition.Containers;
 
-using DependencyManagement.Composition.Components;
+using Components;
 
 public interface IContainer : IReadOnlyContainer
 {

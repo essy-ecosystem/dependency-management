@@ -11,8 +11,9 @@ public static class CompositeRemoveMethodsExtensions
         where T : class, IComponent
     {
         if (strategy == CompositeTraversalStrategy.Current) return container.Remove(component);
-        if (strategy == CompositeTraversalStrategy.Initial) return ContainerTreeUtils.GetLast(container).Remove(component);
-        
+        if (strategy == CompositeTraversalStrategy.Initial)
+            return ContainerTreeUtils.GetLast(container).Remove(component);
+
         if (container.Remove(component)) return true;
 
         while (container.Father is not null)
@@ -44,8 +45,9 @@ public static class CompositeRemoveMethodsExtensions
         where T : class, IComponent
     {
         if (strategy == CompositeTraversalStrategy.Current) return container.Remove(predicate);
-        if (strategy == CompositeTraversalStrategy.Initial) return ContainerTreeUtils.GetLast(container).Remove(predicate);
-        
+        if (strategy == CompositeTraversalStrategy.Initial)
+            return ContainerTreeUtils.GetLast(container).Remove(predicate);
+
         var result = container.Remove(predicate);
 
         while (container.Father is not null)

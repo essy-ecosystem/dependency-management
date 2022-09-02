@@ -21,7 +21,7 @@ public static class CompositeClearMethodsExtensions
             ContainerTreeUtils.GetLast(container).Clear<T>();
             return;
         }
-        
+
         container.Clear<T>();
 
         while (container.Father is not null)

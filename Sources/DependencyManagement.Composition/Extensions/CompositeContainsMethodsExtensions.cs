@@ -11,8 +11,9 @@ public static class CompositeContainsMethodsExtensions
         where T : class, IComponent
     {
         if (strategy == CompositeTraversalStrategy.Current) return container.Contains(component);
-        if (strategy == CompositeTraversalStrategy.Initial) return ContainerTreeUtils.GetLast(container).Contains(component);
-        
+        if (strategy == CompositeTraversalStrategy.Initial)
+            return ContainerTreeUtils.GetLast(container).Contains(component);
+
         if (container.Contains(component)) return true;
 
         while (container.Father is not null)

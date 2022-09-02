@@ -2,10 +2,10 @@ namespace DependencyManagement.Composition.Containers;
 
 using System.Collections;
 using System.Collections.Concurrent;
-using DependencyManagement.Composition.Components;
-using DependencyManagement.Core.Caches;
-using DependencyManagement.Core.Disposables;
-using DependencyManagement.Core.Utils;
+using Components;
+using Core.Caches;
+using Core.Disposables;
+using Core.Utils;
 
 public class Container : AsyncDisposableObject, IContainer
 {

@@ -43,7 +43,8 @@ public static class CompositeLastMethodsExtensions
         Predicate<T> predicate) where T : class, IComponent
     {
         if (strategy == CompositeTraversalStrategy.Current) return container.TryLast(predicate);
-        if (strategy == CompositeTraversalStrategy.Initial) return ContainerTreeUtils.GetLast(container).TryLast(predicate);
+        if (strategy == CompositeTraversalStrategy.Initial)
+            return ContainerTreeUtils.GetLast(container).TryLast(predicate);
 
         var current = container;
 

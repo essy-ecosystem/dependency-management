@@ -1,7 +1,7 @@
 namespace DependencyManagement.Composition.Containers;
 
-using DependencyManagement.Composition.Components;
-using DependencyManagement.Core.Disposables;
+using Components;
+using Core.Disposables;
 
 public interface IReadOnlyContainer : IDisposable, IAsyncDisposableObject
 {

@@ -91,6 +91,25 @@ var readOnlyContainer = composite.ToReadOnly();
 var service = readOnlyContainer.LastInstance<Service>();
 ```
 
+## Installation
+
+```xml
+<PropertyGroup>
+    <Nullable>enable</Nullable>
+  
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)Generated</CompilerGeneratedFilesOutputPath>
+</PropertyGroup>
+
+<ItemGroup>
+    <ProjectReference Include="Essy.DependencyManagement.Injection" Version="1.1.0"/>
+    <ProjectReference Include="Essy.DependencyManagement.Injection.Generator" Version="1.1.0" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all"/>
+    
+    <ProjectReference Include="Essy.DependencyManagement.Modularity" Version="1.1.0"/>
+    <ProjectReference Include="Essy.DependencyManagement.Modularity.Generator" Version="1.1.0" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all"/>
+</ItemGroup>
+```
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
