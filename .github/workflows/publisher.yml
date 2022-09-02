@@ -21,30 +21,30 @@ jobs:
     - name: Publish Core
       uses: brandedoutcast/publish-nuget@v2.5.2  
       with:   
-        PROJECT_FILE_PATH: Source/DependencyManagement.Core/DependencyManagement.Core.csproj  
+        PROJECT_FILE_PATH: Sources/DependencyManagement.Core/DependencyManagement.Core.csproj  
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
     - name: Publish Composition
       uses: brandedoutcast/publish-nuget@v2.5.2  
       with:   
-        PROJECT_FILE_PATH: Source/DependencyManagement.Composition/DependencyManagement.Composition.csproj  
+        PROJECT_FILE_PATH: Sources/DependencyManagement.Composition/DependencyManagement.Composition.csproj  
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}  
     - name: Publish Injection
       uses: brandedoutcast/publish-nuget@v2.5.2  
       with:   
-        PROJECT_FILE_PATH: Source/DependencyManagement.Injection/DependencyManagement.Injection.csproj  
+        PROJECT_FILE_PATH: Sources/DependencyManagement.Injection/DependencyManagement.Injection.csproj  
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
     - name: Publish Modularity
       uses: brandedoutcast/publish-nuget@v2.5.2  
       with:   
-        PROJECT_FILE_PATH: Source/DependencyManagement.Modularity/DependencyManagement.Modularity.csproj  
+        PROJECT_FILE_PATH: Sources/DependencyManagement.Modularity/DependencyManagement.Modularity.csproj  
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}  
     - name: Publish Injection Generator
       uses: brandedoutcast/publish-nuget@v2.5.2  
       with:   
-        PROJECT_FILE_PATH: Source/DependencyManagement.Injection.Generator/DependencyManagement.Injection.Generator.csproj  
+        PROJECT_FILE_PATH: Sources/DependencyManagement.Injection.Generator/DependencyManagement.Injection.Generator.csproj  
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
     - name: Publish Modularity Generator
       uses: brandedoutcast/publish-nuget@v2.5.2  
       with:   
-        PROJECT_FILE_PATH: Source/DependencyManagement.Modularity.Generator/DependencyManagement.Modularity.Generator.csproj  
+        PROJECT_FILE_PATH: Sources/DependencyManagement.Modularity.Generator/DependencyManagement.Modularity.Generator.csproj  
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
