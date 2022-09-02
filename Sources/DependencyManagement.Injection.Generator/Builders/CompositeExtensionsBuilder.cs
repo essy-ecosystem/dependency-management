@@ -1,27 +1,30 @@
+namespace DependencyManagement.Injection.Generator.Builders;
+
 using System.Diagnostics;
 using System.Text;
-using DependencyManagement.Injection.Generator.Generators;
-
-namespace DependencyManagement.Injection.Generator.Builders;
+using DependencyManagement.Generator.Core.Models;
+using Generators;
+using Models;
 
 internal class CompositeExtensionsBuilder
 {
-    public CompositeExtensionsBuilder(string assembly, (string Namespace, string Type)[] providers, string[] methods)
+    private readonly string _assembly;
+
+    private readonly IReadOnlyCollection<TypeModel> _extensionsMethods;
+
+    private readonly IReadOnlyCollection<ProvidedTypeModel> _providedTypes;
+
+    public CompositeExtensionsBuilder(string assembly, IReadOnlyCollection<ProvidedTypeModel> providedTypes,
+        IReadOnlyCollection<TypeModel> extensionsMethods)
     {
-        Assembly = assembly;
-        Providers = providers;
-        Methods = methods;
+        _assembly = assembly;
+        _providedTypes = providedTypes;
+        _extensionsMethods = extensionsMethods;
     }
-
-    public string Assembly { get; }
-
-    public string[] Methods { get; }
-
-    public (string Namespace, string Type)[] Providers { get; }
 
     public override string ToString()
     {
-        var assemblyDisplayName = Assembly.Replace(".", "");
+        var assemblyDisplayName = _assembly.Replace(".", "");
         var methodDisplayName = $"WithProvidersFrom{assemblyDisplayName}Assembly";
 
         var builder = new StringBuilder();
@@ -32,22 +35,30 @@ internal class CompositeExtensionsBuilder
         builder.AppendLine();
         builder.AppendLine("namespace DependencyManagement.Injection.Extensions;");
         builder.AppendLine();
-        builder.AppendLine($"[System.CodeDom.Compiler.GeneratedCode(\"{nameof(ProvidersGenerator)}\", \"{FileVersionInfo.GetVersionInfo(GetType().Assembly.Location).ProductVersion}\")]");
+        builder.AppendLine(
+            $"[System.CodeDom.Compiler.GeneratedCode(\"{nameof(ProvidersGenerator)}\", \"{FileVersionInfo.GetVersionInfo(GetType().Assembly.Location).ProductVersion}\")]");
         builder.AppendLine($"public static class {assemblyDisplayName}AssemblyGeneratedCompositeExtensions");
         builder.AppendLine("{");
         builder.AppendLine("    internal static T WithProviders<T>(this T composite) where T : class, IComposite");
         builder.AppendLine("    {");
         builder.AppendLine($"        composite.{methodDisplayName}();");
-        foreach (var method in Methods) builder.AppendLine($"        composite.{method}();");
+        foreach (var method in _extensionsMethods)
+        {
+            builder.AppendLine($"        composite.{method.Name}();");
+        }
+
         builder.AppendLine("        return composite;");
         builder.AppendLine("    }");
         builder.AppendLine();
         builder.AppendLine($"    public static T {methodDisplayName}<T>(this T composite) where T : class, IComposite");
         builder.AppendLine("    {");
         builder.AppendLine("        var rootComposite = CompositeTreeUtils.GetLast(composite);");
-        foreach (var provider in Providers)
+        foreach (var providedType in _providedTypes)
+        {
             builder.AppendLine(
-                $"        rootComposite.TrySetLazyProvider<{provider.Namespace}.{provider.Type}>(() => new {provider.Type}GeneratedProvider());");
+                $"        rootComposite.TrySetLazyProvider<{providedType}>(() => new {providedType.Type.Name}GeneratedProvider());");
+        }
+
         builder.AppendLine("        return composite;");
         builder.AppendLine("    }");
         builder.AppendLine();

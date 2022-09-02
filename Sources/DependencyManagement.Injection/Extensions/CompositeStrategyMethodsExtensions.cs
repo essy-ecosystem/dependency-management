@@ -1,10 +1,10 @@
-using DependencyManagement.Composition.Components;
-using DependencyManagement.Composition.Composites;
-using DependencyManagement.Composition.Extensions;
-using DependencyManagement.Composition.Utils;
-using DependencyManagement.Injection.Strategies;
-
 namespace DependencyManagement.Injection.Extensions;
+
+using Composition.Components;
+using Composition.Composites;
+using Composition.Extensions;
+using Composition.Utils;
+using Strategies;
 
 public static class CompositeStrategyMethodsExtensions
 {

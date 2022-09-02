@@ -1,6 +1,6 @@
 namespace DependencyManagement.Core.Disposables;
 
-/// <inheritdoc cref="IDisposable{T}" />
+/// <inheritdoc cref="DependencyManagement.Core.Disposables.IDisposable{T}" />
 public class Disposable<T> : Disposable, IDisposable<T> where T : notnull
 {
     private readonly Action<T, bool> _dispose;
@@ -14,8 +14,10 @@ public class Disposable<T> : Disposable, IDisposable<T> where T : notnull
         _dispose = dispose;
     }
 
+    /// <inheritdoc />
     public T Value { get; }
 
+    /// <inheritdoc />
     protected override void DisposeCore(bool disposing)
     {
         _dispose(Value, disposing);
@@ -24,24 +26,18 @@ public class Disposable<T> : Disposable, IDisposable<T> where T : notnull
     }
 }
 
-/// <inheritdoc cref="IDisposable" />
+/// <inheritdoc cref="System.IDisposable" />
 public abstract class Disposable : IDisposable
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="Disposable" /> class.
-    /// </summary>
-    public Disposable()
-    {
-    }
-
-    /// <summary>
-    ///     Gets a value indicating whether this instance is disposed.
+    /// Gets a value indicating whether this instance is disposed.
     /// </summary>
     /// <value>
-    ///     True if this instance is disposed, and otherwise, false.
+    /// True if this instance is disposed, and otherwise, false.
     /// </value>
     protected bool IsDisposed { get; private set; }
 
+    /// <inheritdoc />
     public void Dispose()
     {
         if (IsDisposed) return;
@@ -53,15 +49,13 @@ public abstract class Disposable : IDisposable
     }
 
     /// <summary>
-    ///     Releases unmanaged and (optionally) managed resources.
+    /// Releases unmanaged and (optionally) managed resources.
     /// </summary>
     /// <param name="disposing">
-    ///     True to release both managed and unmanaged resources,
-    ///     and False to release only unmanaged resources.
+    /// True to release both managed and unmanaged resources,
+    /// and False to release only unmanaged resources.
     /// </param>
-    protected virtual void DisposeCore(bool disposing)
-    {
-    }
+    protected virtual void DisposeCore(bool disposing) { }
 
     ~Disposable()
     {

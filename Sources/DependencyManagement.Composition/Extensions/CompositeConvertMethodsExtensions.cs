@@ -1,6 +1,6 @@
-using DependencyManagement.Composition.Composites;
-
 namespace DependencyManagement.Composition.Extensions;
+
+using Composites;
 
 public static class CompositeConvertMethodsExtensions
 {

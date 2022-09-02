@@ -1,7 +1,7 @@
-using DependencyManagement.Composition.Components;
-using DependencyManagement.Composition.Composites;
-
 namespace DependencyManagement.Injection.Providers;
+
+using Composition.Components;
+using Composition.Composites;
 
 public abstract class Provider<T> : Component, IProvider<T> where T : notnull
 {

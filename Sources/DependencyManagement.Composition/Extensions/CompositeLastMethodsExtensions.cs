@@ -1,9 +1,9 @@
-using DependencyManagement.Composition.Components;
-using DependencyManagement.Composition.Composites;
-using DependencyManagement.Composition.Enums;
-using DependencyManagement.Composition.Exceptions;
-
 namespace DependencyManagement.Composition.Extensions;
+
+using Components;
+using Composites;
+using Enums;
+using Exceptions;
 
 public static class CompositeLastMethodsExtensions
 {

@@ -1,22 +1,17 @@
+namespace DependencyManagement.Injection.Generator.Builders;
+
 using System.Diagnostics;
 using System.Text;
-
-namespace DependencyManagement.Injection.Generator.Builders;
+using Models;
 
 public sealed class ProviderBuilder
 {
-    public ProviderBuilder(string ns, string type, (string Namespace, string Type)[] arguments)
+    private readonly ProvidedTypeModel _providedType;
+
+    public ProviderBuilder(ProvidedTypeModel providedType)
     {
-        Namespace = ns;
-        Type = type;
-        Arguments = arguments;
+        _providedType = providedType;
     }
-
-    public string Namespace { get; }
-
-    public string Type { get; }
-
-    public (string Namespace, string Type)[] Arguments { get; }
 
     public override string ToString()
     {
@@ -29,35 +24,43 @@ public sealed class ProviderBuilder
         builder.AppendLine();
         builder.AppendLine("namespace DependencyManagement.Injection.Providers;");
         builder.AppendLine();
-        builder.AppendLine($"[System.CodeDom.Compiler.GeneratedCode(\"{nameof(ProviderBuilder)}\", \"{FileVersionInfo.GetVersionInfo(GetType().Assembly.Location).ProductVersion}\")]");
-        builder.AppendLine($"internal sealed class {Type}GeneratedProvider : MethodProvider<{Namespace}.{Type}>");
+        builder.AppendLine(
+            $"[System.CodeDom.Compiler.GeneratedCode(\"{nameof(ProviderBuilder)}\", \"{FileVersionInfo.GetVersionInfo(GetType().Assembly.Location).ProductVersion}\")]");
+        builder.AppendLine(
+            $"public sealed class {_providedType.Type.Name}GeneratedProvider : MethodProvider<{_providedType}>");
         builder.AppendLine("{");
-        builder.AppendLine($"    protected override {Namespace}.{Type} GetInstanceCore(IReadOnlyComposite composite)");
+        builder.AppendLine($"    protected override {_providedType} GetInstanceCore(IReadOnlyComposite composite)");
         builder.AppendLine("    {");
-        if (Arguments.Length == 0)
+        if (_providedType.Arguments.Count == 0)
         {
             builder.AppendLine("        return new();");
         }
-        else if (Arguments.Length == 1)
+        else if (_providedType.Arguments.Count == 1)
         {
-            var argument = Arguments.First();
+            var argument = _providedType.Arguments.First();
             builder.AppendLine(
-                $"        return new(composite.LastInstance<{argument.Namespace}.{argument.Type}>(CompositeTraversalStrategy.Inherit));");
+                $"        return new(composite.LastInstance<{argument}>(CompositeTraversalStrategy.Inherit));");
         }
         else
         {
-            for (var i = 0; i < Arguments.Length; i++)
+            for (var i = 0; i < _providedType.Arguments.Count; i++)
             {
-                var argument = Arguments[i];
+                var argument = _providedType.Arguments[i];
                 if (i == 0)
+                {
                     builder.AppendLine(
-                        $"        return new(composite.LastInstance<{argument.Namespace}.{argument.Type}>(CompositeTraversalStrategy.Inherit),");
-                else if (i == Arguments.Length - 1)
+                        $"        return new(composite.LastInstance<{argument}>(CompositeTraversalStrategy.Inherit),");
+                }
+                else if (i == _providedType.Arguments.Count - 1)
+                {
                     builder.AppendLine(
-                        $"            composite.LastInstance<{argument.Namespace}.{argument.Type}>(CompositeTraversalStrategy.Inherit));");
+                        $"            composite.LastInstance<{argument}>(CompositeTraversalStrategy.Inherit));");
+                }
                 else
+                {
                     builder.AppendLine(
-                        $"            composite.LastInstance<{argument.Namespace}.{argument.Type}>(CompositeTraversalStrategy.Inherit),");
+                        $"            composite.LastInstance<{argument}>(CompositeTraversalStrategy.Inherit),");
+                }
             }
         }
 

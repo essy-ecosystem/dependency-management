@@ -5,6 +5,7 @@ namespace DependencyManagement.Core.Initializables;
 public class AsyncInitializable<T> : IInitializable<T>, IAsyncInitializable<T> where T : notnull
 {
     private readonly Func<T, ValueTask> _asyncInitialize;
+
     private readonly Action<T> _initialize;
 
     /// <param name="value">The value object.</param>
@@ -17,13 +18,16 @@ public class AsyncInitializable<T> : IInitializable<T>, IAsyncInitializable<T> w
         Value = value;
     }
 
+    /// <inheritdoc />
     public ValueTask InitializeAsync()
     {
         return _asyncInitialize(Value);
     }
 
+    /// <inheritdoc cref="IAsyncInitializable{T}.Value" />
     public T Value { get; }
 
+    /// <inheritdoc />
     public void Initialize()
     {
         _initialize(Value);

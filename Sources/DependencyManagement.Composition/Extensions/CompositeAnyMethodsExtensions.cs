@@ -1,8 +1,8 @@
-using DependencyManagement.Composition.Components;
-using DependencyManagement.Composition.Composites;
-using DependencyManagement.Composition.Enums;
-
 namespace DependencyManagement.Composition.Extensions;
+
+using Components;
+using Composites;
+using Enums;
 
 public static class CompositeAnyMethodsExtensions
 {

@@ -1,10 +1,10 @@
-using DependencyManagement.Composition.Composites;
-using DependencyManagement.Composition.Enums;
-using DependencyManagement.Composition.Extensions;
-using DependencyManagement.Injection.Builders;
-using DependencyManagement.Injection.Targets;
-
 namespace DependencyManagement.Injection.Extensions;
+
+using Builders;
+using Composition.Composites;
+using Composition.Enums;
+using Composition.Extensions;
+using Targets;
 
 public static class CompositeAddMethodsExtensions
 {

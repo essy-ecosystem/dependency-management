@@ -1,7 +1,7 @@
-using DependencyManagement.Composition.Components;
-using DependencyManagement.Composition.Composites;
-
 namespace DependencyManagement.Modularity.Modules;
+
+using Composition.Components;
+using Composition.Composites;
 
 public interface IModule : IComponent
 {

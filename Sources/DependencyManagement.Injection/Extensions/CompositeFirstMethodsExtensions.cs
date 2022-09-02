@@ -1,11 +1,11 @@
-using DependencyManagement.Composition.Composites;
-using DependencyManagement.Composition.Enums;
-using DependencyManagement.Composition.Exceptions;
-using DependencyManagement.Composition.Extensions;
-using DependencyManagement.Composition.Utils;
-using DependencyManagement.Injection.Targets;
-
 namespace DependencyManagement.Injection.Extensions;
+
+using Composition.Composites;
+using Composition.Enums;
+using Composition.Exceptions;
+using Composition.Extensions;
+using Composition.Utils;
+using Targets;
 
 public static class CompositeFirstMethodsExtensions
 {
@@ -75,7 +75,9 @@ public static class CompositeFirstMethodsExtensions
         Predicate<T> predicate) where T : class
     {
         if (strategy == CompositeTraversalStrategy.Current || composite.Father is null)
+        {
             return composite.TryFirstInstance(predicate);
+        }
 
         var composites = CompositeTreeUtils.GetTree(composite);
 
@@ -108,6 +110,6 @@ public static class CompositeFirstMethodsExtensions
         Predicate<T> predicate) where T : class
     {
         return composite.TryFirstInstance(strategy, predicate) ??
-               throw new EmptySequenceDependencyManagementException();
+            throw new EmptySequenceDependencyManagementException();
     }
 }

@@ -1,6 +1,6 @@
-using DependencyManagement.Modularity.Modules;
-
 namespace DependencyManagement.Modularity.Builders;
+
+using Modules;
 
 public interface IFactoryModuleBuilder<T> : IActivationModuleBuilder<T> where T : class, IModule, new()
 {

@@ -1,7 +1,7 @@
-using DependencyManagement.Composition.Components;
-using DependencyManagement.Composition.Composites;
-
 namespace DependencyManagement.Injection.Targets;
+
+using Composition.Components;
+using Composition.Composites;
 
 public interface ITarget<out T> : IComponent where T : notnull
 {

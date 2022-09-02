@@ -1,8 +1,8 @@
-using DependencyManagement.Composition.Components;
-using DependencyManagement.Composition.Composites;
-using DependencyManagement.Injection.Providers;
-
 namespace DependencyManagement.Injection.Strategies;
+
+using Composition.Components;
+using Composition.Composites;
+using Providers;
 
 public abstract class Strategy : Component, IStrategy
 {

@@ -1,9 +1,9 @@
-using DependencyManagement.Composition.Composites;
-using DependencyManagement.Composition.Extensions;
-using DependencyManagement.Composition.Utils;
-using DependencyManagement.Modularity.Modules;
-
 namespace DependencyManagement.Modularity.Builders;
+
+using Composition.Composites;
+using Composition.Extensions;
+using Composition.Utils;
+using Modules;
 
 public class ModuleBuilder<T> : IModuleBuilder<T> where T : class, IModule, new()
 {
