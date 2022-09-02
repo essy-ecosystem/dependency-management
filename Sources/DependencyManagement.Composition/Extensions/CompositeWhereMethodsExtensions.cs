@@ -3,6 +3,7 @@ namespace DependencyManagement.Composition.Extensions;
 using Components;
 using Composites;
 using Enums;
+using Utils;
 
 public static class CompositeWhereMethodsExtensions
 {
@@ -16,6 +17,7 @@ public static class CompositeWhereMethodsExtensions
         Predicate<T> predicate) where T : class, IComponent
     {
         if (strategy == CompositeTraversalStrategy.Current) return composite.Where(predicate);
+        if (strategy == CompositeTraversalStrategy.Initial) return CompositeTreeUtils.GetLast(composite).Where(predicate);
 
         var components = new List<T>(composite.Where(predicate));
 

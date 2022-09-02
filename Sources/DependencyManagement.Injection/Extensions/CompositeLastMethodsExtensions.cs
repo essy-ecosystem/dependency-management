@@ -4,6 +4,7 @@ using Composition.Composites;
 using Composition.Enums;
 using Composition.Exceptions;
 using Composition.Extensions;
+using Composition.Utils;
 using Targets;
 
 public static class CompositeLastMethodsExtensions
@@ -74,6 +75,11 @@ public static class CompositeLastMethodsExtensions
         Predicate<T> predicate) where T : class
     {
         if (strategy == CompositeTraversalStrategy.Current) return composite.TryLastInstance(predicate);
+
+        if (strategy == CompositeTraversalStrategy.Initial)
+        {
+            return CompositeTreeUtils.GetLast(composite).TryLastInstance(predicate);
+        }
 
         var current = composite;
 

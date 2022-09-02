@@ -3,14 +3,26 @@ namespace DependencyManagement.Composition.Extensions;
 using Components;
 using Composites;
 using Enums;
+using Utils;
 
 public static class CompositeClearMethodsExtensions
 {
     public static void Clear<T>(this IComposite composite, CompositeTraversalStrategy strategy)
         where T : class, IComponent
     {
+        if (strategy == CompositeTraversalStrategy.Current)
+        {
+            composite.Clear<T>();
+            return;
+        }
+
+        if (strategy == CompositeTraversalStrategy.Initial)
+        {
+            CompositeTreeUtils.GetLast(composite).Clear<T>();
+            return;
+        }
+        
         composite.Clear<T>();
-        if (strategy == CompositeTraversalStrategy.Current) return;
 
         while (composite.Father is not null)
         {

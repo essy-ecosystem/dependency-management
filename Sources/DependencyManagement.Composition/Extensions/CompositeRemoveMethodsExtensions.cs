@@ -3,14 +3,17 @@ namespace DependencyManagement.Composition.Extensions;
 using Components;
 using Composites;
 using Enums;
+using Utils;
 
 public static class CompositeRemoveMethodsExtensions
 {
     public static bool Remove<T>(this IComposite composite, T component, CompositeTraversalStrategy strategy)
         where T : class, IComponent
     {
+        if (strategy == CompositeTraversalStrategy.Current) return composite.Remove(component);
+        if (strategy == CompositeTraversalStrategy.Initial) return CompositeTreeUtils.GetLast(composite).Remove(component);
+        
         if (composite.Remove(component)) return true;
-        if (strategy == CompositeTraversalStrategy.Current) return false;
 
         while (composite.Father is not null)
         {
@@ -40,9 +43,10 @@ public static class CompositeRemoveMethodsExtensions
     public static bool Remove<T>(this IComposite composite, CompositeTraversalStrategy strategy, Predicate<T> predicate)
         where T : class, IComponent
     {
+        if (strategy == CompositeTraversalStrategy.Current) return composite.Remove(predicate);
+        if (strategy == CompositeTraversalStrategy.Initial) return CompositeTreeUtils.GetLast(composite).Remove(predicate);
+        
         var result = composite.Remove(predicate);
-
-        if (strategy == CompositeTraversalStrategy.Current) return result;
 
         while (composite.Father is not null)
         {

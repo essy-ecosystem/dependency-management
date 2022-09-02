@@ -3,14 +3,17 @@ namespace DependencyManagement.Composition.Extensions;
 using Components;
 using Composites;
 using Enums;
+using Utils;
 
 public static class CompositeAnyMethodsExtensions
 {
     public static bool Any<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy)
         where T : class, IComponent
     {
+        if (strategy == CompositeTraversalStrategy.Current) return composite.Any<T>();
+        if (strategy == CompositeTraversalStrategy.Initial) return CompositeTreeUtils.GetLast(composite).Any<T>();
+
         if (composite.Any<T>()) return true;
-        if (strategy == CompositeTraversalStrategy.Current) return false;
 
         while (composite.Father is not null)
         {
