@@ -1,13 +1,14 @@
 ﻿using DependencyManagement.Composition.Containers;
-using DependencyManagement.Examples.Simple;
+using DependencyManagement.Examples.Modules;
 using DependencyManagement.Injection.Extensions;
+using DependencyManagement.Modularity.Extensions;
 
 await using var container = new Container()
     .WithStrategies()
-    .WithProviders();
+    .WithProviders()
+    .WithModules();
 
-container.SetTarget<ExampleService>().ToSingleton();
-container.SetTarget<ModernExampleService>().ToSingleton();
+container.AddModule<ExampleModule>().ToModule();
 
 var service = container.LastInstance<ModernExampleService>();
 
