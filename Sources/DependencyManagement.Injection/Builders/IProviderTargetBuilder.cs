@@ -1,6 +1,6 @@
-using DependencyManagement.Injection.Providers;
-
 namespace DependencyManagement.Injection.Builders;
+
+using Providers;
 
 public interface IProviderTargetBuilder<T> : IStrategyTargetBuilder<T> where T : class
 {

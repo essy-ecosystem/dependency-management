@@ -1,12 +1,12 @@
-using DependencyManagement.Composition.Components;
-using DependencyManagement.Composition.Composites;
-using DependencyManagement.Composition.Extensions;
-using DependencyManagement.Composition.Utils;
-using DependencyManagement.Injection.Providers;
-using DependencyManagement.Injection.Strategies;
-using DependencyManagement.Injection.Targets;
-
 namespace DependencyManagement.Injection.Builders;
+
+using Composition.Components;
+using Composition.Composites;
+using Composition.Extensions;
+using Composition.Utils;
+using Providers;
+using Strategies;
+using Targets;
 
 internal sealed class TargetBuilder<T> : ITargetBuilder<T> where T : class
 {
@@ -50,6 +50,9 @@ internal sealed class TargetBuilder<T> : ITargetBuilder<T> where T : class
 
         var target = new Target<T>(_strategy(), _provider());
 
-        foreach (var abstraction in _abstractions) abstraction(target);
+        foreach (var abstraction in _abstractions)
+        {
+            abstraction(target);
+        }
     }
 }

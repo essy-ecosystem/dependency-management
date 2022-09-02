@@ -1,9 +1,9 @@
-using DependencyManagement.Composition.Components;
-using DependencyManagement.Composition.Composites;
-using DependencyManagement.Injection.Providers;
-using DependencyManagement.Injection.Strategies;
-
 namespace DependencyManagement.Injection.Targets;
+
+using Composition.Components;
+using Composition.Composites;
+using Providers;
+using Strategies;
 
 internal sealed class Target<T> : Component, ITarget<T> where T : notnull
 {

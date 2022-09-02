@@ -1,25 +1,23 @@
-using System.Collections;
-using System.Collections.Concurrent;
-using DependencyManagement.Composition.Components;
-using DependencyManagement.Core.Caches;
-using DependencyManagement.Core.Disposables;
-using DependencyManagement.Core.Utils;
-
 namespace DependencyManagement.Composition.Composites;
 
+using System.Collections;
+using System.Collections.Concurrent;
+using Components;
+using Core.Caches;
+using Core.Disposables;
+using Core.Utils;
+
 /// <summary>
-///     <inheritdoc cref="IComposite" />
-///     The <see cref="Composite" /> is thread-safe.
+/// <inheritdoc cref="IComposite" />
+/// The <see cref="Composite" /> is thread-safe.
 /// </summary>
 /// <inheritdoc cref="IComposite" />
 public class Composite : AsyncDisposableObject, IComposite
 {
-    private readonly DisposableCache _cache = new();
     private readonly ConcurrentDictionary<Type, IList> _components = new();
+    private readonly DisposableCollection _disposableCollection = new();
 
-    public Composite()
-    {
-    }
+    public Composite() { }
 
     public Composite(IComposite father) : this()
     {
@@ -42,7 +40,7 @@ public class Composite : AsyncDisposableObject, IComposite
         ThrowUtils.ThrowIfNull(component);
 
         return _components.TryGetValue(typeof(T), out var components)
-               && components.Contains(component);
+            && components.Contains(component);
     }
 
     public bool Any<T>() where T : class, IComponent
@@ -57,10 +55,13 @@ public class Composite : AsyncDisposableObject, IComposite
 
         var type = typeof(T);
 
-        if (_components.TryGetValue(type, out var components)) components.Add(component);
+        if (_components.TryGetValue(type, out var components))
+        {
+            components.Add(component);
+        }
         else if (!_components.TryAdd(type, new List<T> { component })) Add(component);
 
-        _cache.TryAdd(component);
+        _disposableCollection.Add(component);
     }
 
     public bool Remove<T>(T component) where T : class, IComponent
@@ -84,14 +85,14 @@ public class Composite : AsyncDisposableObject, IComposite
 
     protected override void DisposeCore(bool disposing)
     {
-        if (disposing) _cache.Dispose();
+        if (disposing) _disposableCollection.Dispose();
 
         base.DisposeCore(disposing);
     }
 
     protected override async ValueTask DisposeCoreAsync()
     {
-        await _cache.DisposeAsync();
+        await _disposableCollection.DisposeAsync();
 
         await base.DisposeCoreAsync();
     }

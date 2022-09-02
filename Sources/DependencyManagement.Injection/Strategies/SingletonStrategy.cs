@@ -1,14 +1,14 @@
-using System.Collections.Concurrent;
-using DependencyManagement.Composition.Components;
-using DependencyManagement.Composition.Composites;
-using DependencyManagement.Core.Caches;
-using DependencyManagement.Injection.Providers;
-
 namespace DependencyManagement.Injection.Strategies;
+
+using System.Collections.Concurrent;
+using Composition.Components;
+using Composition.Composites;
+using Core.Caches;
+using Providers;
 
 public sealed class SingletonStrategy : Strategy
 {
-    private readonly DisposableCache _cache = new();
+    private readonly DisposableCollection _disposableCollection = new();
     private readonly ConcurrentDictionary<IComponent, object> _instances = new();
 
     public override T GetInstance<T>(IReadOnlyComposite composite, IProvider<T> provider)
@@ -22,7 +22,7 @@ public sealed class SingletonStrategy : Strategy
             instance = provider.GetInstance(composite);
             if (instance is null) throw new NullReferenceException(nameof(instance));
 
-            _cache.TryAdd(instance);
+            _disposableCollection.Add(instance);
 
             if (!_instances.TryAdd(provider, instance)) return GetInstance(composite, provider);
         }
@@ -32,14 +32,14 @@ public sealed class SingletonStrategy : Strategy
 
     protected override void DisposeCore(bool disposing)
     {
-        if (disposing) _cache.Dispose();
+        if (disposing) _disposableCollection.Dispose();
 
         base.DisposeCore(disposing);
     }
 
     protected override async ValueTask DisposeCoreAsync()
     {
-        await _cache.DisposeAsync();
+        await _disposableCollection.DisposeAsync();
 
         await base.DisposeCoreAsync();
     }

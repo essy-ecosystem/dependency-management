@@ -19,7 +19,7 @@
 
     <PropertyGroup>
         <Title>Essy.DependencyManagement.Injection.Generator</Title>
-        <Version>1.0.4-alpha</Version>
+        <Version>1.0.5</Version>
         <Authors>Roma F.;Timur F.</Authors>
         <Description>
             A very fast dependency injection and component container, with many interesting features, and without reflexion.
@@ -51,6 +51,16 @@
         <None Include="..\..\Assets\icon-128.png" Pack="true" Visible="false" PackagePath=""/>
         <None Include="..\..\License.txt" Pack="true" Visible="false" PackagePath=""/>
         <None Include="..\..\ReadMe.md" Pack="true" Visible="false" PackagePath=""/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Include="..\DependencyManagement.Generator.Core\Discovers\ISyntaxDiscover.cs" Link="DependencyManagement.Generator.Core\Discovers\ISyntaxDiscover.cs"/>
+        <Compile Include="..\DependencyManagement.Generator.Core\Extensions\CompilationProviderExtensions.cs" Link="DependencyManagement.Generator.Core\Extensions\CompilationProviderExtensions.cs"/>
+        <Compile Include="..\DependencyManagement.Generator.Core\Extensions\SyntaxValueProviderExtensions.cs" Link="DependencyManagement.Generator.Core\Extensions\SyntaxValueProviderExtensions.cs"/>
+        <Compile Include="..\DependencyManagement.Generator.Core\Models\TypeModel.cs" Link="DependencyManagement.Generator.Core\Models\TypeModel.cs"/>
+        <Compile Include="..\DependencyManagement.Generator.Core\Transformers\ICompilationTransformer.cs" Link="DependencyManagement.Generator.Core\Transformers\ICompilationTransformer.cs"/>
+        <Compile Include="..\DependencyManagement.Generator.Core\Transformers\ISyntaxTransformer.cs" Link="DependencyManagement.Generator.Core\Transformers\ISyntaxTransformer.cs"/>
+        <Compile Include="..\DependencyManagement.Generator.Core\Transformers\AssemblyNameCompilationTransformer.cs" Link="DependencyManagement.Generator.Core\Transformers\AssemblyNameCompilationTransformer.cs"/>
     </ItemGroup>
 
 </Project>

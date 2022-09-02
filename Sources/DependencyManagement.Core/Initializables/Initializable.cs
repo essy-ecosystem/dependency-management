@@ -14,8 +14,10 @@ public class Initializable<T> : IInitializable<T> where T : notnull
         _initialize = initialize;
     }
 
+    /// <inheritdoc />
     public T Value { get; }
 
+    /// <inheritdoc />
     public void Initialize()
     {
         _initialize(Value);

@@ -1,9 +1,9 @@
-using DependencyManagement.Composition.Composites;
-using DependencyManagement.Composition.Extensions;
-using DependencyManagement.Composition.Utils;
-using DependencyManagement.Modularity.Modules;
-
 namespace DependencyManagement.Modularity.Extensions;
+
+using Composition.Composites;
+using Composition.Extensions;
+using Composition.Utils;
+using Modules;
 
 public static class CompositeModuleMethodsExtensions
 {

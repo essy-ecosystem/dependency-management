@@ -1,6 +1,6 @@
-using DependencyManagement.Composition.Composites;
-
 namespace DependencyManagement.Injection.Providers;
+
+using Composition.Composites;
 
 public class LambdaProvider<T> : Provider<T> where T : notnull
 {

@@ -1,6 +1,6 @@
-using DependencyManagement.Injection.Strategies;
-
 namespace DependencyManagement.Injection.Builders;
+
+using Strategies;
 
 public interface IStrategyTargetBuilder<T> : IElementaryTargetBuilder<T> where T : class
 {

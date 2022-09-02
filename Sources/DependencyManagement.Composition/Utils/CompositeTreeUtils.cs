@@ -1,6 +1,6 @@
-using DependencyManagement.Composition.Composites;
-
 namespace DependencyManagement.Composition.Utils;
+
+using Composites;
 
 public static class CompositeTreeUtils
 {
@@ -8,7 +8,10 @@ public static class CompositeTreeUtils
     {
         var rootComposite = composite;
 
-        while (rootComposite.Father is not null) rootComposite = rootComposite.Father!;
+        while (rootComposite.Father is not null)
+        {
+            rootComposite = rootComposite.Father!;
+        }
 
         return rootComposite;
     }
@@ -17,7 +20,10 @@ public static class CompositeTreeUtils
     {
         var rootComposite = composite;
 
-        while (rootComposite.Father is not null) rootComposite = rootComposite.Father!;
+        while (rootComposite.Father is not null)
+        {
+            rootComposite = rootComposite.Father!;
+        }
 
         return rootComposite;
     }
@@ -26,7 +32,10 @@ public static class CompositeTreeUtils
     {
         var rootComposite = composite;
 
-        while (rootComposite.Father is not null && predicate(composite)) rootComposite = rootComposite.Father!;
+        while (rootComposite.Father is not null && predicate(composite))
+        {
+            rootComposite = rootComposite.Father!;
+        }
 
         return rootComposite;
     }
@@ -35,7 +44,10 @@ public static class CompositeTreeUtils
     {
         var rootComposite = composite;
 
-        while (rootComposite.Father is not null && predicate(composite)) rootComposite = rootComposite.Father!;
+        while (rootComposite.Father is not null && predicate(composite))
+        {
+            rootComposite = rootComposite.Father!;
+        }
 
         return rootComposite;
     }
@@ -44,7 +56,10 @@ public static class CompositeTreeUtils
     {
         var rootComposite = composite;
 
-        while (rootComposite.Father is not null && !predicate(composite)) rootComposite = rootComposite.Father!;
+        while (rootComposite.Father is not null && !predicate(composite))
+        {
+            rootComposite = rootComposite.Father!;
+        }
 
         return rootComposite;
     }
@@ -53,7 +68,10 @@ public static class CompositeTreeUtils
     {
         var rootComposite = composite;
 
-        while (rootComposite.Father is not null && !predicate(composite)) rootComposite = rootComposite.Father!;
+        while (rootComposite.Father is not null && !predicate(composite))
+        {
+            rootComposite = rootComposite.Father!;
+        }
 
         return rootComposite;
     }

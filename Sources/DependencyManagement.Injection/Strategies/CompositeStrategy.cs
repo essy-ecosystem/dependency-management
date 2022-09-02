@@ -1,15 +1,15 @@
-using System.Collections.Concurrent;
-using DependencyManagement.Composition.Components;
-using DependencyManagement.Composition.Composites;
-using DependencyManagement.Core.Caches;
-using DependencyManagement.Core.Utils;
-using DependencyManagement.Injection.Providers;
-
 namespace DependencyManagement.Injection.Strategies;
+
+using System.Collections.Concurrent;
+using Composition.Components;
+using Composition.Composites;
+using Core.Caches;
+using Core.Utils;
+using Providers;
 
 public sealed class CompositeStrategy : Strategy
 {
-    private readonly DisposableCache _cache = new();
+    private readonly DisposableCollection _disposableCollection = new();
 
     private readonly ConcurrentDictionary<IReadOnlyComposite, ConcurrentDictionary<IComponent, object>> _instances =
         new();
@@ -31,7 +31,7 @@ public sealed class CompositeStrategy : Strategy
             instance = provider.GetInstance(composite);
             if (instance is null) throw new NullReferenceException(nameof(instance));
 
-            _cache.TryAdd(instance);
+            _disposableCollection.Add(instance);
 
             if (!instances.TryAdd(provider, instance)) return GetInstance(composite, provider);
         }
@@ -41,27 +41,32 @@ public sealed class CompositeStrategy : Strategy
         return (T)instance;
     }
 
-    private void CompositeOnOnDisposing(object? sender, bool e)
+    private void CompositeOnOnDisposing(object? sender)
     {
         var composite = (IReadOnlyComposite)sender!;
 
         if (!_instances.TryRemove(composite, out var instances)) return;
 
         foreach (var instance in instances.Values)
-            if (instance is IDisposable disposable) disposable.Dispose();
+        {
+            if (instance is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
             else if (instance is IAsyncDisposable asyncDisposable) asyncDisposable.DisposeAsync().AsTask().Wait();
+        }
     }
 
     protected override void DisposeCore(bool disposing)
     {
-        if (disposing) _cache.Dispose();
+        if (disposing) _disposableCollection.Dispose();
 
         base.DisposeCore(disposing);
     }
 
     protected override async ValueTask DisposeCoreAsync()
     {
-        await _cache.DisposeAsync();
+        await _disposableCollection.DisposeAsync();
 
         await base.DisposeCoreAsync();
     }

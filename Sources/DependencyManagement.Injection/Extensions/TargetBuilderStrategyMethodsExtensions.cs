@@ -1,9 +1,9 @@
-using DependencyManagement.Composition.Composites;
-using DependencyManagement.Injection.Builders;
-using DependencyManagement.Injection.Providers;
-using DependencyManagement.Injection.Strategies;
-
 namespace DependencyManagement.Injection.Extensions;
+
+using Builders;
+using Composition.Composites;
+using Providers;
+using Strategies;
 
 public static class TargetBuilderStrategyMethodsExtensions
 {

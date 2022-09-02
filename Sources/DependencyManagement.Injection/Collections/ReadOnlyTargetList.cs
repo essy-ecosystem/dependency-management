@@ -1,9 +1,9 @@
-using System.Collections;
-using DependencyManagement.Composition.Composites;
-using DependencyManagement.Core.Disposables;
-using DependencyManagement.Injection.Targets;
-
 namespace DependencyManagement.Injection.Collections;
+
+using System.Collections;
+using Composition.Composites;
+using Core.Disposables;
+using Targets;
 
 public sealed class ReadOnlyTargetList<T> : Disposable, IReadOnlyList<T> where T : class
 {
@@ -87,9 +87,7 @@ public sealed class ReadOnlyTargetList<T> : Disposable, IReadOnlyList<T> where T
             _index = 0;
         }
 
-        public void Dispose()
-        {
-        }
+        public void Dispose() { }
 
         private T GetInstance(ITarget<T> target)
         {

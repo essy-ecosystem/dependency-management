@@ -1,9 +1,9 @@
-using DependencyManagement.Composition.Composites;
-using DependencyManagement.Composition.Extensions;
-using DependencyManagement.Composition.Utils;
-using DependencyManagement.Injection.Providers;
-
 namespace DependencyManagement.Injection.Extensions;
+
+using Composition.Composites;
+using Composition.Extensions;
+using Composition.Utils;
+using Providers;
 
 public static class CompositeProviderMethodsExtensions
 {

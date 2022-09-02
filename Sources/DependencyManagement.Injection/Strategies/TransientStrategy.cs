@@ -1,8 +1,8 @@
-using DependencyManagement.Composition.Composites;
-using DependencyManagement.Core.Utils;
-using DependencyManagement.Injection.Providers;
-
 namespace DependencyManagement.Injection.Strategies;
+
+using Composition.Composites;
+using Core.Utils;
+using Providers;
 
 public sealed class TransientStrategy : Strategy
 {

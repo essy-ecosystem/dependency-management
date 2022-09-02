@@ -1,9 +1,10 @@
 namespace DependencyManagement.Core.Disposables;
 
-/// <inheritdoc cref="IAsyncDisposable{T}" />
+/// <inheritdoc cref="DependencyManagement.Core.Disposables.IAsyncDisposable{T}" />
 public class AsyncDisposable<T> : AsyncDisposable, IDisposable<T>, IAsyncDisposable<T> where T : notnull
 {
     private readonly Func<T, ValueTask> _asyncDispose;
+
     private readonly Action<T, bool>? _dispose;
 
     /// <param name="value">The value to dispose.</param>
@@ -17,16 +18,25 @@ public class AsyncDisposable<T> : AsyncDisposable, IDisposable<T>, IAsyncDisposa
         _asyncDispose = asyncDispose;
     }
 
+    /// <inheritdoc cref="IAsyncDisposable{T}.Value" />
     public T Value { get; }
 
+    /// <inheritdoc />
     protected override void DisposeCore(bool disposing)
     {
-        if (_dispose is not null) _dispose(Value, disposing);
-        else if (disposing) _asyncDispose(Value).AsTask().Wait();
+        if (_dispose is not null)
+        {
+            _dispose(Value, disposing);
+        }
+        else if (disposing)
+        {
+            _asyncDispose(Value).AsTask().Wait();
+        }
 
         base.DisposeCore(disposing);
     }
 
+    /// <inheritdoc />
     protected override async ValueTask DisposeCoreAsync()
     {
         await _asyncDispose(Value);
@@ -35,17 +45,18 @@ public class AsyncDisposable<T> : AsyncDisposable, IDisposable<T>, IAsyncDisposa
     }
 }
 
-/// <inheritdoc cref="IAsyncDisposable" />
+/// <inheritdoc cref="System.IAsyncDisposable" />
 public abstract class AsyncDisposable : IAsyncDisposable, IDisposable
 {
     /// <summary>
-    ///     Gets a value indicating whether this instance is disposed.
+    /// Gets a value indicating whether this instance is disposed.
     /// </summary>
     /// <value>
-    ///     True if this instance is disposed, and otherwise, false.
+    /// True if this instance is disposed, and otherwise, false.
     /// </value>
     protected bool IsDisposed { get; private set; }
 
+    /// <inheritdoc />
     public async ValueTask DisposeAsync()
     {
         if (IsDisposed) return;
@@ -57,6 +68,7 @@ public abstract class AsyncDisposable : IAsyncDisposable, IDisposable
         IsDisposed = true;
     }
 
+    /// <inheritdoc />
     public void Dispose()
     {
         if (IsDisposed) return;
@@ -68,18 +80,16 @@ public abstract class AsyncDisposable : IAsyncDisposable, IDisposable
     }
 
     /// <summary>
-    ///     Releases unmanaged and (optionally) managed resources.
+    /// Releases unmanaged and (optionally) managed resources.
     /// </summary>
     /// <param name="disposing">
-    ///     True to release both managed and unmanaged resources,
-    ///     and False to release only unmanaged resources.
+    /// True to release both managed and unmanaged resources,
+    /// and False to release only unmanaged resources.
     /// </param>
-    protected virtual void DisposeCore(bool disposing)
-    {
-    }
+    protected virtual void DisposeCore(bool disposing) { }
 
     /// <summary>
-    ///     Releases managed resources asynchronously.
+    /// Releases managed resources asynchronously.
     /// </summary>
     /// <returns>A <see cref="ValueTask" /> that represents the asynchronous operation.</returns>
     protected virtual ValueTask DisposeCoreAsync()

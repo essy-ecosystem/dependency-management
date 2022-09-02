@@ -1,8 +1,8 @@
-using DependencyManagement.Composition.Components;
-using DependencyManagement.Composition.Composites;
-using DependencyManagement.Composition.Enums;
-
 namespace DependencyManagement.Composition.Extensions;
+
+using Components;
+using Composites;
+using Enums;
 
 public static class CompositeRemoveMethodsExtensions
 {
@@ -27,8 +27,12 @@ public static class CompositeRemoveMethodsExtensions
         var result = false;
 
         foreach (var component in components)
+        {
             if (composite.Remove(component))
+            {
                 result = true;
+            }
+        }
 
         return result;
     }
