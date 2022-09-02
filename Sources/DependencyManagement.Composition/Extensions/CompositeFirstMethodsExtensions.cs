@@ -21,6 +21,7 @@ public static class CompositeFirstMethodsExtensions
         where T : class, IComponent
     {
         if (strategy == CompositeTraversalStrategy.Current || composite.Father is null) return composite.TryFirst<T>();
+        if (strategy == CompositeTraversalStrategy.Initial) return CompositeTreeUtils.GetLast(composite).TryFirst<T>();
 
         var composites = CompositeTreeUtils.GetTree(composite);
 
@@ -44,6 +45,11 @@ public static class CompositeFirstMethodsExtensions
         if (strategy == CompositeTraversalStrategy.Current || composite.Father is null)
         {
             return composite.TryFirst(predicate);
+        }
+
+        if (strategy == CompositeTraversalStrategy.Initial)
+        {
+            return CompositeTreeUtils.GetLast(composite).TryFirst(predicate);
         }
 
         var composites = CompositeTreeUtils.GetTree(composite);

@@ -79,6 +79,11 @@ public static class CompositeFirstMethodsExtensions
             return composite.TryFirstInstance(predicate);
         }
 
+        if (strategy == CompositeTraversalStrategy.Initial)
+        {
+            return CompositeTreeUtils.GetLast(composite).TryFirstInstance(predicate);
+        }
+
         var composites = CompositeTreeUtils.GetTree(composite);
 
         for (var i = composites.Count - 1; i >= 0; i--)

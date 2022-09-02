@@ -4,6 +4,7 @@ using Components;
 using Composites;
 using Enums;
 using Exceptions;
+using Utils;
 
 public static class CompositeLastMethodsExtensions
 {
@@ -20,6 +21,7 @@ public static class CompositeLastMethodsExtensions
         where T : class, IComponent
     {
         if (strategy == CompositeTraversalStrategy.Current) return composite.TryLast<T>();
+        if (strategy == CompositeTraversalStrategy.Initial) return CompositeTreeUtils.GetLast(composite).TryLast<T>();
 
         var current = composite;
 
@@ -41,6 +43,7 @@ public static class CompositeLastMethodsExtensions
         Predicate<T> predicate) where T : class, IComponent
     {
         if (strategy == CompositeTraversalStrategy.Current) return composite.TryLast(predicate);
+        if (strategy == CompositeTraversalStrategy.Initial) return CompositeTreeUtils.GetLast(composite).TryLast(predicate);
 
         var current = composite;
 

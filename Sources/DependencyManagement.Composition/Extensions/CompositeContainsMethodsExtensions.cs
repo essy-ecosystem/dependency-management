@@ -3,14 +3,17 @@ namespace DependencyManagement.Composition.Extensions;
 using Components;
 using Composites;
 using Enums;
+using Utils;
 
 public static class CompositeContainsMethodsExtensions
 {
     public static bool Contains<T>(this IReadOnlyComposite composite, T component, CompositeTraversalStrategy strategy)
         where T : class, IComponent
     {
+        if (strategy == CompositeTraversalStrategy.Current) return composite.Contains(component);
+        if (strategy == CompositeTraversalStrategy.Initial) return CompositeTreeUtils.GetLast(composite).Contains(component);
+        
         if (composite.Contains(component)) return true;
-        if (strategy == CompositeTraversalStrategy.Current) return false;
 
         while (composite.Father is not null)
         {

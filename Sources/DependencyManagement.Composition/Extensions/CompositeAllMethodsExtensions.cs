@@ -3,6 +3,7 @@ namespace DependencyManagement.Composition.Extensions;
 using Components;
 using Composites;
 using Enums;
+using Utils;
 
 public static class CompositeAllMethodsExtensions
 {
@@ -10,6 +11,7 @@ public static class CompositeAllMethodsExtensions
         where T : class, IComponent
     {
         if (strategy == CompositeTraversalStrategy.Current || composite.Father is null) return composite.All<T>();
+        if (strategy == CompositeTraversalStrategy.Initial) return CompositeTreeUtils.GetLast(composite).All<T>();
 
         var components = new List<T>(composite.All<T>());
 
