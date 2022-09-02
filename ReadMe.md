@@ -86,7 +86,7 @@ container.SetTarget<Service>()
     .With(c => new(c.LastInstance<Dependency>()))
     .ToTransient();
 
-var readOnlyContainer = composite.ToReadOnly();
+var readOnlyContainer = container.ToReadOnly();
 
 var service = readOnlyContainer.LastInstance<Service>();
 ```
@@ -103,10 +103,16 @@ var service = readOnlyContainer.LastInstance<Service>();
 
 <ItemGroup>
     <ProjectReference Include="Essy.DependencyManagement.Injection" Version="1.1.0"/>
-    <ProjectReference Include="Essy.DependencyManagement.Injection.Generator" Version="1.1.0" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all"/>
+    <ProjectReference Include="Essy.DependencyManagement.Injection.Generator" Version="1.1.0" 
+                      OutputItemType="Analyzer" 
+                      ReferenceOutputAssembly="false" 
+                      PrivateAssets="all"/>
     
     <ProjectReference Include="Essy.DependencyManagement.Modularity" Version="1.1.0"/>
-    <ProjectReference Include="Essy.DependencyManagement.Modularity.Generator" Version="1.1.0" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all"/>
+    <ProjectReference Include="Essy.DependencyManagement.Modularity.Generator" Version="1.1.0" 
+                      OutputItemType="Analyzer" 
+                      ReferenceOutputAssembly="false" 
+                      PrivateAssets="all"/>
 </ItemGroup>
 ```
 
