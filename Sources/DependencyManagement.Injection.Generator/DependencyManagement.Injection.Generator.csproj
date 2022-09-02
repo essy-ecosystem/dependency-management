@@ -14,12 +14,11 @@
         <LangVersion>10</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
     <PropertyGroup>
         <Title>Essy.DependencyManagement.Injection.Generator</Title>
-        <Version>1.0.5</Version>
+        <Version>1.1.0</Version>
         <Authors>Roma F.;Timur F.</Authors>
         <Description>
             A very fast dependency injection and component container, with many interesting features, and without reflexion.
@@ -40,27 +39,27 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.3.0-2.final" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.3.0-2.final"/>
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+        <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false"/>
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="..\..\Assets\icon-128.png" Pack="true" Visible="false" PackagePath="" />
-        <None Include="..\..\License.txt" Pack="true" Visible="false" PackagePath="" />
-        <None Include="..\..\ReadMe.md" Pack="true" Visible="false" PackagePath="" />
+        <None Include="..\..\Assets\icon-128.png" Pack="true" Visible="false" PackagePath=""/>
+        <None Include="..\..\License.txt" Pack="true" Visible="false" PackagePath=""/>
+        <None Include="..\..\ReadMe.md" Pack="true" Visible="false" PackagePath=""/>
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Include="..\DependencyManagement.Generator.Core\Discovers\ISyntaxDiscover.cs" Link="DependencyManagement.Generator.Core\Discovers\ISyntaxDiscover.cs" />
-        <Compile Include="..\DependencyManagement.Generator.Core\Extensions\CompilationProviderExtensions.cs" Link="DependencyManagement.Generator.Core\Extensions\CompilationProviderExtensions.cs" />
-        <Compile Include="..\DependencyManagement.Generator.Core\Extensions\SyntaxValueProviderExtensions.cs" Link="DependencyManagement.Generator.Core\Extensions\SyntaxValueProviderExtensions.cs" />
-        <Compile Include="..\DependencyManagement.Generator.Core\Models\TypeModel.cs" Link="DependencyManagement.Generator.Core\Models\TypeModel.cs" />
-        <Compile Include="..\DependencyManagement.Generator.Core\Transformers\ICompilationTransformer.cs" Link="DependencyManagement.Generator.Core\Transformers\ICompilationTransformer.cs" />
-        <Compile Include="..\DependencyManagement.Generator.Core\Transformers\ISyntaxTransformer.cs" Link="DependencyManagement.Generator.Core\Transformers\ISyntaxTransformer.cs" />
-        <Compile Include="..\DependencyManagement.Generator.Core\Transformers\AssemblyNameCompilationTransformer.cs" Link="DependencyManagement.Generator.Core\Transformers\AssemblyNameCompilationTransformer.cs" />
+        <Compile Include="..\DependencyManagement.Generator.Core\Discovers\ISyntaxDiscover.cs" Link="DependencyManagement.Generator.Core\Discovers\ISyntaxDiscover.cs"/>
+        <Compile Include="..\DependencyManagement.Generator.Core\Extensions\CompilationProviderExtensions.cs" Link="DependencyManagement.Generator.Core\Extensions\CompilationProviderExtensions.cs"/>
+        <Compile Include="..\DependencyManagement.Generator.Core\Extensions\SyntaxValueProviderExtensions.cs" Link="DependencyManagement.Generator.Core\Extensions\SyntaxValueProviderExtensions.cs"/>
+        <Compile Include="..\DependencyManagement.Generator.Core\Models\TypeModel.cs" Link="DependencyManagement.Generator.Core\Models\TypeModel.cs"/>
+        <Compile Include="..\DependencyManagement.Generator.Core\Transformers\ICompilationTransformer.cs" Link="DependencyManagement.Generator.Core\Transformers\ICompilationTransformer.cs"/>
+        <Compile Include="..\DependencyManagement.Generator.Core\Transformers\ISyntaxTransformer.cs" Link="DependencyManagement.Generator.Core\Transformers\ISyntaxTransformer.cs"/>
+        <Compile Include="..\DependencyManagement.Generator.Core\Transformers\AssemblyNameCompilationTransformer.cs" Link="DependencyManagement.Generator.Core\Transformers\AssemblyNameCompilationTransformer.cs"/>
     </ItemGroup>
 
 </Project>

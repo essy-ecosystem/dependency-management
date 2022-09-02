@@ -17,7 +17,8 @@ public static class CompositeWhereMethodsExtensions
         Predicate<T> predicate) where T : class, IComponent
     {
         if (strategy == CompositeTraversalStrategy.Current) return container.Where(predicate);
-        if (strategy == CompositeTraversalStrategy.Initial) return ContainerTreeUtils.GetLast(container).Where(predicate);
+        if (strategy == CompositeTraversalStrategy.Initial)
+            return ContainerTreeUtils.GetLast(container).Where(predicate);
 
         var components = new List<T>(container.Where(predicate));
 

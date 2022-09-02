@@ -44,6 +44,7 @@ internal class ContainerExtensionsBuilder
         {
             builder.AppendLine($"        container.{method.Name}();");
         }
+
         builder.AppendLine("        return container;");
         builder.AppendLine("    }");
         builder.AppendLine();
@@ -55,6 +56,7 @@ internal class ContainerExtensionsBuilder
             builder.AppendLine(
                 $"        rootContainer.TrySetLazyModule(() => new {module}());");
         }
+
         builder.AppendLine("        return container;");
         builder.AppendLine("    }");
         builder.AppendLine();
