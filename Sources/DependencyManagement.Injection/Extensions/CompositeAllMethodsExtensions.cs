@@ -1,32 +1,32 @@
 namespace DependencyManagement.Injection.Extensions;
 
 using Collections;
-using Composition.Composites;
+using Composition.Containers;
 using Composition.Enums;
 using Composition.Extensions;
 using Targets;
 
 public static class CompositeAllMethodsExtensions
 {
-    public static IReadOnlyList<ITarget<T>> AllTarget<T>(this IReadOnlyComposite composite) where T : class
+    public static IReadOnlyList<ITarget<T>> AllTarget<T>(this IReadOnlyContainer container) where T : class
     {
-        return composite.All<ITarget<T>>();
+        return container.All<ITarget<T>>();
     }
 
-    public static IReadOnlyList<ITarget<T>> AllTarget<T>(this IReadOnlyComposite composite,
+    public static IReadOnlyList<ITarget<T>> AllTarget<T>(this IReadOnlyContainer container,
         CompositeTraversalStrategy strategy) where T : class
     {
-        return composite.All<ITarget<T>>(strategy);
+        return container.All<ITarget<T>>(strategy);
     }
 
-    public static IReadOnlyList<T> AllInstance<T>(this IReadOnlyComposite composite) where T : class
+    public static IReadOnlyList<T> AllInstance<T>(this IReadOnlyContainer container) where T : class
     {
-        return new ReadOnlyTargetList<T>(composite, composite.All<ITarget<T>>());
+        return new ReadOnlyTargetList<T>(container, container.All<ITarget<T>>());
     }
 
-    public static IReadOnlyList<T> AllInstance<T>(this IReadOnlyComposite composite,
+    public static IReadOnlyList<T> AllInstance<T>(this IReadOnlyContainer container,
         CompositeTraversalStrategy strategy) where T : class
     {
-        return new ReadOnlyTargetList<T>(composite, composite.All<ITarget<T>>(strategy));
+        return new ReadOnlyTargetList<T>(container, container.All<ITarget<T>>(strategy));
     }
 }

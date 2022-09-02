@@ -58,17 +58,17 @@ public sealed class Service
 *Program.cs*
 
 ```C#
-await using var composite = new Composite()
+await using var container = new Container()
     .WithStrategies()
     .WithProviders();
 
-composite.SetTarget<Dependency>().ToSingleton();
+container.SetTarget<Dependency>().ToSingleton();
 
-composite.SetTarget<Service>().ToTransient();
+container.SetTarget<Service>().ToTransient();
 
-var readOnlyComposite = composite.ToReadOnly();
+var readOnlyContainer = container.ToReadOnly();
 
-var service = composite.LastInstance<Service>();
+var service = readOnlyContainer.LastInstance<Service>();
 ```
 
 ### Without Code Generator
@@ -76,19 +76,19 @@ var service = composite.LastInstance<Service>();
 *Program.cs*
 
 ```C#
-await using var composite = new Composite().WithStrategies();
+await using var container = new Container().WithStrategies();
 
-composite.SetTarget<Dependency>()
+container.SetTarget<Dependency>()
     .With(_ => new())
     .ToSingleton();
 
-composite.SetTarget<Service>()
+container.SetTarget<Service>()
     .With(c => new(c.LastInstance<Dependency>()))
     .ToTransient();
 
-var readOnlyComposite = composite.ToReadOnly();
+var readOnlyContainer = composite.ToReadOnly();
 
-var service = composite.LastInstance<Service>();
+var service = readOnlyContainer.LastInstance<Service>();
 ```
 
 ## Contributing

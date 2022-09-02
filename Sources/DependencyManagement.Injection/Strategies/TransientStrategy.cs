@@ -1,18 +1,18 @@
 namespace DependencyManagement.Injection.Strategies;
 
-using Composition.Composites;
+using Composition.Containers;
 using Core.Utils;
 using Providers;
 
 public sealed class TransientStrategy : Strategy
 {
-    public override T GetInstance<T>(IReadOnlyComposite composite, IProvider<T> provider)
+    public override T GetInstance<T>(IReadOnlyContainer container, IProvider<T> provider)
     {
-        ThrowUtils.ThrowIfNull(composite);
+        ThrowUtils.ThrowIfNull(container);
         ThrowUtils.ThrowIfNull(provider);
         ThrowUtils.ThrowIfDisposed(IsDisposed);
 
-        var instance = provider.GetInstance(composite);
+        var instance = provider.GetInstance(container);
         if (instance is null) throw new NullReferenceException(nameof(instance));
 
         return instance;

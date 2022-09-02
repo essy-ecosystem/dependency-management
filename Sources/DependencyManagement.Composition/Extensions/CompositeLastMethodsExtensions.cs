@@ -1,29 +1,29 @@
 namespace DependencyManagement.Composition.Extensions;
 
 using Components;
-using Composites;
+using Containers;
 using Enums;
 using Exceptions;
 using Utils;
 
 public static class CompositeLastMethodsExtensions
 {
-    public static T? TryLast<T>(this IReadOnlyComposite composite) where T : class, IComponent
+    public static T? TryLast<T>(this IReadOnlyContainer container) where T : class, IComponent
     {
-        var components = composite.All<T>();
+        var components = container.All<T>();
 
         return components.Count != 0
             ? components[^1]
             : null;
     }
 
-    public static T? TryLast<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy)
+    public static T? TryLast<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy)
         where T : class, IComponent
     {
-        if (strategy == CompositeTraversalStrategy.Current) return composite.TryLast<T>();
-        if (strategy == CompositeTraversalStrategy.Initial) return CompositeTreeUtils.GetLast(composite).TryLast<T>();
+        if (strategy == CompositeTraversalStrategy.Current) return container.TryLast<T>();
+        if (strategy == CompositeTraversalStrategy.Initial) return ContainerTreeUtils.GetLast(container).TryLast<T>();
 
-        var current = composite;
+        var current = container;
 
         do
         {
@@ -34,18 +34,18 @@ public static class CompositeLastMethodsExtensions
         return null;
     }
 
-    public static T? TryLast<T>(this IReadOnlyComposite composite, Predicate<T> predicate) where T : class, IComponent
+    public static T? TryLast<T>(this IReadOnlyContainer container, Predicate<T> predicate) where T : class, IComponent
     {
-        return composite.All<T>().LastOrDefault(component => predicate(component));
+        return container.All<T>().LastOrDefault(component => predicate(component));
     }
 
-    public static T? TryLast<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy,
+    public static T? TryLast<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy,
         Predicate<T> predicate) where T : class, IComponent
     {
-        if (strategy == CompositeTraversalStrategy.Current) return composite.TryLast(predicate);
-        if (strategy == CompositeTraversalStrategy.Initial) return CompositeTreeUtils.GetLast(composite).TryLast(predicate);
+        if (strategy == CompositeTraversalStrategy.Current) return container.TryLast(predicate);
+        if (strategy == CompositeTraversalStrategy.Initial) return ContainerTreeUtils.GetLast(container).TryLast(predicate);
 
-        var current = composite;
+        var current = container;
 
         do
         {
@@ -56,71 +56,71 @@ public static class CompositeLastMethodsExtensions
         return null;
     }
 
-    public static T Last<T>(this IReadOnlyComposite composite) where T : class, IComponent
+    public static T Last<T>(this IReadOnlyContainer container) where T : class, IComponent
     {
-        return composite.TryLast<T>() ?? throw new EmptySequenceDependencyManagementException();
+        return container.TryLast<T>() ?? throw new EmptySequenceDependencyManagementException();
     }
 
-    public static T Last<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy)
+    public static T Last<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy)
         where T : class, IComponent
     {
-        return composite.TryLast<T>(strategy) ?? throw new EmptySequenceDependencyManagementException();
+        return container.TryLast<T>(strategy) ?? throw new EmptySequenceDependencyManagementException();
     }
 
-    public static T Last<T>(this IReadOnlyComposite composite, Predicate<T> predicate) where T : class, IComponent
+    public static T Last<T>(this IReadOnlyContainer container, Predicate<T> predicate) where T : class, IComponent
     {
-        return composite.TryLast(predicate) ?? throw new EmptySequenceDependencyManagementException();
+        return container.TryLast(predicate) ?? throw new EmptySequenceDependencyManagementException();
     }
 
-    public static T Last<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy,
+    public static T Last<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy,
         Predicate<T> predicate) where T : class, IComponent
     {
-        return composite.TryLast(strategy, predicate) ?? throw new EmptySequenceDependencyManagementException();
+        return container.TryLast(strategy, predicate) ?? throw new EmptySequenceDependencyManagementException();
     }
 
-    public static ILazyComponent<T>? TryLastLazy<T>(this IReadOnlyComposite composite) where T : class, IComponent
+    public static ILazyComponent<T>? TryLastLazy<T>(this IReadOnlyContainer container) where T : class, IComponent
     {
-        return composite.TryLast<ILazyComponent<T>>();
+        return container.TryLast<ILazyComponent<T>>();
     }
 
-    public static ILazyComponent<T>? TryLastLazy<T>(this IReadOnlyComposite composite,
+    public static ILazyComponent<T>? TryLastLazy<T>(this IReadOnlyContainer container,
         CompositeTraversalStrategy strategy) where T : class, IComponent
     {
-        return composite.TryLast<ILazyComponent<T>>(strategy);
+        return container.TryLast<ILazyComponent<T>>(strategy);
     }
 
-    public static ILazyComponent<T>? TryLastLazy<T>(this IReadOnlyComposite composite,
+    public static ILazyComponent<T>? TryLastLazy<T>(this IReadOnlyContainer container,
         Predicate<ILazyComponent<T>> predicate) where T : class, IComponent
     {
-        return composite.TryLast(predicate);
+        return container.TryLast(predicate);
     }
 
-    public static ILazyComponent<T>? TryLastLazy<T>(this IReadOnlyComposite composite,
+    public static ILazyComponent<T>? TryLastLazy<T>(this IReadOnlyContainer container,
         CompositeTraversalStrategy strategy, Predicate<ILazyComponent<T>> predicate) where T : class, IComponent
     {
-        return composite.TryLast(strategy, predicate);
+        return container.TryLast(strategy, predicate);
     }
 
-    public static ILazyComponent<T> LastLazy<T>(this IReadOnlyComposite composite) where T : class, IComponent
+    public static ILazyComponent<T> LastLazy<T>(this IReadOnlyContainer container) where T : class, IComponent
     {
-        return composite.Last<ILazyComponent<T>>();
+        return container.Last<ILazyComponent<T>>();
     }
 
-    public static ILazyComponent<T> LastLazy<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy)
+    public static ILazyComponent<T> LastLazy<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy)
         where T : class, IComponent
     {
-        return composite.Last<ILazyComponent<T>>(strategy);
+        return container.Last<ILazyComponent<T>>(strategy);
     }
 
-    public static ILazyComponent<T> LastLazy<T>(this IReadOnlyComposite composite,
+    public static ILazyComponent<T> LastLazy<T>(this IReadOnlyContainer container,
         Predicate<ILazyComponent<T>> predicate) where T : class, IComponent
     {
-        return composite.Last(predicate);
+        return container.Last(predicate);
     }
 
-    public static ILazyComponent<T> LastLazy<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy,
+    public static ILazyComponent<T> LastLazy<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy,
         Predicate<ILazyComponent<T>> predicate) where T : class, IComponent
     {
-        return composite.Last(strategy, predicate);
+        return container.Last(strategy, predicate);
     }
 }

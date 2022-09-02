@@ -1,32 +1,32 @@
 namespace DependencyManagement.Injection.Extensions;
 
 using Composition.Components;
-using Composition.Composites;
+using Composition.Containers;
 using Composition.Enums;
 using Composition.Extensions;
 using Targets;
 
 public static class CompositeRemoveMethodsExtensions
 {
-    public static bool RemoveTarget<T>(this IComposite composite, ITarget<T> component) where T : class
+    public static bool RemoveTarget<T>(this IContainer container, ITarget<T> component) where T : class
     {
-        return composite.Remove(component);
+        return container.Remove(component);
     }
 
-    public static bool RemoveTarget<T>(this IComposite composite, ITarget<T> component,
+    public static bool RemoveTarget<T>(this IContainer container, ITarget<T> component,
         CompositeTraversalStrategy strategy) where T : class
     {
-        return composite.Remove(component, strategy);
+        return container.Remove(component, strategy);
     }
 
-    public static bool RemoveTarget<T>(this IComposite composite, Predicate<T> predicate) where T : class, IComponent
+    public static bool RemoveTarget<T>(this IContainer container, Predicate<T> predicate) where T : class, IComponent
     {
-        return composite.Remove(predicate);
+        return container.Remove(predicate);
     }
 
-    public static bool RemoveTarget<T>(this IComposite composite, CompositeTraversalStrategy strategy,
+    public static bool RemoveTarget<T>(this IContainer container, CompositeTraversalStrategy strategy,
         Predicate<T> predicate) where T : class, IComponent
     {
-        return composite.Remove(strategy, predicate);
+        return container.Remove(strategy, predicate);
     }
 }

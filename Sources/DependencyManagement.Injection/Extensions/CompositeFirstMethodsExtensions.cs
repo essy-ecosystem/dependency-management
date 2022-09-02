@@ -1,6 +1,6 @@
 namespace DependencyManagement.Injection.Extensions;
 
-using Composition.Composites;
+using Composition.Containers;
 using Composition.Enums;
 using Composition.Exceptions;
 using Composition.Extensions;
@@ -9,82 +9,82 @@ using Targets;
 
 public static class CompositeFirstMethodsExtensions
 {
-    public static ITarget<T>? TryFirstTarget<T>(this IReadOnlyComposite composite) where T : class
+    public static ITarget<T>? TryFirstTarget<T>(this IReadOnlyContainer container) where T : class
     {
-        return composite.TryFirst<ITarget<T>>();
+        return container.TryFirst<ITarget<T>>();
     }
 
-    public static ITarget<T>? TryFirstTarget<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy)
+    public static ITarget<T>? TryFirstTarget<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy)
         where T : class
     {
-        return composite.TryFirst<ITarget<T>>(strategy);
+        return container.TryFirst<ITarget<T>>(strategy);
     }
 
-    public static ITarget<T>? TryFirstTarget<T>(this IReadOnlyComposite composite, Predicate<ITarget<T>> predicate)
+    public static ITarget<T>? TryFirstTarget<T>(this IReadOnlyContainer container, Predicate<ITarget<T>> predicate)
         where T : class
     {
-        return composite.TryFirst(predicate);
+        return container.TryFirst(predicate);
     }
 
-    public static ITarget<T>? TryFirstTarget<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy,
+    public static ITarget<T>? TryFirstTarget<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy,
         Predicate<ITarget<T>> predicate) where T : class
     {
-        return composite.TryFirst(strategy, predicate);
+        return container.TryFirst(strategy, predicate);
     }
 
-    public static ITarget<T> FirstTarget<T>(this IReadOnlyComposite composite) where T : class
+    public static ITarget<T> FirstTarget<T>(this IReadOnlyContainer container) where T : class
     {
-        return composite.First<ITarget<T>>();
+        return container.First<ITarget<T>>();
     }
 
-    public static ITarget<T> FirstTarget<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy)
+    public static ITarget<T> FirstTarget<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy)
         where T : class
     {
-        return composite.First<ITarget<T>>(strategy);
+        return container.First<ITarget<T>>(strategy);
     }
 
-    public static ITarget<T> FirstTarget<T>(this IReadOnlyComposite composite, Predicate<ITarget<T>> predicate)
+    public static ITarget<T> FirstTarget<T>(this IReadOnlyContainer container, Predicate<ITarget<T>> predicate)
         where T : class
     {
-        return composite.First(predicate);
+        return container.First(predicate);
     }
 
-    public static ITarget<T> FirstTarget<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy,
+    public static ITarget<T> FirstTarget<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy,
         Predicate<ITarget<T>> predicate) where T : class
     {
-        return composite.First(strategy, predicate);
+        return container.First(strategy, predicate);
     }
 
-    public static T? TryFirstInstance<T>(this IReadOnlyComposite composite) where T : class
+    public static T? TryFirstInstance<T>(this IReadOnlyContainer container) where T : class
     {
-        return composite.TryFirstTarget<T>()?.GetInstance(composite);
+        return container.TryFirstTarget<T>()?.GetInstance(container);
     }
 
-    public static T? TryFirstInstance<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy)
+    public static T? TryFirstInstance<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy)
         where T : class
     {
-        return composite.TryFirstTarget<T>(strategy)?.GetInstance(composite);
+        return container.TryFirstTarget<T>(strategy)?.GetInstance(container);
     }
 
-    public static T? TryFirstInstance<T>(this IReadOnlyComposite composite, Predicate<T> predicate) where T : class
+    public static T? TryFirstInstance<T>(this IReadOnlyContainer container, Predicate<T> predicate) where T : class
     {
-        return composite.AllInstance<T>().FirstOrDefault(instance => predicate(instance));
+        return container.AllInstance<T>().FirstOrDefault(instance => predicate(instance));
     }
 
-    public static T? TryFirstInstance<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy,
+    public static T? TryFirstInstance<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy,
         Predicate<T> predicate) where T : class
     {
-        if (strategy == CompositeTraversalStrategy.Current || composite.Father is null)
+        if (strategy == CompositeTraversalStrategy.Current || container.Father is null)
         {
-            return composite.TryFirstInstance(predicate);
+            return container.TryFirstInstance(predicate);
         }
 
         if (strategy == CompositeTraversalStrategy.Initial)
         {
-            return CompositeTreeUtils.GetLast(composite).TryFirstInstance(predicate);
+            return ContainerTreeUtils.GetLast(container).TryFirstInstance(predicate);
         }
 
-        var composites = CompositeTreeUtils.GetTree(composite);
+        var composites = ContainerTreeUtils.GetTree(container);
 
         for (var i = composites.Count - 1; i >= 0; i--)
         {
@@ -95,26 +95,26 @@ public static class CompositeFirstMethodsExtensions
         return null;
     }
 
-    public static T FirstInstance<T>(this IReadOnlyComposite composite) where T : class
+    public static T FirstInstance<T>(this IReadOnlyContainer container) where T : class
     {
-        return composite.FirstTarget<T>().GetInstance(composite);
+        return container.FirstTarget<T>().GetInstance(container);
     }
 
-    public static T FirstInstance<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy)
+    public static T FirstInstance<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy)
         where T : class
     {
-        return composite.FirstTarget<T>(strategy).GetInstance(composite);
+        return container.FirstTarget<T>(strategy).GetInstance(container);
     }
 
-    public static T FirstInstance<T>(this IReadOnlyComposite composite, Predicate<T> predicate) where T : class
+    public static T FirstInstance<T>(this IReadOnlyContainer container, Predicate<T> predicate) where T : class
     {
-        return composite.TryFirstInstance(predicate) ?? throw new EmptySequenceDependencyManagementException();
+        return container.TryFirstInstance(predicate) ?? throw new EmptySequenceDependencyManagementException();
     }
 
-    public static T FirstInstance<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy,
+    public static T FirstInstance<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy,
         Predicate<T> predicate) where T : class
     {
-        return composite.TryFirstInstance(strategy, predicate) ??
+        return container.TryFirstInstance(strategy, predicate) ??
             throw new EmptySequenceDependencyManagementException();
     }
 }

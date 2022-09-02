@@ -2,7 +2,7 @@ namespace DependencyManagement.Injection.Strategies;
 
 using System.Collections.Concurrent;
 using Composition.Components;
-using Composition.Composites;
+using Composition.Containers;
 using Core.Caches;
 using Providers;
 
@@ -11,45 +11,45 @@ public sealed class ThreadCompositeStrategy : Strategy
     private readonly DisposableCollection _disposableCollection = new();
 
     private readonly
-        ConcurrentDictionary<Thread, ConcurrentDictionary<IReadOnlyComposite, ConcurrentDictionary<IComponent, object>>>
+        ConcurrentDictionary<Thread, ConcurrentDictionary<IReadOnlyContainer, ConcurrentDictionary<IComponent, object>>>
         _instances = new();
 
-    public override T GetInstance<T>(IReadOnlyComposite composite, IProvider<T> provider)
+    public override T GetInstance<T>(IReadOnlyContainer container, IProvider<T> provider)
     {
-        ArgumentNullException.ThrowIfNull(composite);
+        ArgumentNullException.ThrowIfNull(container);
         ArgumentNullException.ThrowIfNull(provider);
         if (IsDisposed) throw new ObjectDisposedException(nameof(SingletonStrategy));
 
         if (!_instances.TryGetValue(Thread.CurrentThread, out var composites))
         {
-            composites = new ConcurrentDictionary<IReadOnlyComposite, ConcurrentDictionary<IComponent, object>>();
-            if (!_instances.TryAdd(Thread.CurrentThread, composites)) return GetInstance(composite, provider);
+            composites = new ConcurrentDictionary<IReadOnlyContainer, ConcurrentDictionary<IComponent, object>>();
+            if (!_instances.TryAdd(Thread.CurrentThread, composites)) return GetInstance(container, provider);
         }
 
-        if (!composites.TryGetValue(composite, out var instances))
+        if (!composites.TryGetValue(container, out var instances))
         {
             instances = new ConcurrentDictionary<IComponent, object>();
-            if (!composites.TryAdd(composite, instances)) return GetInstance(composite, provider);
+            if (!composites.TryAdd(container, instances)) return GetInstance(container, provider);
         }
 
         if (!instances.TryGetValue(provider, out var instance))
         {
-            instance = provider.GetInstance(composite);
+            instance = provider.GetInstance(container);
             if (instance is null) throw new NullReferenceException(nameof(instance));
 
             _disposableCollection.Add(instance);
 
-            if (!instances.TryAdd(provider, instance)) return GetInstance(composite, provider);
+            if (!instances.TryAdd(provider, instance)) return GetInstance(container, provider);
         }
 
-        composite.OnDisposing += CompositeOnOnDisposing;
+        container.OnDisposing += CompositeOnOnDisposing;
 
         return (T)instance;
     }
 
     private void CompositeOnOnDisposing(object? sender)
     {
-        var composite = (IReadOnlyComposite)sender!;
+        var composite = (IReadOnlyContainer)sender!;
 
         foreach (var composites in _instances.Values)
         {

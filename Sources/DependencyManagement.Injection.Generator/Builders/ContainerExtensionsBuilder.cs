@@ -6,7 +6,7 @@ using DependencyManagement.Generator.Core.Models;
 using Generators;
 using Models;
 
-internal class CompositeExtensionsBuilder
+internal class ContainerExtensionsBuilder
 {
     private readonly string _assembly;
 
@@ -14,7 +14,7 @@ internal class CompositeExtensionsBuilder
 
     private readonly IReadOnlyCollection<ProvidedTypeModel> _providedTypes;
 
-    public CompositeExtensionsBuilder(string assembly, IReadOnlyCollection<ProvidedTypeModel> providedTypes,
+    public ContainerExtensionsBuilder(string assembly, IReadOnlyCollection<ProvidedTypeModel> providedTypes,
         IReadOnlyCollection<TypeModel> extensionsMethods)
     {
         _assembly = assembly;
@@ -28,7 +28,7 @@ internal class CompositeExtensionsBuilder
         var methodDisplayName = $"WithProvidersFrom{assemblyDisplayName}Assembly";
 
         var builder = new StringBuilder();
-        builder.AppendLine("using DependencyManagement.Composition.Composites;");
+        builder.AppendLine("using DependencyManagement.Composition.Containers;");
         builder.AppendLine("using DependencyManagement.Composition.Extensions;");
         builder.AppendLine("using DependencyManagement.Composition.Utils;");
         builder.AppendLine("using DependencyManagement.Injection.Providers;");
@@ -37,36 +37,36 @@ internal class CompositeExtensionsBuilder
         builder.AppendLine();
         builder.AppendLine(
             $"[System.CodeDom.Compiler.GeneratedCode(\"{nameof(ProvidersGenerator)}\", \"{FileVersionInfo.GetVersionInfo(GetType().Assembly.Location).ProductVersion}\")]");
-        builder.AppendLine($"public static class {assemblyDisplayName}AssemblyGeneratedCompositeExtensions");
+        builder.AppendLine($"public static class {assemblyDisplayName}AssemblyGeneratedContainerExtensions");
         builder.AppendLine("{");
-        builder.AppendLine("    internal static T WithProviders<T>(this T composite) where T : class, IComposite");
+        builder.AppendLine("    internal static T WithProviders<T>(this T container) where T : class, IContainer");
         builder.AppendLine("    {");
-        builder.AppendLine($"        composite.{methodDisplayName}();");
+        builder.AppendLine($"        container.{methodDisplayName}();");
         foreach (var method in _extensionsMethods)
         {
-            builder.AppendLine($"        composite.{method.Name}();");
+            builder.AppendLine($"        container.{method.Name}();");
         }
 
-        builder.AppendLine("        return composite;");
+        builder.AppendLine("        return container;");
         builder.AppendLine("    }");
         builder.AppendLine();
-        builder.AppendLine($"    public static T {methodDisplayName}<T>(this T composite) where T : class, IComposite");
+        builder.AppendLine($"    public static T {methodDisplayName}<T>(this T container) where T : class, IContainer");
         builder.AppendLine("    {");
-        builder.AppendLine("        var rootComposite = CompositeTreeUtils.GetLast(composite);");
+        builder.AppendLine("        var rootContainer = ContainerTreeUtils.GetLast(container);");
         foreach (var providedType in _providedTypes)
         {
             builder.AppendLine(
-                $"        rootComposite.TrySetLazyProvider<{providedType}>(() => new {providedType.Type.Name}GeneratedProvider());");
+                $"        rootContainer.TrySetLazyProvider<{providedType}>(() => new {providedType.Type.Name}GeneratedProvider());");
         }
 
-        builder.AppendLine("        return composite;");
+        builder.AppendLine("        return container;");
         builder.AppendLine("    }");
         builder.AppendLine();
         builder.AppendLine(
-            $"    public static T {methodDisplayName}WithDependencies<T>(this T composite) where T : class, IComposite");
+            $"    public static T {methodDisplayName}WithDependencies<T>(this T container) where T : class, IContainer");
         builder.AppendLine("    {");
-        builder.AppendLine("        composite.WithProviders();");
-        builder.AppendLine("        return composite;");
+        builder.AppendLine("        container.WithProviders();");
+        builder.AppendLine("        return container;");
         builder.AppendLine("    }");
         builder.AppendLine("}");
         return builder.ToString();

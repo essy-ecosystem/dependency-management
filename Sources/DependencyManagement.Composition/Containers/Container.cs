@@ -1,32 +1,27 @@
-namespace DependencyManagement.Composition.Composites;
+namespace DependencyManagement.Composition.Containers;
 
 using System.Collections;
 using System.Collections.Concurrent;
-using Components;
-using Core.Caches;
-using Core.Disposables;
-using Core.Utils;
+using DependencyManagement.Composition.Components;
+using DependencyManagement.Core.Caches;
+using DependencyManagement.Core.Disposables;
+using DependencyManagement.Core.Utils;
 
-/// <summary>
-/// <inheritdoc cref="IComposite" />
-/// The <see cref="Composite" /> is thread-safe.
-/// </summary>
-/// <inheritdoc cref="IComposite" />
-public class Composite : AsyncDisposableObject, IComposite
+public class Container : AsyncDisposableObject, IContainer
 {
     private readonly ConcurrentDictionary<Type, IList> _components = new();
     private readonly DisposableCollection _disposableCollection = new();
 
-    public Composite() { }
+    public Container() { }
 
-    public Composite(IComposite father) : this()
+    public Container(IContainer father) : this()
     {
         Father = father;
     }
 
-    public IComposite? Father { get; }
+    public IContainer? Father { get; }
 
-    IReadOnlyComposite? IReadOnlyComposite.Father => Father;
+    IReadOnlyContainer? IReadOnlyContainer.Father => Father;
 
     public IReadOnlyList<T> All<T>() where T : class, IComponent
     {
@@ -51,7 +46,7 @@ public class Composite : AsyncDisposableObject, IComposite
     public void Add<T>(T component) where T : class, IComponent
     {
         ThrowUtils.ThrowIfNull(component);
-        if (IsDisposed) throw new ObjectDisposedException(nameof(Composite));
+        if (IsDisposed) throw new ObjectDisposedException(nameof(Container));
 
         var type = typeof(T);
 

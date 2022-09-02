@@ -1,37 +1,37 @@
 namespace DependencyManagement.Composition.Extensions;
 
 using Components;
-using Composites;
+using Containers;
 using Enums;
 using Utils;
 
 public static class CompositeAnyMethodsExtensions
 {
-    public static bool Any<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy)
+    public static bool Any<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy)
         where T : class, IComponent
     {
-        if (strategy == CompositeTraversalStrategy.Current) return composite.Any<T>();
-        if (strategy == CompositeTraversalStrategy.Initial) return CompositeTreeUtils.GetLast(composite).Any<T>();
+        if (strategy == CompositeTraversalStrategy.Current) return container.Any<T>();
+        if (strategy == CompositeTraversalStrategy.Initial) return ContainerTreeUtils.GetLast(container).Any<T>();
 
-        if (composite.Any<T>()) return true;
+        if (container.Any<T>()) return true;
 
-        while (composite.Father is not null)
+        while (container.Father is not null)
         {
-            composite = composite.Father!;
-            if (composite.Any<T>()) return true;
+            container = container.Father!;
+            if (container.Any<T>()) return true;
         }
 
         return false;
     }
 
-    public static bool AnyLazy<T>(this IReadOnlyComposite composite) where T : class, IComponent
+    public static bool AnyLazy<T>(this IReadOnlyContainer container) where T : class, IComponent
     {
-        return composite.Any<ILazyComponent<T>>();
+        return container.Any<ILazyComponent<T>>();
     }
 
-    public static bool AnyLazy<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy)
+    public static bool AnyLazy<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy)
         where T : class, IComponent
     {
-        return composite.Any<ILazyComponent<T>>(strategy);
+        return container.Any<ILazyComponent<T>>(strategy);
     }
 }

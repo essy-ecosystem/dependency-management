@@ -1,18 +1,18 @@
 namespace DependencyManagement.Modularity.Extensions;
 
 using Builders;
-using Composition.Composites;
+using Composition.Containers;
 using Modules;
 
 public static class CompositeAddMethodsExtensions
 {
-    public static IModuleBuilder<T> AddModule<T>(this IComposite composite) where T : class, IModule, new()
+    public static IModuleBuilder<T> AddModule<T>(this IContainer container) where T : class, IModule, new()
     {
-        return new ModuleBuilder<T>(composite);
+        return new ModuleBuilder<T>(container);
     }
 
-    public static void AddModule(this IComposite composite, IModule module)
+    public static void AddModule(this IContainer container, IModule module)
     {
-        module.Load(composite);
+        module.Load(container);
     }
 }

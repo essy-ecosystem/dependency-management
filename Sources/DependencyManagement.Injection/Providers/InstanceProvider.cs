@@ -1,6 +1,6 @@
 namespace DependencyManagement.Injection.Providers;
 
-using Composition.Composites;
+using Composition.Containers;
 
 public class InstanceProvider<T> : Provider<T> where T : notnull
 {
@@ -11,7 +11,7 @@ public class InstanceProvider<T> : Provider<T> where T : notnull
         _cache = cache;
     }
 
-    public override T GetInstance(IReadOnlyComposite composite)
+    public override T GetInstance(IReadOnlyContainer container)
     {
         return _cache;
     }

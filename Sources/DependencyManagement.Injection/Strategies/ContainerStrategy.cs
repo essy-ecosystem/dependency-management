@@ -2,48 +2,48 @@ namespace DependencyManagement.Injection.Strategies;
 
 using System.Collections.Concurrent;
 using Composition.Components;
-using Composition.Composites;
+using Composition.Containers;
 using Core.Caches;
 using Core.Utils;
 using Providers;
 
-public sealed class CompositeStrategy : Strategy
+public sealed class ContainerStrategy : Strategy
 {
     private readonly DisposableCollection _disposableCollection = new();
 
-    private readonly ConcurrentDictionary<IReadOnlyComposite, ConcurrentDictionary<IComponent, object>> _instances =
+    private readonly ConcurrentDictionary<IReadOnlyContainer, ConcurrentDictionary<IComponent, object>> _instances =
         new();
 
-    public override T GetInstance<T>(IReadOnlyComposite composite, IProvider<T> provider)
+    public override T GetInstance<T>(IReadOnlyContainer container, IProvider<T> provider)
     {
-        ThrowUtils.ThrowIfNull(composite);
+        ThrowUtils.ThrowIfNull(container);
         ThrowUtils.ThrowIfNull(provider);
         ThrowUtils.ThrowIfDisposed(IsDisposed);
 
-        if (!_instances.TryGetValue(composite, out var instances))
+        if (!_instances.TryGetValue(container, out var instances))
         {
             instances = new ConcurrentDictionary<IComponent, object>();
-            if (!_instances.TryAdd(composite, instances)) return GetInstance(composite, provider);
+            if (!_instances.TryAdd(container, instances)) return GetInstance(container, provider);
         }
 
         if (!instances.TryGetValue(provider, out var instance))
         {
-            instance = provider.GetInstance(composite);
+            instance = provider.GetInstance(container);
             if (instance is null) throw new NullReferenceException(nameof(instance));
 
             _disposableCollection.Add(instance);
 
-            if (!instances.TryAdd(provider, instance)) return GetInstance(composite, provider);
+            if (!instances.TryAdd(provider, instance)) return GetInstance(container, provider);
         }
 
-        composite.OnDisposing += CompositeOnOnDisposing;
+        container.OnDisposing += CompositeOnOnDisposing;
 
         return (T)instance;
     }
 
     private void CompositeOnOnDisposing(object? sender)
     {
-        var composite = (IReadOnlyComposite)sender!;
+        var composite = (IReadOnlyContainer)sender!;
 
         if (!_instances.TryRemove(composite, out var instances)) return;
 

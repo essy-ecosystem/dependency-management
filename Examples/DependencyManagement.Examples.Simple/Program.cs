@@ -1,8 +1,8 @@
-﻿using DependencyManagement.Composition.Composites;
+﻿using DependencyManagement.Composition.Containers;
 using DependencyManagement.Examples.Simple;
 using DependencyManagement.Injection.Extensions;
 
-var composite = new Composite()
+var composite = new Container()
     .WithStrategies()
     .WithProviders();
 

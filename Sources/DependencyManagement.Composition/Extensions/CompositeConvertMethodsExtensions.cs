@@ -1,11 +1,11 @@
 namespace DependencyManagement.Composition.Extensions;
 
-using Composites;
+using Containers;
 
 public static class CompositeConvertMethodsExtensions
 {
-    public static IReadOnlyComposite ToReadOnly(this IComposite composite)
+    public static IReadOnlyContainer ToReadOnly(this IContainer container)
     {
-        return composite;
+        return container;
     }
 }

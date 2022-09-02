@@ -1,44 +1,44 @@
 namespace DependencyManagement.Composition.Extensions;
 
 using Components;
-using Composites;
+using Containers;
 using Enums;
 using Utils;
 
 public static class CompositeWhereMethodsExtensions
 {
-    public static IReadOnlyList<T> Where<T>(this IReadOnlyComposite composite, Predicate<T> predicate)
+    public static IReadOnlyList<T> Where<T>(this IReadOnlyContainer container, Predicate<T> predicate)
         where T : class, IComponent
     {
-        return composite.All<T>().Where(component => predicate(component)).ToArray();
+        return container.All<T>().Where(component => predicate(component)).ToArray();
     }
 
-    public static IReadOnlyList<T> Where<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy,
+    public static IReadOnlyList<T> Where<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy,
         Predicate<T> predicate) where T : class, IComponent
     {
-        if (strategy == CompositeTraversalStrategy.Current) return composite.Where(predicate);
-        if (strategy == CompositeTraversalStrategy.Initial) return CompositeTreeUtils.GetLast(composite).Where(predicate);
+        if (strategy == CompositeTraversalStrategy.Current) return container.Where(predicate);
+        if (strategy == CompositeTraversalStrategy.Initial) return ContainerTreeUtils.GetLast(container).Where(predicate);
 
-        var components = new List<T>(composite.Where(predicate));
+        var components = new List<T>(container.Where(predicate));
 
-        while (composite.Father is not null)
+        while (container.Father is not null)
         {
-            composite = composite.Father!;
-            components.AddRange(composite.Where(predicate));
+            container = container.Father!;
+            components.AddRange(container.Where(predicate));
         }
 
         return components;
     }
 
-    public static IReadOnlyList<ILazyComponent<T>> WhereLazy<T>(this IReadOnlyComposite composite,
+    public static IReadOnlyList<ILazyComponent<T>> WhereLazy<T>(this IReadOnlyContainer container,
         Predicate<ILazyComponent<T>> predicate) where T : class, IComponent
     {
-        return composite.Where(predicate);
+        return container.Where(predicate);
     }
 
-    public static IReadOnlyList<ILazyComponent<T>> WhereLazy<T>(this IReadOnlyComposite composite,
+    public static IReadOnlyList<ILazyComponent<T>> WhereLazy<T>(this IReadOnlyContainer container,
         CompositeTraversalStrategy strategy, Predicate<ILazyComponent<T>> predicate) where T : class, IComponent
     {
-        return composite.Where(strategy, predicate);
+        return container.Where(strategy, predicate);
     }
 }
