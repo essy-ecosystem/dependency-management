@@ -1,0 +1,50 @@
+name: Publisher
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 7.0.x
+        include-prerelease: true
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Publish Core
+      uses: brandedoutcast/publish-nuget@v2.5.2  
+      with:   
+        PROJECT_FILE_PATH: Source/DependencyManagement.Core/DependencyManagement.Core.csproj  
+        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+    - name: Publish Composition
+      uses: brandedoutcast/publish-nuget@v2.5.2  
+      with:   
+        PROJECT_FILE_PATH: Source/DependencyManagement.Composition/DependencyManagement.Composition.csproj  
+        NUGET_KEY: ${{secrets.NUGET_API_KEY}}  
+    - name: Publish Injection
+      uses: brandedoutcast/publish-nuget@v2.5.2  
+      with:   
+        PROJECT_FILE_PATH: Source/DependencyManagement.Injection/DependencyManagement.Injection.csproj  
+        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+    - name: Publish Modularity
+      uses: brandedoutcast/publish-nuget@v2.5.2  
+      with:   
+        PROJECT_FILE_PATH: Source/DependencyManagement.Modularity/DependencyManagement.Modularity.csproj  
+        NUGET_KEY: ${{secrets.NUGET_API_KEY}}  
+    - name: Publish Injection Generator
+      uses: brandedoutcast/publish-nuget@v2.5.2  
+      with:   
+        PROJECT_FILE_PATH: Source/DependencyManagement.Injection.Generator/DependencyManagement.Injection.Generator.csproj  
+        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+    - name: Publish Modularity Generator
+      uses: brandedoutcast/publish-nuget@v2.5.2  
+      with:   
+        PROJECT_FILE_PATH: Source/DependencyManagement.Modularity.Generator/DependencyManagement.Modularity.Generator.csproj  
+        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
