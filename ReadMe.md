@@ -10,17 +10,23 @@
 
 # Dependency Management
 
-The Dependency Management is a very fast dependency injection and components container, with many interesting features, and without reflexion.
+The Dependency Management is a very fast dependency injection and components container, with many interesting features,
+and without reflexion.
 
 Its allows you to make your project more extensible and modular.
 
 ## Features
 
-> The project contains many extensions (eg - modularity) and nuances that are not described here, read the [documentation]().
+> The project contains many extensions (eg - modularity) and nuances that are not described here, read
+> the [documentation]().
 
-- Without any [reflection](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/reflection). Only (optional) [code generation](https://docs.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/source-generators-overview). 
-- Faster than other popular same projects, such as [Autofac](https://github.com/autofac/Autofac), [Niject](https://github.com/ninject/Ninject), other.
-- Supports [DotNet 6](https://dotnet.microsoft.com), [7](https://dotnet.microsoft.com), also [Native AOT](https://docs.microsoft.com/en-us/dotnet/core/deploying/native-aot), [Nullable](https://docs.microsoft.com/en-us/dotnet/csharp/nullable-references).
+- Without any [reflection](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/reflection). Only (
+  optional) [code generation](https://docs.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/source-generators-overview).
+- Faster than other popular same projects, such as [Autofac](https://github.com/autofac/Autofac)
+  , [Niject](https://github.com/ninject/Ninject), other.
+- Supports [DotNet 6](https://dotnet.microsoft.com), [7](https://dotnet.microsoft.com),
+  also [Native AOT](https://docs.microsoft.com/en-us/dotnet/core/deploying/native-aot)
+  , [Nullable](https://docs.microsoft.com/en-us/dotnet/csharp/nullable-references).
 - The project is extremely modular and can easily be expanded from the outside, as it uses a components system.
 
 ## Example
@@ -28,11 +34,13 @@ Its allows you to make your project more extensible and modular.
 > This example is very primitive and does not allow you to take into all the features of the project.
 
 *Dependency.cs*
+
 ```C#
 public sealed class Dependency { }
 ```
 
 *Service.cs*
+
 ```C#
 public sealed class Service
 {
@@ -48,6 +56,7 @@ public sealed class Service
 ### With Code Generator
 
 *Program.cs*
+
 ```C#
 await using var composite = new Composite()
     .WithStrategies()
@@ -65,6 +74,7 @@ var service = composite.LastInstance<Service>();
 ### Without Code Generator
 
 *Program.cs*
+
 ```C#
 await using var composite = new Composite().WithStrategies();
 
@@ -85,5 +95,6 @@ var service = composite.LastInstance<Service>();
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-## License 
+## License
+
 Dependency Management is licensed under [MIT license](License.txt).
