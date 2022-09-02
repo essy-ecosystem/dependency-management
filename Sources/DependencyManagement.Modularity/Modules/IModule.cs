@@ -1,9 +1,9 @@
 namespace DependencyManagement.Modularity.Modules;
 
 using Composition.Components;
-using Composition.Composites;
+using Composition.Containers;
 
 public interface IModule : IComponent
 {
-    void Load(IComposite composite);
+    void Load(IContainer container);
 }

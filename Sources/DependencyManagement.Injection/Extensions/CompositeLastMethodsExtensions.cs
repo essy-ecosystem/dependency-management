@@ -1,6 +1,6 @@
 namespace DependencyManagement.Injection.Extensions;
 
-using Composition.Composites;
+using Composition.Containers;
 using Composition.Enums;
 using Composition.Exceptions;
 using Composition.Extensions;
@@ -9,79 +9,79 @@ using Targets;
 
 public static class CompositeLastMethodsExtensions
 {
-    public static ITarget<T>? TryLastTarget<T>(this IReadOnlyComposite composite) where T : class
+    public static ITarget<T>? TryLastTarget<T>(this IReadOnlyContainer container) where T : class
     {
-        return composite.TryLast<ITarget<T>>();
+        return container.TryLast<ITarget<T>>();
     }
 
-    public static ITarget<T>? TryLastTarget<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy)
+    public static ITarget<T>? TryLastTarget<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy)
         where T : class
     {
-        return composite.TryLast<ITarget<T>>(strategy);
+        return container.TryLast<ITarget<T>>(strategy);
     }
 
-    public static ITarget<T>? TryLastTarget<T>(this IReadOnlyComposite composite, Predicate<ITarget<T>> predicate)
+    public static ITarget<T>? TryLastTarget<T>(this IReadOnlyContainer container, Predicate<ITarget<T>> predicate)
         where T : class
     {
-        return composite.TryLast(predicate);
+        return container.TryLast(predicate);
     }
 
-    public static ITarget<T>? TryLastTarget<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy,
+    public static ITarget<T>? TryLastTarget<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy,
         Predicate<ITarget<T>> predicate) where T : class
     {
-        return composite.TryLast(strategy, predicate);
+        return container.TryLast(strategy, predicate);
     }
 
-    public static ITarget<T> LastTarget<T>(this IReadOnlyComposite composite) where T : class
+    public static ITarget<T> LastTarget<T>(this IReadOnlyContainer container) where T : class
     {
-        return composite.Last<ITarget<T>>();
+        return container.Last<ITarget<T>>();
     }
 
-    public static ITarget<T> LastTarget<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy)
+    public static ITarget<T> LastTarget<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy)
         where T : class
     {
-        return composite.Last<ITarget<T>>(strategy);
+        return container.Last<ITarget<T>>(strategy);
     }
 
-    public static ITarget<T> LastTarget<T>(this IReadOnlyComposite composite, Predicate<ITarget<T>> predicate)
+    public static ITarget<T> LastTarget<T>(this IReadOnlyContainer container, Predicate<ITarget<T>> predicate)
         where T : class
     {
-        return composite.Last(predicate);
+        return container.Last(predicate);
     }
 
-    public static ITarget<T> LastTarget<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy,
+    public static ITarget<T> LastTarget<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy,
         Predicate<ITarget<T>> predicate) where T : class
     {
-        return composite.Last(strategy, predicate);
+        return container.Last(strategy, predicate);
     }
 
-    public static T? TryLastInstance<T>(this IReadOnlyComposite composite) where T : class
+    public static T? TryLastInstance<T>(this IReadOnlyContainer container) where T : class
     {
-        return composite.TryLastTarget<T>()?.GetInstance(composite);
+        return container.TryLastTarget<T>()?.GetInstance(container);
     }
 
-    public static T? TryLastInstance<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy)
+    public static T? TryLastInstance<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy)
         where T : class
     {
-        return composite.TryLastTarget<T>(strategy)?.GetInstance(composite);
+        return container.TryLastTarget<T>(strategy)?.GetInstance(container);
     }
 
-    public static T? TryLastInstance<T>(this IReadOnlyComposite composite, Predicate<T> predicate) where T : class
+    public static T? TryLastInstance<T>(this IReadOnlyContainer container, Predicate<T> predicate) where T : class
     {
-        return composite.AllInstance<T>().LastOrDefault(instance => predicate(instance));
+        return container.AllInstance<T>().LastOrDefault(instance => predicate(instance));
     }
 
-    public static T? TryLastInstance<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy,
+    public static T? TryLastInstance<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy,
         Predicate<T> predicate) where T : class
     {
-        if (strategy == CompositeTraversalStrategy.Current) return composite.TryLastInstance(predicate);
+        if (strategy == CompositeTraversalStrategy.Current) return container.TryLastInstance(predicate);
 
         if (strategy == CompositeTraversalStrategy.Initial)
         {
-            return CompositeTreeUtils.GetLast(composite).TryLastInstance(predicate);
+            return ContainerTreeUtils.GetLast(container).TryLastInstance(predicate);
         }
 
-        var current = composite;
+        var current = container;
 
         do
         {
@@ -92,25 +92,25 @@ public static class CompositeLastMethodsExtensions
         return null;
     }
 
-    public static T LastInstance<T>(this IReadOnlyComposite composite) where T : class
+    public static T LastInstance<T>(this IReadOnlyContainer container) where T : class
     {
-        return composite.LastTarget<T>().GetInstance(composite);
+        return container.LastTarget<T>().GetInstance(container);
     }
 
-    public static T LastInstance<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy)
+    public static T LastInstance<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy)
         where T : class
     {
-        return composite.LastTarget<T>(strategy).GetInstance(composite);
+        return container.LastTarget<T>(strategy).GetInstance(container);
     }
 
-    public static T LastInstance<T>(this IReadOnlyComposite composite, Predicate<T> predicate) where T : class
+    public static T LastInstance<T>(this IReadOnlyContainer container, Predicate<T> predicate) where T : class
     {
-        return composite.TryLastInstance(predicate) ?? throw new EmptySequenceDependencyManagementException();
+        return container.TryLastInstance(predicate) ?? throw new EmptySequenceDependencyManagementException();
     }
 
-    public static T LastInstance<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy,
+    public static T LastInstance<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy,
         Predicate<T> predicate) where T : class
     {
-        return composite.TryLastInstance(strategy, predicate) ?? throw new EmptySequenceDependencyManagementException();
+        return container.TryLastInstance(strategy, predicate) ?? throw new EmptySequenceDependencyManagementException();
     }
 }

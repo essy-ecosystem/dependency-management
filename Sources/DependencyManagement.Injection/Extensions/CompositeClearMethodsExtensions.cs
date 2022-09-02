@@ -1,19 +1,19 @@
 namespace DependencyManagement.Injection.Extensions;
 
-using Composition.Composites;
+using Composition.Containers;
 using Composition.Enums;
 using Composition.Extensions;
 using Targets;
 
 public static class CompositeClearMethodsExtensions
 {
-    public static void ClearTarget<T>(this IComposite composite) where T : class
+    public static void ClearTarget<T>(this IContainer container) where T : class
     {
-        composite.Clear<ITarget<T>>();
+        container.Clear<ITarget<T>>();
     }
 
-    public static void ClearTarget<T>(this IComposite composite, CompositeTraversalStrategy strategy) where T : class
+    public static void ClearTarget<T>(this IContainer container, CompositeTraversalStrategy strategy) where T : class
     {
-        composite.Clear<ITarget<T>>(strategy);
+        container.Clear<ITarget<T>>(strategy);
     }
 }

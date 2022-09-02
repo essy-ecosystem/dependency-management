@@ -1,31 +1,31 @@
 namespace DependencyManagement.Injection.Extensions;
 
 using Builders;
-using Composition.Composites;
+using Composition.Containers;
 using Composition.Enums;
 using Composition.Extensions;
 using Targets;
 
 public static class CompositeAddMethodsExtensions
 {
-    public static ITargetBuilder<T> AddTarget<T>(this IComposite composite) where T : class
+    public static ITargetBuilder<T> AddTarget<T>(this IContainer container) where T : class
     {
-        return new TargetBuilder<T>(composite);
+        return new TargetBuilder<T>(container);
     }
 
-    public static void AddTarget<T>(this IComposite composite, ITarget<T> target) where T : class
+    public static void AddTarget<T>(this IContainer container, ITarget<T> target) where T : class
     {
-        composite.Add(target);
+        container.Add(target);
     }
 
-    public static bool TryAddTarget<T>(this IComposite composite, ITarget<T> target) where T : class
+    public static bool TryAddTarget<T>(this IContainer container, ITarget<T> target) where T : class
     {
-        return composite.TryAdd(target);
+        return container.TryAdd(target);
     }
 
-    public static bool TryAddTarget<T>(this IComposite composite, ITarget<T> target,
+    public static bool TryAddTarget<T>(this IContainer container, ITarget<T> target,
         CompositeTraversalStrategy strategy) where T : class
     {
-        return composite.TryAdd(target, strategy);
+        return container.TryAdd(target, strategy);
     }
 }

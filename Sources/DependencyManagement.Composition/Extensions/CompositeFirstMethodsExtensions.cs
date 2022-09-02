@@ -1,29 +1,29 @@
 namespace DependencyManagement.Composition.Extensions;
 
 using Components;
-using Composites;
+using Containers;
 using Enums;
 using Exceptions;
 using Utils;
 
 public static class CompositeFirstMethodsExtensions
 {
-    public static T? TryFirst<T>(this IReadOnlyComposite composite) where T : class, IComponent
+    public static T? TryFirst<T>(this IReadOnlyContainer container) where T : class, IComponent
     {
-        var components = composite.All<T>();
+        var components = container.All<T>();
 
         return components.Count != 0
             ? components[0]
             : null;
     }
 
-    public static T? TryFirst<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy)
+    public static T? TryFirst<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy)
         where T : class, IComponent
     {
-        if (strategy == CompositeTraversalStrategy.Current || composite.Father is null) return composite.TryFirst<T>();
-        if (strategy == CompositeTraversalStrategy.Initial) return CompositeTreeUtils.GetLast(composite).TryFirst<T>();
+        if (strategy == CompositeTraversalStrategy.Current || container.Father is null) return container.TryFirst<T>();
+        if (strategy == CompositeTraversalStrategy.Initial) return ContainerTreeUtils.GetLast(container).TryFirst<T>();
 
-        var composites = CompositeTreeUtils.GetTree(composite);
+        var composites = ContainerTreeUtils.GetTree(container);
 
         for (var i = composites.Count - 1; i >= 0; i--)
         {
@@ -34,25 +34,25 @@ public static class CompositeFirstMethodsExtensions
         return null;
     }
 
-    public static T? TryFirst<T>(this IReadOnlyComposite composite, Predicate<T> predicate) where T : class, IComponent
+    public static T? TryFirst<T>(this IReadOnlyContainer container, Predicate<T> predicate) where T : class, IComponent
     {
-        return composite.All<T>().FirstOrDefault(component => predicate(component));
+        return container.All<T>().FirstOrDefault(component => predicate(component));
     }
 
-    public static T? TryFirst<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy,
+    public static T? TryFirst<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy,
         Predicate<T> predicate) where T : class, IComponent
     {
-        if (strategy == CompositeTraversalStrategy.Current || composite.Father is null)
+        if (strategy == CompositeTraversalStrategy.Current || container.Father is null)
         {
-            return composite.TryFirst(predicate);
+            return container.TryFirst(predicate);
         }
 
         if (strategy == CompositeTraversalStrategy.Initial)
         {
-            return CompositeTreeUtils.GetLast(composite).TryFirst(predicate);
+            return ContainerTreeUtils.GetLast(container).TryFirst(predicate);
         }
 
-        var composites = CompositeTreeUtils.GetTree(composite);
+        var composites = ContainerTreeUtils.GetTree(container);
 
         for (var i = composites.Count - 1; i >= 0; i--)
         {
@@ -63,71 +63,71 @@ public static class CompositeFirstMethodsExtensions
         return null;
     }
 
-    public static T First<T>(this IReadOnlyComposite composite) where T : class, IComponent
+    public static T First<T>(this IReadOnlyContainer container) where T : class, IComponent
     {
-        return composite.TryFirst<T>() ?? throw new EmptySequenceDependencyManagementException();
+        return container.TryFirst<T>() ?? throw new EmptySequenceDependencyManagementException();
     }
 
-    public static T First<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy)
+    public static T First<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy)
         where T : class, IComponent
     {
-        return composite.TryFirst<T>(strategy) ?? throw new EmptySequenceDependencyManagementException();
+        return container.TryFirst<T>(strategy) ?? throw new EmptySequenceDependencyManagementException();
     }
 
-    public static T First<T>(this IReadOnlyComposite composite, Predicate<T> predicate) where T : class, IComponent
+    public static T First<T>(this IReadOnlyContainer container, Predicate<T> predicate) where T : class, IComponent
     {
-        return composite.TryFirst(predicate) ?? throw new EmptySequenceDependencyManagementException();
+        return container.TryFirst(predicate) ?? throw new EmptySequenceDependencyManagementException();
     }
 
-    public static T First<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy,
+    public static T First<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy,
         Predicate<T> predicate) where T : class, IComponent
     {
-        return composite.TryFirst(strategy, predicate) ?? throw new EmptySequenceDependencyManagementException();
+        return container.TryFirst(strategy, predicate) ?? throw new EmptySequenceDependencyManagementException();
     }
 
-    public static ILazyComponent<T>? TryFirstLazy<T>(this IReadOnlyComposite composite) where T : class, IComponent
+    public static ILazyComponent<T>? TryFirstLazy<T>(this IReadOnlyContainer container) where T : class, IComponent
     {
-        return composite.TryFirst<ILazyComponent<T>>();
+        return container.TryFirst<ILazyComponent<T>>();
     }
 
-    public static ILazyComponent<T>? TryFirstLazy<T>(this IReadOnlyComposite composite,
+    public static ILazyComponent<T>? TryFirstLazy<T>(this IReadOnlyContainer container,
         CompositeTraversalStrategy strategy) where T : class, IComponent
     {
-        return composite.TryFirst<ILazyComponent<T>>(strategy);
+        return container.TryFirst<ILazyComponent<T>>(strategy);
     }
 
-    public static ILazyComponent<T>? TryFirstLazy<T>(this IReadOnlyComposite composite,
+    public static ILazyComponent<T>? TryFirstLazy<T>(this IReadOnlyContainer container,
         Predicate<ILazyComponent<T>> predicate) where T : class, IComponent
     {
-        return composite.TryFirst(predicate);
+        return container.TryFirst(predicate);
     }
 
-    public static ILazyComponent<T>? TryFirstLazy<T>(this IReadOnlyComposite composite,
+    public static ILazyComponent<T>? TryFirstLazy<T>(this IReadOnlyContainer container,
         CompositeTraversalStrategy strategy, Predicate<ILazyComponent<T>> predicate) where T : class, IComponent
     {
-        return composite.TryFirst(strategy, predicate);
+        return container.TryFirst(strategy, predicate);
     }
 
-    public static ILazyComponent<T> FirstLazy<T>(this IReadOnlyComposite composite) where T : class, IComponent
+    public static ILazyComponent<T> FirstLazy<T>(this IReadOnlyContainer container) where T : class, IComponent
     {
-        return composite.First<ILazyComponent<T>>();
+        return container.First<ILazyComponent<T>>();
     }
 
-    public static ILazyComponent<T> FirstLazy<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy)
+    public static ILazyComponent<T> FirstLazy<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy)
         where T : class, IComponent
     {
-        return composite.First<ILazyComponent<T>>(strategy);
+        return container.First<ILazyComponent<T>>(strategy);
     }
 
-    public static ILazyComponent<T> FirstLazy<T>(this IReadOnlyComposite composite,
+    public static ILazyComponent<T> FirstLazy<T>(this IReadOnlyContainer container,
         Predicate<ILazyComponent<T>> predicate) where T : class, IComponent
     {
-        return composite.First(predicate);
+        return container.First(predicate);
     }
 
-    public static ILazyComponent<T> FirstLazy<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy,
+    public static ILazyComponent<T> FirstLazy<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy,
         Predicate<ILazyComponent<T>> predicate) where T : class, IComponent
     {
-        return composite.First(strategy, predicate);
+        return container.First(strategy, predicate);
     }
 }

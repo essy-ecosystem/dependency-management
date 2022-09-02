@@ -1,44 +1,44 @@
 namespace DependencyManagement.Composition.Extensions;
 
 using Components;
-using Composites;
+using Containers;
 using Enums;
 using Utils;
 
 public static class CompositeClearMethodsExtensions
 {
-    public static void Clear<T>(this IComposite composite, CompositeTraversalStrategy strategy)
+    public static void Clear<T>(this IContainer container, CompositeTraversalStrategy strategy)
         where T : class, IComponent
     {
         if (strategy == CompositeTraversalStrategy.Current)
         {
-            composite.Clear<T>();
+            container.Clear<T>();
             return;
         }
 
         if (strategy == CompositeTraversalStrategy.Initial)
         {
-            CompositeTreeUtils.GetLast(composite).Clear<T>();
+            ContainerTreeUtils.GetLast(container).Clear<T>();
             return;
         }
         
-        composite.Clear<T>();
+        container.Clear<T>();
 
-        while (composite.Father is not null)
+        while (container.Father is not null)
         {
-            composite = composite.Father!;
-            composite.Clear<T>();
+            container = container.Father!;
+            container.Clear<T>();
         }
     }
 
-    public static void ClearLazy<T>(this IComposite composite) where T : class, IComponent
+    public static void ClearLazy<T>(this IContainer container) where T : class, IComponent
     {
-        composite.Clear<ILazyComponent<T>>();
+        container.Clear<ILazyComponent<T>>();
     }
 
-    public static void ClearLazy<T>(this IComposite composite, CompositeTraversalStrategy strategy)
+    public static void ClearLazy<T>(this IContainer container, CompositeTraversalStrategy strategy)
         where T : class, IComponent
     {
-        composite.Clear<ILazyComponent<T>>(strategy);
+        container.Clear<ILazyComponent<T>>(strategy);
     }
 }

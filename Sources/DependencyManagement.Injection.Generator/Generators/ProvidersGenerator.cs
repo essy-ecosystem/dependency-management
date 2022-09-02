@@ -40,10 +40,10 @@ public sealed class ProvidersGenerator : IIncrementalGenerator
 
         context.RegisterSourceOutput(liner, static (context, liner) =>
         {
-            var builder = new CompositeExtensionsBuilder(liner.Left.Left,
+            var builder = new ContainerExtensionsBuilder(liner.Left.Left,
                 liner.Right, liner.Left.Right);
 
-            context.AddSource($"CompositeExtensions.{nameof(ProvidersGenerator)}.cs", builder.ToString());
+            context.AddSource($"ContainerExtensions.{nameof(ProvidersGenerator)}.cs", builder.ToString());
         });
     }
 }

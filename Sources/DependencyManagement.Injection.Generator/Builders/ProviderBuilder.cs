@@ -17,7 +17,7 @@ public sealed class ProviderBuilder
     {
         var builder = new StringBuilder();
 
-        builder.AppendLine("using DependencyManagement.Composition.Composites;");
+        builder.AppendLine("using DependencyManagement.Composition.Containers;");
         builder.AppendLine("using DependencyManagement.Injection.Providers;");
         builder.AppendLine("using DependencyManagement.Injection.Extensions;");
         builder.AppendLine("using DependencyManagement.Composition.Enums;");
@@ -29,7 +29,7 @@ public sealed class ProviderBuilder
         builder.AppendLine(
             $"public sealed class {_providedType.Type.Name}GeneratedProvider : MethodProvider<{_providedType}>");
         builder.AppendLine("{");
-        builder.AppendLine($"    protected override {_providedType} GetInstanceCore(IReadOnlyComposite composite)");
+        builder.AppendLine($"    protected override {_providedType} GetInstanceCore(IReadOnlyContainer container)");
         builder.AppendLine("    {");
         if (_providedType.Arguments.Count == 0)
         {
@@ -39,7 +39,7 @@ public sealed class ProviderBuilder
         {
             var argument = _providedType.Arguments.First();
             builder.AppendLine(
-                $"        return new(composite.LastInstance<{argument}>(CompositeTraversalStrategy.Inherit));");
+                $"        return new(container.LastInstance<{argument}>(CompositeTraversalStrategy.Inherit));");
         }
         else
         {
@@ -49,17 +49,17 @@ public sealed class ProviderBuilder
                 if (i == 0)
                 {
                     builder.AppendLine(
-                        $"        return new(composite.LastInstance<{argument}>(CompositeTraversalStrategy.Inherit),");
+                        $"        return new(container.LastInstance<{argument}>(CompositeTraversalStrategy.Inherit),");
                 }
                 else if (i == _providedType.Arguments.Count - 1)
                 {
                     builder.AppendLine(
-                        $"            composite.LastInstance<{argument}>(CompositeTraversalStrategy.Inherit));");
+                        $"            container.LastInstance<{argument}>(CompositeTraversalStrategy.Inherit));");
                 }
                 else
                 {
                     builder.AppendLine(
-                        $"            composite.LastInstance<{argument}>(CompositeTraversalStrategy.Inherit),");
+                        $"            container.LastInstance<{argument}>(CompositeTraversalStrategy.Inherit),");
                 }
             }
         }

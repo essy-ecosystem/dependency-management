@@ -14,7 +14,7 @@ public sealed class
 
     private const string Namespace3 = "Extensions";
 
-    private const string GeneratedExtensionTypePostfixName = "AssemblyGeneratedCompositeExtensions";
+    private const string GeneratedExtensionTypePostfixName = "AssemblyGeneratedContainerExtensions";
 
     private const string GeneratedExtensionMethodPrefixName = "WithProvidersFrom";
 

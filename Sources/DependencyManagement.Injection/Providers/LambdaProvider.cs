@@ -1,18 +1,18 @@
 namespace DependencyManagement.Injection.Providers;
 
-using Composition.Composites;
+using Composition.Containers;
 
 public class LambdaProvider<T> : Provider<T> where T : notnull
 {
-    private readonly Func<IReadOnlyComposite, T> _cache;
+    private readonly Func<IReadOnlyContainer, T> _cache;
 
-    public LambdaProvider(Func<IReadOnlyComposite, T> provider)
+    public LambdaProvider(Func<IReadOnlyContainer, T> provider)
     {
         _cache = provider;
     }
 
-    public override T GetInstance(IReadOnlyComposite composite)
+    public override T GetInstance(IReadOnlyContainer container)
     {
-        return _cache(composite);
+        return _cache(container);
     }
 }

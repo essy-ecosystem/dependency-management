@@ -1,53 +1,53 @@
 namespace DependencyManagement.Injection.Extensions;
 
 using Builders;
-using Composition.Composites;
+using Composition.Containers;
 using Composition.Enums;
 using Composition.Extensions;
 using Targets;
 
 public static class CompositeSetMethodsExtensions
 {
-    public static ITargetBuilder<T> SetTarget<T>(this IComposite composite) where T : class
+    public static ITargetBuilder<T> SetTarget<T>(this IContainer container) where T : class
     {
-        composite.ClearTarget<T>(CompositeTraversalStrategy.Inherit);
-        return new TargetBuilder<T>(composite);
+        container.ClearTarget<T>(CompositeTraversalStrategy.Inherit);
+        return new TargetBuilder<T>(container);
     }
 
-    public static void SetTarget<T>(this IComposite composite, ITarget<T> target) where T : class
+    public static void SetTarget<T>(this IContainer container, ITarget<T> target) where T : class
     {
-        composite.Set(target);
+        container.Set(target);
     }
 
-    public static void SetTarget<T>(this IComposite composite, ITarget<T> target, CompositeTraversalStrategy strategy)
+    public static void SetTarget<T>(this IContainer container, ITarget<T> target, CompositeTraversalStrategy strategy)
         where T : class
     {
-        composite.Set(target, strategy);
+        container.Set(target, strategy);
     }
 
-    public static ITargetBuilder<T>? TrySetTarget<T>(this IComposite composite) where T : class
+    public static ITargetBuilder<T>? TrySetTarget<T>(this IContainer container) where T : class
     {
-        return !composite.AnyTarget<T>()
-            ? new TargetBuilder<T>(composite)
+        return !container.AnyTarget<T>()
+            ? new TargetBuilder<T>(container)
             : null;
     }
 
-    public static ITargetBuilder<T>? TrySetTarget<T>(this IComposite composite, CompositeTraversalStrategy strategy)
+    public static ITargetBuilder<T>? TrySetTarget<T>(this IContainer container, CompositeTraversalStrategy strategy)
         where T : class
     {
-        return !composite.AnyTarget<T>(strategy)
-            ? new TargetBuilder<T>(composite)
+        return !container.AnyTarget<T>(strategy)
+            ? new TargetBuilder<T>(container)
             : null;
     }
 
-    public static bool TrySetTarget<T>(this IComposite composite, ITarget<T> target) where T : class
+    public static bool TrySetTarget<T>(this IContainer container, ITarget<T> target) where T : class
     {
-        return composite.TrySet(target);
+        return container.TrySet(target);
     }
 
-    public static bool TrySetTarget<T>(this IComposite composite, ITarget<T> target,
+    public static bool TrySetTarget<T>(this IContainer container, ITarget<T> target,
         CompositeTraversalStrategy strategy) where T : class
     {
-        return composite.TrySet(target, strategy);
+        return container.TrySet(target, strategy);
     }
 }

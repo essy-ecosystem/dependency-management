@@ -1,20 +1,20 @@
 namespace DependencyManagement.Injection.Providers;
 
-using Composition.Composites;
+using Composition.Containers;
 
 public abstract class MethodProvider<T> : Provider<T> where T : notnull
 {
-    private readonly Func<IReadOnlyComposite, T> _cache;
+    private readonly Func<IReadOnlyContainer, T> _cache;
 
     protected MethodProvider()
     {
         _cache = GetInstanceCore;
     }
 
-    public override T GetInstance(IReadOnlyComposite composite)
+    public override T GetInstance(IReadOnlyContainer container)
     {
-        return _cache(composite);
+        return _cache(container);
     }
 
-    protected abstract T GetInstanceCore(IReadOnlyComposite composite);
+    protected abstract T GetInstanceCore(IReadOnlyContainer container);
 }

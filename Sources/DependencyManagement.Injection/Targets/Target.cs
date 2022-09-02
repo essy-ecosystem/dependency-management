@@ -1,7 +1,7 @@
 namespace DependencyManagement.Injection.Targets;
 
 using Composition.Components;
-using Composition.Composites;
+using Composition.Containers;
 using Providers;
 using Strategies;
 
@@ -16,8 +16,8 @@ internal sealed class Target<T> : Component, ITarget<T> where T : notnull
         _provider = provider;
     }
 
-    public T GetInstance(IReadOnlyComposite composite)
+    public T GetInstance(IReadOnlyContainer container)
     {
-        return _strategy.Value.GetInstance(composite, _provider.Value);
+        return _strategy.Value.GetInstance(container, _provider.Value);
     }
 }

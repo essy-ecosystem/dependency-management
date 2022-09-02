@@ -1,32 +1,32 @@
 namespace DependencyManagement.Injection.Extensions;
 
-using Composition.Composites;
+using Composition.Containers;
 using Composition.Enums;
 using Composition.Extensions;
 using Targets;
 
 public static class CompositeContainsMethodsExtensions
 {
-    public static bool ContainsTarget<T>(this IReadOnlyComposite composite, ITarget<T> component) where T : class
+    public static bool ContainsTarget<T>(this IReadOnlyContainer container, ITarget<T> component) where T : class
     {
-        return composite.Contains(component);
+        return container.Contains(component);
     }
 
-    public static bool ContainsTarget<T>(this IReadOnlyComposite composite, ITarget<T> component,
+    public static bool ContainsTarget<T>(this IReadOnlyContainer container, ITarget<T> component,
         CompositeTraversalStrategy strategy) where T : class
     {
-        return composite.Contains(component, strategy);
+        return container.Contains(component, strategy);
     }
 
-    public static bool ContainsTarget<T>(this IReadOnlyComposite composite, Predicate<ITarget<T>> predicate)
+    public static bool ContainsTarget<T>(this IReadOnlyContainer container, Predicate<ITarget<T>> predicate)
         where T : class
     {
-        return composite.Contains(predicate);
+        return container.Contains(predicate);
     }
 
-    public static bool ContainsTarget<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy,
+    public static bool ContainsTarget<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy,
         Predicate<ITarget<T>> predicate) where T : class
     {
-        return composite.Contains(strategy, predicate);
+        return container.Contains(strategy, predicate);
     }
 }

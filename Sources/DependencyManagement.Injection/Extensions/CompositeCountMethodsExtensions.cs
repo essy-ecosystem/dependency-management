@@ -1,53 +1,53 @@
 namespace DependencyManagement.Injection.Extensions;
 
-using Composition.Composites;
+using Composition.Containers;
 using Composition.Enums;
 using Composition.Extensions;
 using Targets;
 
 public static class CompositeCountMethodsExtensions
 {
-    public static int CountTarget<T>(this IReadOnlyComposite composite) where T : class
+    public static int CountTarget<T>(this IReadOnlyContainer container) where T : class
     {
-        return composite.Count<ITarget<T>>();
+        return container.Count<ITarget<T>>();
     }
 
-    public static int CountTarget<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy)
+    public static int CountTarget<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy)
         where T : class
     {
-        return composite.Count<ITarget<T>>(strategy);
+        return container.Count<ITarget<T>>(strategy);
     }
 
-    public static int CountTarget<T>(this IReadOnlyComposite composite, Predicate<ITarget<T>> predicate) where T : class
+    public static int CountTarget<T>(this IReadOnlyContainer container, Predicate<ITarget<T>> predicate) where T : class
     {
-        return composite.Count(predicate);
+        return container.Count(predicate);
     }
 
-    public static int CountTarget<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy,
+    public static int CountTarget<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy,
         Predicate<ITarget<T>> predicate) where T : class
     {
-        return composite.Count(strategy, predicate);
+        return container.Count(strategy, predicate);
     }
 
-    public static int CountInstance<T>(this IReadOnlyComposite composite) where T : class
+    public static int CountInstance<T>(this IReadOnlyContainer container) where T : class
     {
-        return composite.CountTarget<T>();
+        return container.CountTarget<T>();
     }
 
-    public static int CountInstance<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy)
+    public static int CountInstance<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy)
         where T : class
     {
-        return composite.CountTarget<T>(strategy);
+        return container.CountTarget<T>(strategy);
     }
 
-    public static int CountInstance<T>(this IReadOnlyComposite composite, Predicate<T> predicate) where T : class
+    public static int CountInstance<T>(this IReadOnlyContainer container, Predicate<T> predicate) where T : class
     {
-        return composite.WhereInstance(predicate).Count;
+        return container.WhereInstance(predicate).Count;
     }
 
-    public static int CountInstance<T>(this IReadOnlyComposite composite, CompositeTraversalStrategy strategy,
+    public static int CountInstance<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy,
         Predicate<ITarget<T>> predicate) where T : class
     {
-        return composite.WhereInstance(strategy, predicate).Count;
+        return container.WhereInstance(strategy, predicate).Count;
     }
 }

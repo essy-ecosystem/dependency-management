@@ -1,7 +1,7 @@
 namespace DependencyManagement.Injection.Builders;
 
 using Composition.Components;
-using Composition.Composites;
+using Composition.Containers;
 using Composition.Extensions;
 using Composition.Utils;
 using Providers;
@@ -11,26 +11,26 @@ using Targets;
 internal sealed class TargetBuilder<T> : ITargetBuilder<T> where T : class
 {
     private readonly List<Action<ITarget<T>>> _abstractions = new();
-    private readonly IComposite _currentComposite;
-    private readonly IComposite _rootComposite;
+    private readonly IContainer _currentContainer;
+    private readonly IContainer _rootContainer;
 
     private Func<ILazyComponent<IProvider<T>>> _provider;
 
     private Func<ILazyComponent<IStrategy>> _strategy;
 
-    public TargetBuilder(IComposite composite)
+    public TargetBuilder(IContainer container)
     {
-        _currentComposite = composite;
+        _currentContainer = container;
 
-        _rootComposite = CompositeTreeUtils.GetLast(composite);
+        _rootContainer = ContainerTreeUtils.GetLast(container);
 
-        _strategy = () => _rootComposite.LastLazy<SingletonStrategy>();
-        _provider = () => _rootComposite.LastLazy<IProvider<T>>();
+        _strategy = () => _rootContainer.LastLazy<SingletonStrategy>();
+        _provider = () => _rootContainer.LastLazy<IProvider<T>>();
     }
 
     public IAbstractionTargetBuilder<T> As<TAs>() where TAs : class
     {
-        _abstractions.Add(target => _currentComposite.TryAdd((ITarget<TAs>)target));
+        _abstractions.Add(target => _currentContainer.TryAdd((ITarget<TAs>)target));
 
         return this;
     }
@@ -44,7 +44,7 @@ internal sealed class TargetBuilder<T> : ITargetBuilder<T> where T : class
 
     public void To<TStrategy>() where TStrategy : class, IStrategy
     {
-        _strategy = () => _rootComposite.LastLazy<TStrategy>();
+        _strategy = () => _rootContainer.LastLazy<TStrategy>();
 
         if (_abstractions.Count == 0) As<T>();
 

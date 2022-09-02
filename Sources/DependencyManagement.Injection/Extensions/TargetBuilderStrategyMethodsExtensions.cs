@@ -1,7 +1,7 @@
 namespace DependencyManagement.Injection.Extensions;
 
 using Builders;
-using Composition.Composites;
+using Composition.Containers;
 using Providers;
 using Strategies;
 
@@ -24,7 +24,7 @@ public static class TargetBuilderStrategyMethodsExtensions
     }
 
     public static IStrategyTargetBuilder<T> With<T>(this IProviderTargetBuilder<T> builder,
-        Func<IReadOnlyComposite, T> instance) where T : class
+        Func<IReadOnlyContainer, T> instance) where T : class
     {
         return builder.With(() => new LambdaProvider<T>(instance));
     }
@@ -41,7 +41,7 @@ public static class TargetBuilderStrategyMethodsExtensions
 
     public static void ToComposite<T>(this IStrategyTargetBuilder<T> builder) where T : class
     {
-        builder.To<CompositeStrategy>();
+        builder.To<ContainerStrategy>();
     }
 
     public static void ToThread<T>(this IStrategyTargetBuilder<T> builder) where T : class

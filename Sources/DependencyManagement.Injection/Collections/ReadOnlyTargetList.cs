@@ -1,20 +1,20 @@
 namespace DependencyManagement.Injection.Collections;
 
 using System.Collections;
-using Composition.Composites;
+using Composition.Containers;
 using Core.Disposables;
 using Targets;
 
 public sealed class ReadOnlyTargetList<T> : Disposable, IReadOnlyList<T> where T : class
 {
     private readonly Dictionary<ITarget<T>, T> _cache = new();
-    private readonly IReadOnlyComposite _composite;
+    private readonly IReadOnlyContainer _container;
 
     private readonly IReadOnlyList<ITarget<T>> _targets;
 
-    public ReadOnlyTargetList(IReadOnlyComposite composite, IReadOnlyList<ITarget<T>> targets)
+    public ReadOnlyTargetList(IReadOnlyContainer container, IReadOnlyList<ITarget<T>> targets)
     {
-        _composite = composite;
+        _container = container;
         _targets = targets;
     }
 
@@ -24,7 +24,7 @@ public sealed class ReadOnlyTargetList<T> : Disposable, IReadOnlyList<T> where T
 
     public IEnumerator<T> GetEnumerator()
     {
-        return new Enumerator<T>(_composite, _targets, _cache);
+        return new Enumerator<T>(_container, _targets, _cache);
     }
 
     IEnumerator IEnumerable.GetEnumerator()
@@ -36,7 +36,7 @@ public sealed class ReadOnlyTargetList<T> : Disposable, IReadOnlyList<T> where T
     {
         if (!_cache.TryGetValue(target, out var instance))
         {
-            instance = target.GetInstance(_composite);
+            instance = target.GetInstance(_container);
             _cache.TryAdd(target, instance);
         }
 
@@ -53,16 +53,16 @@ public sealed class ReadOnlyTargetList<T> : Disposable, IReadOnlyList<T> where T
     public sealed class Enumerator<T> : IEnumerator<T> where T : class
     {
         private readonly Dictionary<ITarget<T>, T> _cache;
-        private readonly IReadOnlyComposite _composite;
+        private readonly IReadOnlyContainer _container;
 
         private readonly IReadOnlyList<ITarget<T>> _targets;
 
         private int _index;
 
-        public Enumerator(IReadOnlyComposite composite, IReadOnlyList<ITarget<T>> targets,
+        public Enumerator(IReadOnlyContainer container, IReadOnlyList<ITarget<T>> targets,
             Dictionary<ITarget<T>, T> cache)
         {
-            _composite = composite;
+            _container = container;
             _targets = targets;
             _cache = cache;
             Current = default;
@@ -93,7 +93,7 @@ public sealed class ReadOnlyTargetList<T> : Disposable, IReadOnlyList<T> where T
         {
             if (!_cache.TryGetValue(target, out var instance))
             {
-                instance = target.GetInstance(_composite);
+                instance = target.GetInstance(_container);
                 _cache.TryAdd(target, instance);
             }
 

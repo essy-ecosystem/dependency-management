@@ -1,37 +1,37 @@
 namespace DependencyManagement.Composition.Extensions;
 
 using Components;
-using Composites;
+using Containers;
 using Enums;
 using Utils;
 
 public static class CompositeRemoveMethodsExtensions
 {
-    public static bool Remove<T>(this IComposite composite, T component, CompositeTraversalStrategy strategy)
+    public static bool Remove<T>(this IContainer container, T component, CompositeTraversalStrategy strategy)
         where T : class, IComponent
     {
-        if (strategy == CompositeTraversalStrategy.Current) return composite.Remove(component);
-        if (strategy == CompositeTraversalStrategy.Initial) return CompositeTreeUtils.GetLast(composite).Remove(component);
+        if (strategy == CompositeTraversalStrategy.Current) return container.Remove(component);
+        if (strategy == CompositeTraversalStrategy.Initial) return ContainerTreeUtils.GetLast(container).Remove(component);
         
-        if (composite.Remove(component)) return true;
+        if (container.Remove(component)) return true;
 
-        while (composite.Father is not null)
+        while (container.Father is not null)
         {
-            composite = composite.Father!;
-            if (composite.Remove(component)) return true;
+            container = container.Father!;
+            if (container.Remove(component)) return true;
         }
 
         return false;
     }
 
-    public static bool Remove<T>(this IComposite composite, Predicate<T> predicate) where T : class, IComponent
+    public static bool Remove<T>(this IContainer container, Predicate<T> predicate) where T : class, IComponent
     {
-        var components = composite.Where(predicate);
+        var components = container.Where(predicate);
         var result = false;
 
         foreach (var component in components)
         {
-            if (composite.Remove(component))
+            if (container.Remove(component))
             {
                 result = true;
             }
@@ -40,56 +40,56 @@ public static class CompositeRemoveMethodsExtensions
         return result;
     }
 
-    public static bool Remove<T>(this IComposite composite, CompositeTraversalStrategy strategy, Predicate<T> predicate)
+    public static bool Remove<T>(this IContainer container, CompositeTraversalStrategy strategy, Predicate<T> predicate)
         where T : class, IComponent
     {
-        if (strategy == CompositeTraversalStrategy.Current) return composite.Remove(predicate);
-        if (strategy == CompositeTraversalStrategy.Initial) return CompositeTreeUtils.GetLast(composite).Remove(predicate);
+        if (strategy == CompositeTraversalStrategy.Current) return container.Remove(predicate);
+        if (strategy == CompositeTraversalStrategy.Initial) return ContainerTreeUtils.GetLast(container).Remove(predicate);
         
-        var result = composite.Remove(predicate);
+        var result = container.Remove(predicate);
 
-        while (composite.Father is not null)
+        while (container.Father is not null)
         {
-            composite = composite.Father!;
-            if (composite.Remove(predicate)) result = true;
+            container = container.Father!;
+            if (container.Remove(predicate)) result = true;
         }
 
         return result;
     }
 
-    public static bool RemoveLazy<T>(this IComposite composite, ILazyComponent<T> component) where T : class, IComponent
+    public static bool RemoveLazy<T>(this IContainer container, ILazyComponent<T> component) where T : class, IComponent
     {
-        return composite.Remove(component);
+        return container.Remove(component);
     }
 
-    public static bool RemoveLazy<T>(this IComposite composite, ILazyComponent<T> component,
+    public static bool RemoveLazy<T>(this IContainer container, ILazyComponent<T> component,
         CompositeTraversalStrategy strategy) where T : class, IComponent
     {
-        return composite.Remove(component, strategy);
+        return container.Remove(component, strategy);
     }
 
-    public static bool RemoveLazy<T>(this IComposite composite, T component) where T : class, IComponent
+    public static bool RemoveLazy<T>(this IContainer container, T component) where T : class, IComponent
     {
-        return composite.RemoveLazy(composite
+        return container.RemoveLazy(container
             .FirstLazy<T>(lazy => lazy.IsValueCreated && lazy.Value == component));
     }
 
-    public static bool RemoveLazy<T>(this IComposite composite, T component, CompositeTraversalStrategy strategy)
+    public static bool RemoveLazy<T>(this IContainer container, T component, CompositeTraversalStrategy strategy)
         where T : class, IComponent
     {
-        return composite.RemoveLazy(composite
+        return container.RemoveLazy(container
             .FirstLazy<T>(strategy, lazy => lazy.IsValueCreated && lazy.Value == component), strategy);
     }
 
-    public static bool RemoveLazy<T>(this IComposite composite, Predicate<ILazyComponent<T>> predicate)
+    public static bool RemoveLazy<T>(this IContainer container, Predicate<ILazyComponent<T>> predicate)
         where T : class, IComponent
     {
-        return composite.Remove(predicate);
+        return container.Remove(predicate);
     }
 
-    public static bool RemoveLazy<T>(this IComposite composite, CompositeTraversalStrategy strategy,
+    public static bool RemoveLazy<T>(this IContainer container, CompositeTraversalStrategy strategy,
         Predicate<ILazyComponent<T>> predicate) where T : class, IComponent
     {
-        return composite.Remove(strategy, predicate);
+        return container.Remove(strategy, predicate);
     }
 }
