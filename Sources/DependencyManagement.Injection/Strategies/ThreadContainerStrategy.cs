@@ -6,7 +6,7 @@ using Composition.Containers;
 using Core.Caches;
 using Providers;
 
-public sealed class ThreadCompositeStrategy : Strategy
+public sealed class ThreadContainerStrategy : Strategy
 {
     private readonly DisposableCollection _disposableCollection = new();
 

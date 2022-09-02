@@ -39,7 +39,7 @@ public static class TargetBuilderStrategyMethodsExtensions
         builder.To<TransientStrategy>();
     }
 
-    public static void ToComposite<T>(this IStrategyTargetBuilder<T> builder) where T : class
+    public static void ToContainer<T>(this IStrategyTargetBuilder<T> builder) where T : class
     {
         builder.To<ContainerStrategy>();
     }
@@ -49,8 +49,8 @@ public static class TargetBuilderStrategyMethodsExtensions
         builder.To<ThreadStrategy>();
     }
 
-    public static void ToThreadComposite<T>(this IStrategyTargetBuilder<T> builder) where T : class
+    public static void ToThreadContainer<T>(this IStrategyTargetBuilder<T> builder) where T : class
     {
-        builder.To<ThreadCompositeStrategy>();
+        builder.To<ThreadContainerStrategy>();
     }
 }
