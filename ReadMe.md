@@ -102,17 +102,15 @@ var service = readOnlyContainer.LastInstance<Service>();
 </PropertyGroup>
 
 <ItemGroup>
-    <ProjectReference Include="Essy.DependencyManagement.Injection" Version="1.1.1"/>
-    <ProjectReference Include="Essy.DependencyManagement.Injection.Generator" Version="1.1.1" 
+    <ProjectReference Include="Essy.DependencyManagement.Injection" Version="1.2.0"/>
+    <ProjectReference Include="Essy.DependencyManagement.Injection.Generator" Version="1.2.0" 
                       OutputItemType="Analyzer" 
-                      ReferenceOutputAssembly="false" 
-                      PrivateAssets="all"/>
+                      ReferenceOutputAssembly="false"/>
     
-    <ProjectReference Include="Essy.DependencyManagement.Modularity" Version="1.1.1"/>
-    <ProjectReference Include="Essy.DependencyManagement.Modularity.Generator" Version="1.1.1" 
+    <ProjectReference Include="Essy.DependencyManagement.Modularity" Version="1.2.0"/>
+    <ProjectReference Include="Essy.DependencyManagement.Modularity.Generator" Version="1.2.0" 
                       OutputItemType="Analyzer" 
-                      ReferenceOutputAssembly="false" 
-                      PrivateAssets="all"/>
+                      ReferenceOutputAssembly="false"/>
 </ItemGroup>
 ```
 
