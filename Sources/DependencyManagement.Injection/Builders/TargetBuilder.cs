@@ -42,7 +42,7 @@ internal sealed class TargetBuilder<T> : ITargetBuilder<T> where T : class
         return this;
     }
 
-    public void To<TStrategy>() where TStrategy : class, IStrategy
+    public ITarget<T> To<TStrategy>() where TStrategy : class, IStrategy
     {
         _strategy = () => _rootContainer.LastLazy<TStrategy>();
 
@@ -54,5 +54,7 @@ internal sealed class TargetBuilder<T> : ITargetBuilder<T> where T : class
         {
             abstraction(target);
         }
+
+        return target;
     }
 }

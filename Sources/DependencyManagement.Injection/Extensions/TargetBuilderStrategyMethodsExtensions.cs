@@ -4,6 +4,7 @@ using Builders;
 using Composition.Containers;
 using Providers;
 using Strategies;
+using Targets;
 
 public static class TargetBuilderStrategyMethodsExtensions
 {
@@ -29,28 +30,28 @@ public static class TargetBuilderStrategyMethodsExtensions
         return builder.With(() => new LambdaProvider<T>(instance));
     }
 
-    public static void ToSingleton<T>(this IStrategyTargetBuilder<T> builder) where T : class
+    public static ITarget<T> ToSingleton<T>(this IStrategyTargetBuilder<T> builder) where T : class
     {
-        builder.To<SingletonStrategy>();
+        return builder.To<SingletonStrategy>();
     }
 
-    public static void ToTransient<T>(this IStrategyTargetBuilder<T> builder) where T : class
+    public static ITarget<T> ToTransient<T>(this IStrategyTargetBuilder<T> builder) where T : class
     {
-        builder.To<TransientStrategy>();
+        return builder.To<TransientStrategy>();
     }
 
-    public static void ToContainer<T>(this IStrategyTargetBuilder<T> builder) where T : class
+    public static ITarget<T> ToContainer<T>(this IStrategyTargetBuilder<T> builder) where T : class
     {
-        builder.To<ContainerStrategy>();
+        return builder.To<ContainerStrategy>();
     }
 
-    public static void ToThread<T>(this IStrategyTargetBuilder<T> builder) where T : class
+    public static ITarget<T> ToThread<T>(this IStrategyTargetBuilder<T> builder) where T : class
     {
-        builder.To<ThreadStrategy>();
+        return builder.To<ThreadStrategy>();
     }
 
-    public static void ToThreadContainer<T>(this IStrategyTargetBuilder<T> builder) where T : class
+    public static ITarget<T> ToThreadContainer<T>(this IStrategyTargetBuilder<T> builder) where T : class
     {
-        builder.To<ThreadContainerStrategy>();
+        return builder.To<ThreadContainerStrategy>();
     }
 }

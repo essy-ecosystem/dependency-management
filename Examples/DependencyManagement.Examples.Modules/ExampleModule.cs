@@ -9,6 +9,7 @@ public sealed class ExampleModule : Module
     public override void Load(IContainer container)
     {
         container.SetTarget<ExampleService>().ToSingleton();
+        
         container.SetTarget<ModernExampleService>().ToSingleton();
     }
 }
