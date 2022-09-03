@@ -11,7 +11,7 @@
 # Dependency Management
 
 The Dependency Management is a very fast dependency injection and components container, with many interesting features,
-and without reflexion.
+and without reflection.
 
 Its allows you to make your project more extensible and modular.
 
