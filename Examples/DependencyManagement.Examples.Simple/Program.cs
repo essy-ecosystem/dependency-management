@@ -7,12 +7,12 @@ await using var container = new Container()
     .WithStrategies()
     .WithProviders();
 
-container .SetTarget<ExampleService>()
+container.SetTarget<ExampleService>()
     .AsSelf().As<IExampleService>()
     .ToSingleton();
 
 container.SetTarget<ModernExampleService>().ToTransient();
 
-using var service = container.LastInstance<ModernExampleService>(TraversalStrategy.Initial);
+using var service = container.LastInstance<ModernExampleService>();
 
 Console.WriteLine(service.GetHashCode());
