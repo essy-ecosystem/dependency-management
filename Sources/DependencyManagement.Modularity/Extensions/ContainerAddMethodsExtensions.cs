@@ -4,7 +4,7 @@ using Builders;
 using Composition.Containers;
 using Modules;
 
-public static class CompositeAddMethodsExtensions
+public static class ContainerAddMethodsExtensions
 {
     public static IModuleBuilder<T> AddModule<T>(this IContainer container) where T : class, IModule, new()
     {
