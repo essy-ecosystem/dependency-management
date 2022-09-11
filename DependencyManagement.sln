@@ -35,7 +35,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyManagement.Exampl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyManagement.Examples.Modules", "Examples\DependencyManagement.Examples.Modules\DependencyManagement.Examples.Modules.csproj", "{B42FBDF2-A709-4F45-8C96-6866D2AEF021}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyManagement.Examples.Inheritances", "Examples\DependencyManagement.Examples.Inheritances\DependencyManagement.Examples.Inheritances.csproj", "{C27E3E36-20E0-4E17-B8A3-6A7F96910F4A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyManagement.Examples.Scopes", "Examples\DependencyManagement.Examples.Scopes\DependencyManagement.Examples.Scopes.csproj", "{C27E3E36-20E0-4E17-B8A3-6A7F96910F4A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

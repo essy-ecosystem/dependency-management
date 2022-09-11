@@ -1,6 +1,6 @@
-namespace DependencyManagement.Examples.Inheritances;
+namespace DependencyManagement.Examples.Scopes;
 
-public class ModernExampleService
+public class ModernExampleService : IDisposable
 {
     private readonly ExampleService _service;
 
@@ -8,4 +8,6 @@ public class ModernExampleService
     {
         _service = service;
     }
+
+    public void Dispose() { }
 }

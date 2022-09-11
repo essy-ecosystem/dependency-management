@@ -1,4 +1,5 @@
 ﻿using DependencyManagement.Composition.Containers;
+using DependencyManagement.Composition.Enums;
 using DependencyManagement.Examples.Simple;
 using DependencyManagement.Injection.Extensions;
 
@@ -6,9 +7,12 @@ await using var container = new Container()
     .WithStrategies()
     .WithProviders();
 
-container.SetTarget<ExampleService>().ToSingleton();
-container.SetTarget<ModernExampleService>().ToSingleton();
+container .SetTarget<ExampleService>()
+    .AsSelf().As<IExampleService>()
+    .ToSingleton();
 
-var service = container.LastInstance<ModernExampleService>();
+container.SetTarget<ModernExampleService>().ToTransient();
+
+using var service = container.LastInstance<ModernExampleService>(TraversalStrategy.Initial);
 
 Console.WriteLine(service.GetHashCode());
