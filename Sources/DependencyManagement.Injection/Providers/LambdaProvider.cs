@@ -11,7 +11,7 @@ public class LambdaProvider<T> : Provider<T> where T : notnull
         _cache = provider;
     }
 
-    public override T GetInstance(IReadOnlyContainer container)
+    public override T CreateInstance(IReadOnlyContainer container)
     {
         return _cache(container);
     }

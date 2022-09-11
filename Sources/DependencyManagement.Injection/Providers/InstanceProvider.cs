@@ -11,7 +11,7 @@ public class InstanceProvider<T> : Provider<T> where T : notnull
         _cache = cache;
     }
 
-    public override T GetInstance(IReadOnlyContainer container)
+    public override T CreateInstance(IReadOnlyContainer container)
     {
         return _cache;
     }
