@@ -1,11 +1,15 @@
 namespace DependencyManagement.Examples.Simple;
 
-public class ModernExampleService
-{
-    private readonly ExampleService _service;
+using Core.Disposables;
 
-    public ModernExampleService(ExampleService service)
+public class ModernExampleService : IDisposable
+{
+    private readonly IExampleService _service;
+
+    public ModernExampleService(IExampleService service)
     {
         _service = service;
     }
+
+    public void Dispose() { }
 }

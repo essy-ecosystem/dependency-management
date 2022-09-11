@@ -1,13 +1,13 @@
 ﻿using DependencyManagement.Composition.Containers;
 using DependencyManagement.Composition.Enums;
-using DependencyManagement.Examples.Inheritances;
+using DependencyManagement.Examples.Scopes;
 using DependencyManagement.Injection.Extensions;
 
 await using var applicationContainer = new Container()
     .WithStrategies()
     .WithProviders();
 
-applicationContainer.SetTarget<ModernExampleService>().ToContainer();
+applicationContainer.SetTarget<ModernExampleService>().ToScope();
 
 while (true)
 {
@@ -15,7 +15,7 @@ while (true)
     
     frameContainer.AddTarget<ExampleService>().ToSingleton();
     
-    var service = frameContainer.LastInstance<ModernExampleService>(CompositeTraversalStrategy.Inherit);
+    using var service = frameContainer.LastInstance<ModernExampleService>(TraversalStrategy.Inherit);
     
     Console.WriteLine(service.GetHashCode());
 }

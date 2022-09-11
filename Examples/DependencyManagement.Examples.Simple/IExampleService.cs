@@ -1,3 +1,3 @@
 namespace DependencyManagement.Examples.Simple;
 
-public class ExampleService : IExampleService { }
+public interface IExampleService { }
