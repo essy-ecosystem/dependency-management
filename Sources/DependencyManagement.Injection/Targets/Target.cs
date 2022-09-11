@@ -9,7 +9,7 @@ using Strategies;
 internal sealed class Target<T> : Component, ITarget<T> where T : notnull
 {
     private readonly ILazyComponent<IProvider> _provider;
-    
+
     private readonly ILazyComponent<IStrategy> _strategy;
 
     public Target(ILazyComponent<IStrategy> strategy, ILazyComponent<IProvider> provider)
@@ -21,7 +21,7 @@ internal sealed class Target<T> : Component, ITarget<T> where T : notnull
     public T ProvideInstance(IReadOnlyContainer container)
     {
         var context = new StrategyContext<T>(container, _provider.Value);
-        
+
         return _strategy.Value.GetInstance(context);
     }
 

@@ -9,26 +9,26 @@ using Models;
 public sealed class TransientStrategy : Strategy
 {
     private readonly ConcurrentDictionary<IReadOnlyContainer, IDisposableCollection> _disposablesCollections;
-    
-    /// <summary/>
+
+    /// <summary />
     public TransientStrategy()
     {
-        _disposablesCollections = new();
+        _disposablesCollections = new ConcurrentDictionary<IReadOnlyContainer, IDisposableCollection>();
     }
 
     /// <inheritdoc />
     public override T GetInstance<T>(StrategyContext<T> context)
     {
         Thrower.ThrowIfObjectDisposed(this);
-        
+
         Thrower.ThrowIfArgumentNull(context.Container);
         Thrower.ThrowIfObjectDisposed(context.Container);
-        
+
         Thrower.ThrowIfArgumentNull(context.Provider);
         Thrower.ThrowIfObjectDisposed(context.Provider);
-        
+
         var instance = context.Provider.CreateInstance(context.Container);
-        
+
         Thrower.ThrowIfObjectNull(instance);
 
         AddInstanceToDisposableCollection(context.Container, instance);
@@ -44,17 +44,17 @@ public sealed class TransientStrategy : Strategy
         return _disposablesCollections.Values
             .Any(collection => collection.Contains(instance));
     }
-    
+
     /// <inheritdoc />
     public override bool RemoveInstance<T>(T instance)
     {
         Thrower.ThrowIfArgumentNull(instance);
-        
+
         var pair = _disposablesCollections
             .FirstOrDefault(pair => pair.Value.Contains(instance));
-        
+
         if (pair.Equals(default)) return false;
-        
+
         DisposeInstance(instance);
         return pair.Value.Remove(instance);
     }
@@ -71,7 +71,7 @@ public sealed class TransientStrategy : Strategy
 
         var initialDisposableCollection = new DisposableCollection(instance);
         if (_disposablesCollections.TryAdd(container, initialDisposableCollection)) return;
-        
+
         AddInstanceToDisposableCollection(container, instance);
     }
 
@@ -80,10 +80,10 @@ public sealed class TransientStrategy : Strategy
         if (IsDisposed) return;
 
         if (!_disposablesCollections.TryRemove((IReadOnlyContainer)sender, out var disposableCollection)) return;
-        
+
         disposableCollection.Dispose();
     }
-    
+
     private void DisposeInstance(object instance)
     {
         switch (instance)
@@ -107,9 +107,9 @@ public sealed class TransientStrategy : Strategy
                 disposableCollection.Dispose();
             }
         }
-        
+
         _disposablesCollections.Clear();
-        
+
         base.DisposeCore(disposing);
     }
 
@@ -120,7 +120,7 @@ public sealed class TransientStrategy : Strategy
         {
             await disposableCollection.DisposeAsync();
         }
-        
+
         await base.DisposeCoreAsync();
     }
 }

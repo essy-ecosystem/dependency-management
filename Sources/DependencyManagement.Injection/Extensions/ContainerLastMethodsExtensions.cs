@@ -104,7 +104,7 @@ public static class ContainerLastMethodsExtensions
 
     public static T LastInstance<T>(this IReadOnlyContainer container, Predicate<T> predicate) where T : class
     {
-        return container.TryLastInstance(predicate) 
+        return container.TryLastInstance(predicate)
             ?? throw new InvalidOperationException("The source sequence is empty.");
     }
 

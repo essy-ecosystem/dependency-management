@@ -34,7 +34,7 @@ public static class TraversalService
 
         return composites;
     }
-    
+
     public static IReadOnlyList<IContainer> GetInherit(IContainer container)
     {
         return GetInherit((IReadOnlyContainer)container).Cast<IContainer>().ToArray();

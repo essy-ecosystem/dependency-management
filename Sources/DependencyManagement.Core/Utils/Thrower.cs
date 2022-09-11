@@ -21,7 +21,7 @@ public static class Thrower
             throw new ObjectDisposedException(message, innerException);
         }
     }
-    
+
     /// <summary>
     /// Thrower an exception if the <paramref name="condition" /> is true.
     /// </summary>
@@ -29,7 +29,8 @@ public static class Thrower
     /// <param name="message">The message to throw.</param>
     /// <param name="innerException">The inner exception.</param>
     /// <exception cref="ObjectDisposedException">Thrown if the <paramref name="object.IsDisposed" /> is true.</exception>
-    public static void ThrowIfObjectDisposed(IDisposableObject @object, string? message = null, Exception? innerException = null)
+    public static void ThrowIfObjectDisposed(IDisposableObject @object, string? message = null,
+        Exception? innerException = null)
     {
         ThrowIfObjectDisposed(@object.IsDisposed);
     }
@@ -48,7 +49,7 @@ public static class Thrower
             throw new ArgumentNullException(message, innerException);
         }
     }
-    
+
     /// <summary>
     /// Thrower an exception if the <paramref name="object" /> is null.
     /// </summary>

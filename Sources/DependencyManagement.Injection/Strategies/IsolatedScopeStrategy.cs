@@ -8,13 +8,13 @@ using Models;
 public sealed class IsolatedScopeStrategy : Strategy
 {
     private readonly Timer _threadsCleaner;
-    
+
     private readonly ConcurrentDictionary<Thread, SingletonStrategy> _threadsScopeStrategies;
 
-    /// <summary/>
+    /// <summary />
     public IsolatedScopeStrategy()
     {
-        _threadsScopeStrategies = new();
+        _threadsScopeStrategies = new ConcurrentDictionary<Thread, SingletonStrategy>();
         _threadsCleaner = CreateTimer();
     }
 
@@ -22,9 +22,9 @@ public sealed class IsolatedScopeStrategy : Strategy
     public override T GetInstance<T>(StrategyContext<T> context)
     {
         Thrower.ThrowIfObjectDisposed(this);
-        
+
         var thread = Thread.CurrentThread;
-        
+
         if (_threadsScopeStrategies.TryGetValue(thread, out var currentSingletonStrategy))
         {
             return currentSingletonStrategy.GetInstance(context);
@@ -32,8 +32,8 @@ public sealed class IsolatedScopeStrategy : Strategy
 
         var singletonStrategy = new SingletonStrategy();
 
-        return !_threadsScopeStrategies.TryAdd(thread, singletonStrategy) 
-            ? GetInstance(context) 
+        return !_threadsScopeStrategies.TryAdd(thread, singletonStrategy)
+            ? GetInstance(context)
             : singletonStrategy.GetInstance(context);
     }
 
@@ -75,24 +75,24 @@ public sealed class IsolatedScopeStrategy : Strategy
             }
         }
     }
-    
+
     /// <inheritdoc />
     protected override void DisposeCore(bool disposing)
     {
         _threadsCleaner.Stop();
-        
+
         if (disposing)
         {
             foreach (var singletonStrategy in _threadsScopeStrategies.Values)
             {
                 singletonStrategy.Dispose();
             }
-            
+
             _threadsCleaner.Dispose();
         }
-        
+
         _threadsScopeStrategies.Clear();
-        
+
         base.DisposeCore(disposing);
     }
 
@@ -103,7 +103,7 @@ public sealed class IsolatedScopeStrategy : Strategy
         {
             await singletonStrategy.DisposeAsync();
         }
-        
+
         _threadsCleaner.Dispose();
 
         await base.DisposeCoreAsync();

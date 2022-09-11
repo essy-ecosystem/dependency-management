@@ -1,6 +1,5 @@
 namespace DependencyManagement.Injection.Builders;
 
-using System.Runtime.CompilerServices;
 using Composition.Components;
 using Composition.Containers;
 using Composition.Extensions;
@@ -35,7 +34,7 @@ internal sealed class SettableTargetBuilder<T> : ITargetBuilder<T> where T : cla
         _abstractions.Add((provider, strategy) =>
         {
             var target = new Target<TAs>(strategy, provider);
-            
+
             _currentContainer.SetTarget(target);
         });
 

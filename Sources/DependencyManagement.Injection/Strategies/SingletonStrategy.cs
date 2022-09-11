@@ -1,7 +1,6 @@
 namespace DependencyManagement.Injection.Strategies;
 
 using System.Collections.Concurrent;
-using Composition.Components;
 using Core.Disposables;
 using Core.Utils;
 using Models;
@@ -10,38 +9,38 @@ using Providers;
 public sealed class SingletonStrategy : Strategy
 {
     private readonly ConcurrentDictionary<IProvider, object> _providersInstances;
-    
-    /// <summary/>
+
+    /// <summary />
     public SingletonStrategy()
     {
-        _providersInstances = new();
+        _providersInstances = new ConcurrentDictionary<IProvider, object>();
     }
 
     /// <inheritdoc />
     public override T GetInstance<T>(StrategyContext<T> context)
     {
         Thrower.ThrowIfObjectDisposed(this);
-        
+
         Thrower.ThrowIfArgumentNull(context.Container);
         Thrower.ThrowIfObjectDisposed(context.Container);
-        
+
         Thrower.ThrowIfArgumentNull(context.Provider);
         Thrower.ThrowIfObjectDisposed(context.Provider);
 
         if (_providersInstances.TryGetValue(context.Provider, out var cachedInstance))
         {
-            return (T) cachedInstance;
+            return (T)cachedInstance;
         }
-        
+
         var instance = context.Provider.CreateInstance(context.Container);
-        
+
         Thrower.ThrowIfObjectNull(instance);
 
         AddInstanceToProvidersInstancesCache(context.Provider, instance);
 
         return (T)instance;
     }
-    
+
     /// <inheritdoc />
     public override bool ContainsInstance<T>(T instance)
     {
@@ -55,7 +54,7 @@ public sealed class SingletonStrategy : Strategy
     public override bool RemoveInstance<T>(T instance)
     {
         Thrower.ThrowIfArgumentNull(instance);
-        
+
         var castedInstance = (object)instance;
 
         var pair = _providersInstances
@@ -71,17 +70,17 @@ public sealed class SingletonStrategy : Strategy
             void OnInstanceDisposing(object _)
             {
                 if (IsDisposed) return;
-                 
+
                 RemoveProvider(provider);
             }
 
             disposableInstance.Disposing += OnInstanceDisposing;
         }
-        
+
         _providersInstances.TryAdd(provider, instance);
     }
 
-    private bool RemoveProvider(IProvider provider) 
+    private bool RemoveProvider(IProvider provider)
     {
         if (!_providersInstances.TryRemove(provider, out var instance))
         {
@@ -104,7 +103,7 @@ public sealed class SingletonStrategy : Strategy
                 break;
         }
     }
-    
+
     private ValueTask DisposeInstanceAsync(object instance)
     {
         switch (instance)
@@ -115,7 +114,7 @@ public sealed class SingletonStrategy : Strategy
                 disposableInstance.Dispose();
                 break;
         }
-        
+
         return default;
     }
 
@@ -129,9 +128,9 @@ public sealed class SingletonStrategy : Strategy
                 DisposeInstance(instance);
             }
         }
-        
+
         _providersInstances.Clear();
-        
+
         base.DisposeCore(disposing);
     }
 

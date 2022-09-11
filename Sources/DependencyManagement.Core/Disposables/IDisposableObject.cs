@@ -8,7 +8,7 @@ using Delegates;
 /// </summary>
 /// <remarks>
 /// Recommended for use with standard
-/// <see cref="System.IDisposable"/>,or <see cref="System.IAsyncDisposable"/> interfaces.
+/// <see cref="System.IDisposable" />,or <see cref="System.IAsyncDisposable" /> interfaces.
 /// </remarks>
 /// <seealso cref="System.IDisposable" />
 /// <seealso cref="System.IAsyncDisposable" />
