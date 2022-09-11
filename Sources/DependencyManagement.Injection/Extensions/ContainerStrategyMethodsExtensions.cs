@@ -6,11 +6,11 @@ using Composition.Extensions;
 using Composition.Utils;
 using Strategies;
 
-public static class CompositeStrategyMethodsExtensions
+public static class ContainerStrategyMethodsExtensions
 {
     public static bool TrySetLazyStrategy<T>(this IContainer container, Func<T> strategy) where T : class, IStrategy
     {
-        var rootComposite = ContainerTreeUtils.GetLast(container);
+        var rootComposite = TraversalService.GetInitial(container);
         var lazy = new LazyComponent<T>(strategy);
         if (!rootComposite.TrySetLazy(lazy)) return false;
         if (rootComposite.TryAddLazy<IStrategy>(lazy)) return true;
@@ -20,13 +20,13 @@ public static class CompositeStrategyMethodsExtensions
 
     public static T WithStrategies<T>(this T composite) where T : class, IContainer
     {
-        var rootComposite = ContainerTreeUtils.GetLast(composite);
+        var rootComposite = TraversalService.GetInitial(composite);
 
         rootComposite.TrySetLazyStrategy(() => new TransientStrategy());
         rootComposite.TrySetLazyStrategy(() => new SingletonStrategy());
-        rootComposite.TrySetLazyStrategy(() => new ThreadStrategy());
-        rootComposite.TrySetLazyStrategy(() => new ContainerStrategy());
-        rootComposite.TrySetLazyStrategy(() => new ThreadContainerStrategy());
+        rootComposite.TrySetLazyStrategy(() => new IsolatedSingletonStrategy());
+        rootComposite.TrySetLazyStrategy(() => new ScopeStrategy());
+        rootComposite.TrySetLazyStrategy(() => new IsolatedScopeStrategy());
 
         return composite;
     }

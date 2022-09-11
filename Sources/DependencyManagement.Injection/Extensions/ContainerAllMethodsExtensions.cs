@@ -6,7 +6,7 @@ using Composition.Enums;
 using Composition.Extensions;
 using Targets;
 
-public static class CompositeAllMethodsExtensions
+public static class ContainerAllMethodsExtensions
 {
     public static IReadOnlyList<ITarget<T>> AllTarget<T>(this IReadOnlyContainer container) where T : class
     {
@@ -14,7 +14,7 @@ public static class CompositeAllMethodsExtensions
     }
 
     public static IReadOnlyList<ITarget<T>> AllTarget<T>(this IReadOnlyContainer container,
-        CompositeTraversalStrategy strategy) where T : class
+        TraversalStrategy strategy) where T : class
     {
         return container.All<ITarget<T>>(strategy);
     }
@@ -25,7 +25,7 @@ public static class CompositeAllMethodsExtensions
     }
 
     public static IReadOnlyList<T> AllInstance<T>(this IReadOnlyContainer container,
-        CompositeTraversalStrategy strategy) where T : class
+        TraversalStrategy strategy) where T : class
     {
         return new ReadOnlyTargetList<T>(container, container.All<ITarget<T>>(strategy));
     }

@@ -6,7 +6,7 @@ using Composition.Enums;
 using Composition.Extensions;
 using Targets;
 
-public static class CompositeRemoveMethodsExtensions
+public static class ContainerRemoveMethodsExtensions
 {
     public static bool RemoveTarget<T>(this IContainer container, ITarget<T> component) where T : class
     {
@@ -14,7 +14,7 @@ public static class CompositeRemoveMethodsExtensions
     }
 
     public static bool RemoveTarget<T>(this IContainer container, ITarget<T> component,
-        CompositeTraversalStrategy strategy) where T : class
+        TraversalStrategy strategy) where T : class
     {
         return container.Remove(component, strategy);
     }
@@ -24,7 +24,7 @@ public static class CompositeRemoveMethodsExtensions
         return container.Remove(predicate);
     }
 
-    public static bool RemoveTarget<T>(this IContainer container, CompositeTraversalStrategy strategy,
+    public static bool RemoveTarget<T>(this IContainer container, TraversalStrategy strategy,
         Predicate<T> predicate) where T : class, IComponent
     {
         return container.Remove(strategy, predicate);

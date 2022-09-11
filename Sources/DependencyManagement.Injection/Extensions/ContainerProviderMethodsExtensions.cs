@@ -5,10 +5,10 @@ using Composition.Extensions;
 using Composition.Utils;
 using Providers;
 
-public static class CompositeProviderMethodsExtensions
+public static class ContainerProviderMethodsExtensions
 {
     public static bool TrySetLazyProvider<T>(this IContainer container, Func<IProvider<T>> provider) where T : class
     {
-        return ContainerTreeUtils.GetLast(container).TrySetLazy(provider);
+        return TraversalService.GetInitial(container).TrySetLazy(provider);
     }
 }
