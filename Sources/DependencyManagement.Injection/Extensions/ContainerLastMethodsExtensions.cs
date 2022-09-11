@@ -2,19 +2,18 @@ namespace DependencyManagement.Injection.Extensions;
 
 using Composition.Containers;
 using Composition.Enums;
-using Composition.Exceptions;
 using Composition.Extensions;
 using Composition.Utils;
 using Targets;
 
-public static class CompositeLastMethodsExtensions
+public static class ContainerLastMethodsExtensions
 {
     public static ITarget<T>? TryLastTarget<T>(this IReadOnlyContainer container) where T : class
     {
         return container.TryLast<ITarget<T>>();
     }
 
-    public static ITarget<T>? TryLastTarget<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy)
+    public static ITarget<T>? TryLastTarget<T>(this IReadOnlyContainer container, TraversalStrategy strategy)
         where T : class
     {
         return container.TryLast<ITarget<T>>(strategy);
@@ -26,7 +25,7 @@ public static class CompositeLastMethodsExtensions
         return container.TryLast(predicate);
     }
 
-    public static ITarget<T>? TryLastTarget<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy,
+    public static ITarget<T>? TryLastTarget<T>(this IReadOnlyContainer container, TraversalStrategy strategy,
         Predicate<ITarget<T>> predicate) where T : class
     {
         return container.TryLast(strategy, predicate);
@@ -37,7 +36,7 @@ public static class CompositeLastMethodsExtensions
         return container.Last<ITarget<T>>();
     }
 
-    public static ITarget<T> LastTarget<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy)
+    public static ITarget<T> LastTarget<T>(this IReadOnlyContainer container, TraversalStrategy strategy)
         where T : class
     {
         return container.Last<ITarget<T>>(strategy);
@@ -49,7 +48,7 @@ public static class CompositeLastMethodsExtensions
         return container.Last(predicate);
     }
 
-    public static ITarget<T> LastTarget<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy,
+    public static ITarget<T> LastTarget<T>(this IReadOnlyContainer container, TraversalStrategy strategy,
         Predicate<ITarget<T>> predicate) where T : class
     {
         return container.Last(strategy, predicate);
@@ -57,13 +56,13 @@ public static class CompositeLastMethodsExtensions
 
     public static T? TryLastInstance<T>(this IReadOnlyContainer container) where T : class
     {
-        return container.TryLastTarget<T>()?.GetInstance(container);
+        return container.TryLastTarget<T>()?.ProvideInstance(container);
     }
 
-    public static T? TryLastInstance<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy)
+    public static T? TryLastInstance<T>(this IReadOnlyContainer container, TraversalStrategy strategy)
         where T : class
     {
-        return container.TryLastTarget<T>(strategy)?.GetInstance(container);
+        return container.TryLastTarget<T>(strategy)?.ProvideInstance(container);
     }
 
     public static T? TryLastInstance<T>(this IReadOnlyContainer container, Predicate<T> predicate) where T : class
@@ -71,14 +70,14 @@ public static class CompositeLastMethodsExtensions
         return container.AllInstance<T>().LastOrDefault(instance => predicate(instance));
     }
 
-    public static T? TryLastInstance<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy,
+    public static T? TryLastInstance<T>(this IReadOnlyContainer container, TraversalStrategy strategy,
         Predicate<T> predicate) where T : class
     {
-        if (strategy == CompositeTraversalStrategy.Current) return container.TryLastInstance(predicate);
+        if (strategy == TraversalStrategy.Current) return container.TryLastInstance(predicate);
 
-        if (strategy == CompositeTraversalStrategy.Initial)
+        if (strategy == TraversalStrategy.Initial)
         {
-            return ContainerTreeUtils.GetLast(container).TryLastInstance(predicate);
+            return TraversalService.GetInitial(container).TryLastInstance(predicate);
         }
 
         var current = container;
@@ -94,23 +93,25 @@ public static class CompositeLastMethodsExtensions
 
     public static T LastInstance<T>(this IReadOnlyContainer container) where T : class
     {
-        return container.LastTarget<T>().GetInstance(container);
+        return container.LastTarget<T>().ProvideInstance(container);
     }
 
-    public static T LastInstance<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy)
+    public static T LastInstance<T>(this IReadOnlyContainer container, TraversalStrategy strategy)
         where T : class
     {
-        return container.LastTarget<T>(strategy).GetInstance(container);
+        return container.LastTarget<T>(strategy).ProvideInstance(container);
     }
 
     public static T LastInstance<T>(this IReadOnlyContainer container, Predicate<T> predicate) where T : class
     {
-        return container.TryLastInstance(predicate) ?? throw new EmptySequenceDependencyManagementException();
+        return container.TryLastInstance(predicate) 
+            ?? throw new InvalidOperationException("The source sequence is empty.");
     }
 
-    public static T LastInstance<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy,
+    public static T LastInstance<T>(this IReadOnlyContainer container, TraversalStrategy strategy,
         Predicate<T> predicate) where T : class
     {
-        return container.TryLastInstance(strategy, predicate) ?? throw new EmptySequenceDependencyManagementException();
+        return container.TryLastInstance(strategy, predicate)
+            ?? throw new InvalidOperationException("The source sequence is empty.");
     }
 }

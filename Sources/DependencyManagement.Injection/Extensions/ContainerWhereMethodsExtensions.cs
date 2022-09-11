@@ -5,7 +5,7 @@ using Composition.Enums;
 using Composition.Extensions;
 using Targets;
 
-public static class CompositeWhereMethodsExtensions
+public static class ContainerWhereMethodsExtensions
 {
     public static IReadOnlyList<ITarget<T>> WhereTarget<T>(this IReadOnlyContainer container,
         Predicate<ITarget<T>> predicate) where T : class
@@ -14,7 +14,7 @@ public static class CompositeWhereMethodsExtensions
     }
 
     public static IReadOnlyList<ITarget<T>> WhereTarget<T>(this IReadOnlyContainer container,
-        CompositeTraversalStrategy strategy, Predicate<ITarget<T>> predicate) where T : class
+        TraversalStrategy strategy, Predicate<ITarget<T>> predicate) where T : class
     {
         return container.Where(strategy, predicate).ToArray();
     }
@@ -26,7 +26,7 @@ public static class CompositeWhereMethodsExtensions
     }
 
     public static IReadOnlyList<T> WhereInstance<T>(this IReadOnlyContainer container,
-        CompositeTraversalStrategy strategy, Predicate<T> predicate) where T : class
+        TraversalStrategy strategy, Predicate<T> predicate) where T : class
     {
         return container.AllInstance<T>(strategy).Where(instance => predicate(instance)).ToArray();
     }

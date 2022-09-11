@@ -6,11 +6,11 @@ using Composition.Enums;
 using Composition.Extensions;
 using Targets;
 
-public static class CompositeAddMethodsExtensions
+public static class ContainerAddMethodsExtensions
 {
     public static ITargetBuilder<T> AddTarget<T>(this IContainer container) where T : class
     {
-        return new TargetBuilder<T>(container);
+        return new AddableTargetBuilder<T>(container);
     }
 
     public static void AddTarget<T>(this IContainer container, ITarget<T> target) where T : class
@@ -24,7 +24,7 @@ public static class CompositeAddMethodsExtensions
     }
 
     public static bool TryAddTarget<T>(this IContainer container, ITarget<T> target,
-        CompositeTraversalStrategy strategy) where T : class
+        TraversalStrategy strategy) where T : class
     {
         return container.TryAdd(target, strategy);
     }
