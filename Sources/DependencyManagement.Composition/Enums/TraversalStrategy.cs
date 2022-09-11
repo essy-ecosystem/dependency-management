@@ -1,6 +1,6 @@
 namespace DependencyManagement.Composition.Enums;
 
-public enum CompositeTraversalStrategy
+public enum TraversalStrategy
 {
     Current,
     Inherit,
