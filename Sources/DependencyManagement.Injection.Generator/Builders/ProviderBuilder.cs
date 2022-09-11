@@ -29,7 +29,7 @@ public sealed class ProviderBuilder
         builder.AppendLine(
             $"public sealed class {_providedType.Type.Name}GeneratedProvider : MethodProvider<{_providedType}>");
         builder.AppendLine("{");
-        builder.AppendLine($"    protected override {_providedType} GetInstanceCore(IReadOnlyContainer container)");
+        builder.AppendLine($"    protected override {_providedType} CreateInstanceCore(IReadOnlyContainer container)");
         builder.AppendLine("    {");
         if (_providedType.Arguments.Count == 0)
         {
@@ -39,7 +39,7 @@ public sealed class ProviderBuilder
         {
             var argument = _providedType.Arguments.First();
             builder.AppendLine(
-                $"        return new(container.LastInstance<{argument}>(CompositeTraversalStrategy.Inherit));");
+                $"        return new(container.LastInstance<{argument}>(TraversalStrategy.Inherit));");
         }
         else
         {
@@ -49,17 +49,17 @@ public sealed class ProviderBuilder
                 if (i == 0)
                 {
                     builder.AppendLine(
-                        $"        return new(container.LastInstance<{argument}>(CompositeTraversalStrategy.Inherit),");
+                        $"        return new(container.LastInstance<{argument}>(TraversalStrategy.Inherit),");
                 }
                 else if (i == _providedType.Arguments.Count - 1)
                 {
                     builder.AppendLine(
-                        $"            container.LastInstance<{argument}>(CompositeTraversalStrategy.Inherit));");
+                        $"            container.LastInstance<{argument}>(TraversalStrategy.Inherit));");
                 }
                 else
                 {
                     builder.AppendLine(
-                        $"            container.LastInstance<{argument}>(CompositeTraversalStrategy.Inherit),");
+                        $"            container.LastInstance<{argument}>(TraversalStrategy.Inherit),");
                 }
             }
         }
