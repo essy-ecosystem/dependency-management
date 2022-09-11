@@ -3,7 +3,11 @@ namespace DependencyManagement.Injection.Targets;
 using Composition.Components;
 using Composition.Containers;
 
-public interface ITarget<out T> : IComponent where T : notnull
+public interface ITarget<T> : IComponent where T : notnull
 {
-    T GetInstance(IReadOnlyContainer container);
+    T ProvideInstance(IReadOnlyContainer container);
+    
+    bool IsInstanceCached(T instance);
+
+    void ResolveInstance(T instance);
 }
