@@ -1,48 +1,45 @@
 namespace DependencyManagement.Injection.Strategies;
 
 using System.Collections.Concurrent;
-using Composition.Components;
 using Composition.Containers;
-using Core.Caches;
 using Core.Utils;
 using Models;
-using Providers;
 
 public sealed class ScopeStrategy : Strategy
 {
     private readonly ConcurrentDictionary<IReadOnlyContainer, SingletonStrategy> _containersSingletonStrategies;
 
-    /// <summary/>
+    /// <summary />
     public ScopeStrategy()
     {
-        _containersSingletonStrategies = new();
+        _containersSingletonStrategies = new ConcurrentDictionary<IReadOnlyContainer, SingletonStrategy>();
     }
 
     /// <inheritdoc />
     public override T GetInstance<T>(StrategyContext<T> context)
     {
         Thrower.ThrowIfObjectDisposed(this);
-        
+
         if (_containersSingletonStrategies.TryGetValue(context.Container, out var currentSingletonStrategy))
         {
             return currentSingletonStrategy.GetInstance(context);
         }
 
         var singletonStrategy = new SingletonStrategy();
-        
+
         context.Container.Disposing += OnContainerDisposing;
 
-        return !_containersSingletonStrategies.TryAdd(context.Container, singletonStrategy) 
-            ? GetInstance(context) 
+        return !_containersSingletonStrategies.TryAdd(context.Container, singletonStrategy)
+            ? GetInstance(context)
             : singletonStrategy.GetInstance(context);
     }
 
     private void OnContainerDisposing(object sender)
     {
         if (IsDisposed) return;
-        
+
         if (!_containersSingletonStrategies.TryRemove((IReadOnlyContainer)sender, out var singletonStrategy)) return;
-        
+
         singletonStrategy.Dispose();
     }
 
@@ -70,9 +67,9 @@ public sealed class ScopeStrategy : Strategy
                 singletonStrategy.Dispose();
             }
         }
-        
+
         _containersSingletonStrategies.Clear();
-        
+
         base.DisposeCore(disposing);
     }
 

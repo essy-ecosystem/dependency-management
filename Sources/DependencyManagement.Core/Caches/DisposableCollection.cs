@@ -8,9 +8,9 @@ using Utils;
 public class DisposableCollection : AsyncDisposableObject, IDisposableCollection
 {
     private readonly HashSet<object> _disposablesObjects = new();
-    
+
     public DisposableCollection() { }
-    
+
     /// <param name="items">Elements to add.</param>
     public DisposableCollection(params object[] items)
     {
@@ -31,7 +31,7 @@ public class DisposableCollection : AsyncDisposableObject, IDisposableCollection
     {
         Thrower.ThrowIfArgumentNull(item);
         Thrower.ThrowIfObjectDisposed(IsDisposed);
-        
+
         switch (item)
         {
             case IDisposableObject disposableObject:
@@ -47,14 +47,6 @@ public class DisposableCollection : AsyncDisposableObject, IDisposableCollection
         }
 
         return false;
-    }
-
-    private void OnItemOnDisposing(object item)
-    {
-        if (item is not IDisposableObject disposableObject) return;
-        
-        disposableObject.Disposing -= OnItemOnDisposing;
-        _disposablesObjects.Remove(disposableObject);
     }
 
     void ICollection<object>.Add(object item)
@@ -102,6 +94,14 @@ public class DisposableCollection : AsyncDisposableObject, IDisposableCollection
         return GetEnumerator();
     }
 
+    private void OnItemOnDisposing(object item)
+    {
+        if (item is not IDisposableObject disposableObject) return;
+
+        disposableObject.Disposing -= OnItemOnDisposing;
+        _disposablesObjects.Remove(disposableObject);
+    }
+
     /// <inheritdoc />
     protected override void DisposeCore(bool disposing)
     {
@@ -112,11 +112,11 @@ public class DisposableCollection : AsyncDisposableObject, IDisposableCollection
                 switch (item)
                 {
                     case IDisposableObject and IDisposable disposableObject:
-                        ((IDisposableObject) disposableObject).Disposing -= OnItemOnDisposing;
+                        ((IDisposableObject)disposableObject).Disposing -= OnItemOnDisposing;
                         disposableObject.Dispose();
                         break;
                     case IDisposableObject and IAsyncDisposable asyncDisposableObject:
-                        ((IDisposableObject) asyncDisposableObject).Disposing -= OnItemOnDisposing;
+                        ((IDisposableObject)asyncDisposableObject).Disposing -= OnItemOnDisposing;
                         asyncDisposableObject.DisposeAsync().GetAwaiter().GetResult();
                         break;
                     case IDisposable disposable:
@@ -142,11 +142,11 @@ public class DisposableCollection : AsyncDisposableObject, IDisposableCollection
             switch (item)
             {
                 case IDisposableObject and IAsyncDisposable asyncDisposableObject:
-                    ((IDisposableObject) asyncDisposableObject).Disposing -= OnItemOnDisposing;
+                    ((IDisposableObject)asyncDisposableObject).Disposing -= OnItemOnDisposing;
                     await asyncDisposableObject.DisposeAsync();
                     break;
                 case IDisposableObject and IDisposable disposableObject:
-                    ((IDisposableObject) disposableObject).Disposing -= OnItemOnDisposing;
+                    ((IDisposableObject)disposableObject).Disposing -= OnItemOnDisposing;
                     disposableObject.Dispose();
                     break;
                 case IAsyncDisposable asyncDisposable:

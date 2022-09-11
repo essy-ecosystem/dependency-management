@@ -30,13 +30,13 @@ public static class ContainerContainsMethodsExtensions
     {
         return container.Contains(strategy, predicate);
     }
-    
+
     public static bool ContainsInstance<T>(this IReadOnlyContainer container, T instance) where T : class
     {
         return container.AllTarget<T>().Any(target => target.IsInstanceCached(instance));
     }
-    
-    public static bool ContainsInstance<T>(this IReadOnlyContainer container, T instance, 
+
+    public static bool ContainsInstance<T>(this IReadOnlyContainer container, T instance,
         TraversalStrategy strategy) where T : class
     {
         if (strategy == TraversalStrategy.Initial)
@@ -47,22 +47,23 @@ public static class ContainerContainsMethodsExtensions
         var currentContainer = container;
 
         if (currentContainer.ContainsInstance(container)) return true;
-        
+
         while (currentContainer.Father is not null)
         {
             currentContainer = currentContainer.Father!;
-            
+
             if (currentContainer.ContainsInstance(container)) return true;
         }
 
         return false;
     }
+
     public static bool ContainsInstance<T>(this IReadOnlyContainer container, Predicate<T> instance) where T : class
     {
         return container.AllTarget<T>().Any(target => instance(target.ProvideInstance(container)));
     }
-    
-    public static bool ContainsInstance<T>(this IReadOnlyContainer container, Predicate<T> instance, 
+
+    public static bool ContainsInstance<T>(this IReadOnlyContainer container, Predicate<T> instance,
         TraversalStrategy strategy) where T : class
     {
         if (strategy == TraversalStrategy.Initial)
@@ -73,11 +74,11 @@ public static class ContainerContainsMethodsExtensions
         var currentContainer = container;
 
         if (currentContainer.ContainsInstance(container)) return true;
-        
+
         while (currentContainer.Father is not null)
         {
             currentContainer = currentContainer.Father!;
-            
+
             if (currentContainer.ContainsInstance(container)) return true;
         }
 

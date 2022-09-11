@@ -12,7 +12,9 @@ public static class ContainerRemoveMethodsExtensions
     {
         if (strategy == TraversalStrategy.Current) return container.Remove(component);
         if (strategy == TraversalStrategy.Initial)
+        {
             return TraversalService.GetInitial(container).Remove(component);
+        }
 
         if (container.Remove(component)) return true;
 
@@ -46,7 +48,9 @@ public static class ContainerRemoveMethodsExtensions
     {
         if (strategy == TraversalStrategy.Current) return container.Remove(predicate);
         if (strategy == TraversalStrategy.Initial)
+        {
             return TraversalService.GetInitial(container).Remove(predicate);
+        }
 
         var result = container.Remove(predicate);
 

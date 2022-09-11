@@ -1,9 +1,7 @@
 namespace DependencyManagement.Injection.Strategies;
 
 using Composition.Components;
-using Composition.Containers;
 using Models;
-using Providers;
 
 public abstract class Strategy : Component, IStrategy
 {

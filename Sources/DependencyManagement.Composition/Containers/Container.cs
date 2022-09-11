@@ -46,7 +46,7 @@ public class Container : AsyncDisposableObject, IContainer
     public void Add<T>(T component) where T : class, IComponent
     {
         Thrower.ThrowIfArgumentNull(component);
-        
+
         if (IsDisposed) throw new ObjectDisposedException(nameof(Container));
 
         var type = typeof(T);

@@ -12,7 +12,9 @@ public static class ContainerContainsMethodsExtensions
     {
         if (strategy == TraversalStrategy.Current) return container.Contains(component);
         if (strategy == TraversalStrategy.Initial)
+        {
             return TraversalService.GetInitial(container).Contains(component);
+        }
 
         if (container.Contains(component)) return true;
 

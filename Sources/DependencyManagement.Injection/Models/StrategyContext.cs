@@ -10,7 +10,7 @@ public readonly struct StrategyContext<T> where T : notnull
         Container = container;
         Provider = provider;
     }
-    
+
     public IReadOnlyContainer Container { get; }
 
     public IProvider Provider { get; }

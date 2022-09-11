@@ -43,7 +43,9 @@ public static class ContainerLastMethodsExtensions
     {
         if (strategy == TraversalStrategy.Current) return container.TryLast(predicate);
         if (strategy == TraversalStrategy.Initial)
+        {
             return TraversalService.GetInitial(container).TryLast(predicate);
+        }
 
         var current = container;
 

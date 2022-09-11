@@ -18,7 +18,9 @@ public static class ContainerWhereMethodsExtensions
     {
         if (strategy == TraversalStrategy.Current) return container.Where(predicate);
         if (strategy == TraversalStrategy.Initial)
+        {
             return TraversalService.GetInitial(container).Where(predicate);
+        }
 
         var components = new List<T>(container.Where(predicate));
 
