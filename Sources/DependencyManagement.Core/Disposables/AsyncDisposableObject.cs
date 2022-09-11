@@ -1,7 +1,9 @@
 namespace DependencyManagement.Core.Disposables;
 
+using Delegates;
+
 /// <inheritdoc cref="DependencyManagement.Core.Disposables.AsyncDisposable" />
-public class AsyncDisposableObject<T> : AsyncDisposable<T>, IAsyncDisposableObject where T : notnull
+public class AsyncDisposableObject<T> : AsyncDisposable<T>, IDisposableObject where T : notnull
 {
     /// <param name="value">The value to dispose.</param>
     /// <param name="dispose">The action to perform when disposing the value.</param>
@@ -10,7 +12,7 @@ public class AsyncDisposableObject<T> : AsyncDisposable<T>, IAsyncDisposableObje
         : base(value, asyncDispose, dispose) { }
 
     /// <inheritdoc />
-    public event Action<object>? OnDisposing;
+    public event DisposingDelegate? Disposing;
 
     /// <inheritdoc />
     public new bool IsDisposed => base.IsDisposed;
@@ -18,16 +20,16 @@ public class AsyncDisposableObject<T> : AsyncDisposable<T>, IAsyncDisposableObje
     /// <inheritdoc />
     protected override void DisposeCore(bool disposing)
     {
-        OnDisposing?.Invoke(this);
+        Disposing?.Invoke(this);
         base.DisposeCore(disposing);
     }
 }
 
 /// <inheritdoc cref="DependencyManagement.Core.Disposables.AsyncDisposable" />
-public abstract class AsyncDisposableObject : AsyncDisposable, IAsyncDisposableObject
+public abstract class AsyncDisposableObject : AsyncDisposable, IDisposableObject
 {
     /// <inheritdoc />
-    public event Action<object>? OnDisposing;
+    public event DisposingDelegate? Disposing;
 
     /// <inheritdoc />
     public new bool IsDisposed => base.IsDisposed;
@@ -35,7 +37,7 @@ public abstract class AsyncDisposableObject : AsyncDisposable, IAsyncDisposableO
     /// <inheritdoc />
     protected override void DisposeCore(bool disposing)
     {
-        OnDisposing?.Invoke(this);
+        Disposing?.Invoke(this);
         base.DisposeCore(disposing);
     }
 }
