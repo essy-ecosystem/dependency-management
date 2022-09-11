@@ -32,7 +32,7 @@ public class Container : AsyncDisposableObject, IContainer
 
     public bool Contains<T>(T component) where T : class, IComponent
     {
-        ThrowUtils.ThrowIfNull(component);
+        Thrower.ThrowIfArgumentNull(component);
 
         return _components.TryGetValue(typeof(T), out var components)
             && components.Contains(component);
@@ -45,7 +45,8 @@ public class Container : AsyncDisposableObject, IContainer
 
     public void Add<T>(T component) where T : class, IComponent
     {
-        ThrowUtils.ThrowIfNull(component);
+        Thrower.ThrowIfArgumentNull(component);
+        
         if (IsDisposed) throw new ObjectDisposedException(nameof(Container));
 
         var type = typeof(T);
@@ -61,7 +62,7 @@ public class Container : AsyncDisposableObject, IContainer
 
     public bool Remove<T>(T component) where T : class, IComponent
     {
-        ThrowUtils.ThrowIfNull(component);
+        Thrower.ThrowIfArgumentNull(component);
 
         if (!_components.TryGetValue(typeof(T), out var components)) return false;
 
