@@ -8,13 +8,13 @@ public abstract class MethodProvider<T> : Provider<T> where T : notnull
 
     protected MethodProvider()
     {
-        _cache = GetInstanceCore;
+        _cache = CreateInstanceCore;
     }
 
-    public override T GetInstance(IReadOnlyContainer container)
+    public override T CreateInstance(IReadOnlyContainer container)
     {
         return _cache(container);
     }
 
-    protected abstract T GetInstanceCore(IReadOnlyContainer container);
+    protected abstract T CreateInstanceCore(IReadOnlyContainer container);
 }

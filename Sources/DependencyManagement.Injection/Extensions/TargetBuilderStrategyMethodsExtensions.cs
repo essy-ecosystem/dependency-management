@@ -30,28 +30,28 @@ public static class TargetBuilderStrategyMethodsExtensions
         return builder.With(() => new LambdaProvider<T>(instance));
     }
 
-    public static ITarget<T> ToSingleton<T>(this IStrategyTargetBuilder<T> builder) where T : class
+    public static void ToSingleton<T>(this IStrategyTargetBuilder<T> builder) where T : class
     {
-        return builder.To<SingletonStrategy>();
+        builder.To<SingletonStrategy>();
     }
 
-    public static ITarget<T> ToTransient<T>(this IStrategyTargetBuilder<T> builder) where T : class
+    public static void ToTransient<T>(this IStrategyTargetBuilder<T> builder) where T : class
     {
-        return builder.To<TransientStrategy>();
+        builder.To<TransientStrategy>();
     }
 
-    public static ITarget<T> ToContainer<T>(this IStrategyTargetBuilder<T> builder) where T : class
+    public static void ToScope<T>(this IStrategyTargetBuilder<T> builder) where T : class
     {
-        return builder.To<ContainerStrategy>();
+        builder.To<ScopeStrategy>();
     }
 
-    public static ITarget<T> ToThread<T>(this IStrategyTargetBuilder<T> builder) where T : class
+    public static void ToIsolatedSingleton<T>(this IStrategyTargetBuilder<T> builder) where T : class
     {
-        return builder.To<ThreadStrategy>();
+        builder.To<IsolatedSingletonStrategy>();
     }
 
-    public static ITarget<T> ToThreadContainer<T>(this IStrategyTargetBuilder<T> builder) where T : class
+    public static void ToIsolatedScope<T>(this IStrategyTargetBuilder<T> builder) where T : class
     {
-        return builder.To<ThreadContainerStrategy>();
+        builder.To<IsolatedScopeStrategy>();
     }
 }

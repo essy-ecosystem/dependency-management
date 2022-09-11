@@ -5,5 +5,7 @@ using Composition.Containers;
 
 public abstract class Provider<T> : Component, IProvider<T> where T : notnull
 {
-    public abstract T GetInstance(IReadOnlyContainer container);
+    public abstract T CreateInstance(IReadOnlyContainer container);
+    
+    object IProvider.CreateInstance(IReadOnlyContainer container) => CreateInstance(container);
 }
