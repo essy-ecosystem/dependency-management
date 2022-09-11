@@ -36,7 +36,7 @@ public sealed class ReadOnlyTargetList<T> : Disposable, IReadOnlyList<T> where T
     {
         if (!_cache.TryGetValue(target, out var instance))
         {
-            instance = target.GetInstance(_container);
+            instance = target.ProvideInstance(_container);
             _cache.TryAdd(target, instance);
         }
 
@@ -93,7 +93,7 @@ public sealed class ReadOnlyTargetList<T> : Disposable, IReadOnlyList<T> where T
         {
             if (!_cache.TryGetValue(target, out var instance))
             {
-                instance = target.GetInstance(_container);
+                instance = target.ProvideInstance(_container);
                 _cache.TryAdd(target, instance);
             }
 
