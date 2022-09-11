@@ -3,7 +3,7 @@ namespace DependencyManagement.Composition.Containers;
 using Components;
 using Core.Disposables;
 
-public interface IReadOnlyContainer : IDisposable, IAsyncDisposableObject
+public interface IReadOnlyContainer : IDisposable, IAsyncDisposable, IDisposableObject
 {
     IReadOnlyContainer? Father { get; }
 
