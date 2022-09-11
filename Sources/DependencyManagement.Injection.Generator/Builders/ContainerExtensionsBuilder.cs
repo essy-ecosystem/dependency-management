@@ -52,7 +52,7 @@ internal class ContainerExtensionsBuilder
         builder.AppendLine();
         builder.AppendLine($"    public static T {methodDisplayName}<T>(this T container) where T : class, IContainer");
         builder.AppendLine("    {");
-        builder.AppendLine("        var rootContainer = ContainerTreeUtils.GetLast(container);");
+        builder.AppendLine("        var rootContainer = TraversalService.GetInitial(container);");
         foreach (var providedType in _providedTypes)
         {
             builder.AppendLine(
