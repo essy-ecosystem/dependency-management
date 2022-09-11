@@ -5,20 +5,20 @@ using Containers;
 using Enums;
 using Utils;
 
-public static class CompositeClearMethodsExtensions
+public static class ContainerClearMethodsExtensions
 {
-    public static void Clear<T>(this IContainer container, CompositeTraversalStrategy strategy)
+    public static void Clear<T>(this IContainer container, TraversalStrategy strategy)
         where T : class, IComponent
     {
-        if (strategy == CompositeTraversalStrategy.Current)
+        if (strategy == TraversalStrategy.Current)
         {
             container.Clear<T>();
             return;
         }
 
-        if (strategy == CompositeTraversalStrategy.Initial)
+        if (strategy == TraversalStrategy.Initial)
         {
-            ContainerTreeUtils.GetLast(container).Clear<T>();
+            TraversalService.GetInitial(container).Clear<T>();
             return;
         }
 
@@ -36,7 +36,7 @@ public static class CompositeClearMethodsExtensions
         container.Clear<ILazyComponent<T>>();
     }
 
-    public static void ClearLazy<T>(this IContainer container, CompositeTraversalStrategy strategy)
+    public static void ClearLazy<T>(this IContainer container, TraversalStrategy strategy)
         where T : class, IComponent
     {
         container.Clear<ILazyComponent<T>>(strategy);

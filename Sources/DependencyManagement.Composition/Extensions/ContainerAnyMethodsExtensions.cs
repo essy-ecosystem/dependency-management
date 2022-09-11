@@ -5,13 +5,13 @@ using Containers;
 using Enums;
 using Utils;
 
-public static class CompositeAnyMethodsExtensions
+public static class ContainerAnyMethodsExtensions
 {
-    public static bool Any<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy)
+    public static bool Any<T>(this IReadOnlyContainer container, TraversalStrategy strategy)
         where T : class, IComponent
     {
-        if (strategy == CompositeTraversalStrategy.Current) return container.Any<T>();
-        if (strategy == CompositeTraversalStrategy.Initial) return ContainerTreeUtils.GetLast(container).Any<T>();
+        if (strategy == TraversalStrategy.Current) return container.Any<T>();
+        if (strategy == TraversalStrategy.Initial) return TraversalService.GetInitial(container).Any<T>();
 
         if (container.Any<T>()) return true;
 
@@ -29,7 +29,7 @@ public static class CompositeAnyMethodsExtensions
         return container.Any<ILazyComponent<T>>();
     }
 
-    public static bool AnyLazy<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy)
+    public static bool AnyLazy<T>(this IReadOnlyContainer container, TraversalStrategy strategy)
         where T : class, IComponent
     {
         return container.Any<ILazyComponent<T>>(strategy);

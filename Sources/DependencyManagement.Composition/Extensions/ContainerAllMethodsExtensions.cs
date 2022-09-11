@@ -5,13 +5,13 @@ using Containers;
 using Enums;
 using Utils;
 
-public static class CompositeAllMethodsExtensions
+public static class ContainerAllMethodsExtensions
 {
-    public static IReadOnlyList<T> All<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy)
+    public static IReadOnlyList<T> All<T>(this IReadOnlyContainer container, TraversalStrategy strategy)
         where T : class, IComponent
     {
-        if (strategy == CompositeTraversalStrategy.Current || container.Father is null) return container.All<T>();
-        if (strategy == CompositeTraversalStrategy.Initial) return ContainerTreeUtils.GetLast(container).All<T>();
+        if (strategy == TraversalStrategy.Current || container.Father is null) return container.All<T>();
+        if (strategy == TraversalStrategy.Initial) return TraversalService.GetInitial(container).All<T>();
 
         var components = new List<T>(container.All<T>());
 
@@ -31,7 +31,7 @@ public static class CompositeAllMethodsExtensions
     }
 
     public static IReadOnlyList<ILazyComponent<T>> AllLazy<T>(this IReadOnlyContainer container,
-        CompositeTraversalStrategy strategy) where T : class, IComponent
+        TraversalStrategy strategy) where T : class, IComponent
     {
         return container.All<ILazyComponent<T>>(strategy);
     }
