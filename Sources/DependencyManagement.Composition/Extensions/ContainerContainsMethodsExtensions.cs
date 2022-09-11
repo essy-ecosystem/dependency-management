@@ -5,14 +5,14 @@ using Containers;
 using Enums;
 using Utils;
 
-public static class CompositeContainsMethodsExtensions
+public static class ContainerContainsMethodsExtensions
 {
-    public static bool Contains<T>(this IReadOnlyContainer container, T component, CompositeTraversalStrategy strategy)
+    public static bool Contains<T>(this IReadOnlyContainer container, T component, TraversalStrategy strategy)
         where T : class, IComponent
     {
-        if (strategy == CompositeTraversalStrategy.Current) return container.Contains(component);
-        if (strategy == CompositeTraversalStrategy.Initial)
-            return ContainerTreeUtils.GetLast(container).Contains(component);
+        if (strategy == TraversalStrategy.Current) return container.Contains(component);
+        if (strategy == TraversalStrategy.Initial)
+            return TraversalService.GetInitial(container).Contains(component);
 
         if (container.Contains(component)) return true;
 
@@ -31,7 +31,7 @@ public static class CompositeContainsMethodsExtensions
         return container.Where(predicate).Any();
     }
 
-    public static bool Contains<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy,
+    public static bool Contains<T>(this IReadOnlyContainer container, TraversalStrategy strategy,
         Predicate<T> predicate) where T : class, IComponent
     {
         return container.Where(strategy, predicate).Any();
@@ -44,7 +44,7 @@ public static class CompositeContainsMethodsExtensions
     }
 
     public static bool ContainsLazy<T>(this IReadOnlyContainer container, ILazyComponent<T> component,
-        CompositeTraversalStrategy strategy)
+        TraversalStrategy strategy)
         where T : class, IComponent
     {
         return container.Contains(component, strategy);
@@ -57,7 +57,7 @@ public static class CompositeContainsMethodsExtensions
     }
 
     public static bool ContainsLazy<T>(this IReadOnlyContainer container, T component,
-        CompositeTraversalStrategy strategy)
+        TraversalStrategy strategy)
         where T : class, IComponent
     {
         return container.ContainsLazy<T>(strategy, lazy => lazy.IsValueCreated && lazy.Value == component);
@@ -69,7 +69,7 @@ public static class CompositeContainsMethodsExtensions
         return container.Contains(predicate);
     }
 
-    public static bool ContainsLazy<T>(this IReadOnlyContainer container, CompositeTraversalStrategy strategy,
+    public static bool ContainsLazy<T>(this IReadOnlyContainer container, TraversalStrategy strategy,
         Predicate<ILazyComponent<T>> predicate) where T : class, IComponent
     {
         return container.Contains(strategy, predicate);

@@ -4,7 +4,7 @@ using Components;
 using Containers;
 using Enums;
 
-public static class CompositeAddMethodsExtensions
+public static class ContainerAddMethodsExtensions
 {
     public static void AddLazy<T>(this IContainer container, ILazyComponent<T> component) where T : class, IComponent
     {
@@ -18,10 +18,10 @@ public static class CompositeAddMethodsExtensions
 
     public static bool TryAdd<T>(this IContainer container, T component) where T : class, IComponent
     {
-        return container.TryAdd(component, CompositeTraversalStrategy.Current);
+        return container.TryAdd(component, TraversalStrategy.Current);
     }
 
-    public static bool TryAdd<T>(this IContainer container, T component, CompositeTraversalStrategy strategy)
+    public static bool TryAdd<T>(this IContainer container, T component, TraversalStrategy strategy)
         where T : class, IComponent
     {
         if (container.Contains(component, strategy)) return false;
@@ -35,7 +35,7 @@ public static class CompositeAddMethodsExtensions
     }
 
     public static bool TryAddLazy<T>(this IContainer container, ILazyComponent<T> component,
-        CompositeTraversalStrategy strategy) where T : class, IComponent
+        TraversalStrategy strategy) where T : class, IComponent
     {
         return container.TryAdd(component, strategy);
     }
@@ -46,7 +46,7 @@ public static class CompositeAddMethodsExtensions
     }
 
     public static bool TryAddLazy<T>(this IContainer container, Func<T> component,
-        CompositeTraversalStrategy strategy) where T : class, IComponent
+        TraversalStrategy strategy) where T : class, IComponent
     {
         return container.TryAddLazy(new LazyComponent<T>(component), strategy);
     }

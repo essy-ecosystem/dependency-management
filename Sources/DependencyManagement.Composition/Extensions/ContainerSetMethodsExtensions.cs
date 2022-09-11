@@ -4,14 +4,14 @@ using Components;
 using Containers;
 using Enums;
 
-public static class CompositeSetMethodsExtensions
+public static class ContainerSetMethodsExtensions
 {
     public static void Set<T>(this IContainer container, T component) where T : class, IComponent
     {
-        container.Set(component, CompositeTraversalStrategy.Current);
+        container.Set(component, TraversalStrategy.Current);
     }
 
-    public static void Set<T>(this IContainer container, T component, CompositeTraversalStrategy strategy)
+    public static void Set<T>(this IContainer container, T component, TraversalStrategy strategy)
         where T : class, IComponent
     {
         container.Clear<T>(strategy);
@@ -20,10 +20,10 @@ public static class CompositeSetMethodsExtensions
 
     public static bool TrySet<T>(this IContainer container, T component) where T : class, IComponent
     {
-        return container.TrySet(component, CompositeTraversalStrategy.Current);
+        return container.TrySet(component, TraversalStrategy.Current);
     }
 
-    public static bool TrySet<T>(this IContainer container, T component, CompositeTraversalStrategy strategy)
+    public static bool TrySet<T>(this IContainer container, T component, TraversalStrategy strategy)
         where T : class, IComponent
     {
         var any = container.Any<T>();
@@ -37,7 +37,7 @@ public static class CompositeSetMethodsExtensions
     }
 
     public static void SetLazy<T>(this IContainer container, ILazyComponent<T> component,
-        CompositeTraversalStrategy strategy) where T : class, IComponent
+        TraversalStrategy strategy) where T : class, IComponent
     {
         container.Set(component, strategy);
     }
@@ -47,7 +47,7 @@ public static class CompositeSetMethodsExtensions
         container.SetLazy(new LazyComponent<T>(component));
     }
 
-    public static void SetLazy<T>(this IContainer container, Func<T> component, CompositeTraversalStrategy strategy)
+    public static void SetLazy<T>(this IContainer container, Func<T> component, TraversalStrategy strategy)
         where T : class, IComponent
     {
         container.SetLazy(new LazyComponent<T>(component), strategy);
@@ -59,7 +59,7 @@ public static class CompositeSetMethodsExtensions
     }
 
     public static bool TrySetLazy<T>(this IContainer container, ILazyComponent<T> component,
-        CompositeTraversalStrategy strategy) where T : class, IComponent
+        TraversalStrategy strategy) where T : class, IComponent
     {
         return container.TrySet(component, strategy);
     }
@@ -69,7 +69,7 @@ public static class CompositeSetMethodsExtensions
         return container.TrySetLazy(new LazyComponent<T>(component));
     }
 
-    public static bool TrySetLazy<T>(this IContainer container, Func<T> component, CompositeTraversalStrategy strategy)
+    public static bool TrySetLazy<T>(this IContainer container, Func<T> component, TraversalStrategy strategy)
         where T : class, IComponent
     {
         return container.TrySetLazy(new LazyComponent<T>(component), strategy);

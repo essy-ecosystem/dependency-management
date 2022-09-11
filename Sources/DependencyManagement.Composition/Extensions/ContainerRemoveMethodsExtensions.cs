@@ -5,14 +5,14 @@ using Containers;
 using Enums;
 using Utils;
 
-public static class CompositeRemoveMethodsExtensions
+public static class ContainerRemoveMethodsExtensions
 {
-    public static bool Remove<T>(this IContainer container, T component, CompositeTraversalStrategy strategy)
+    public static bool Remove<T>(this IContainer container, T component, TraversalStrategy strategy)
         where T : class, IComponent
     {
-        if (strategy == CompositeTraversalStrategy.Current) return container.Remove(component);
-        if (strategy == CompositeTraversalStrategy.Initial)
-            return ContainerTreeUtils.GetLast(container).Remove(component);
+        if (strategy == TraversalStrategy.Current) return container.Remove(component);
+        if (strategy == TraversalStrategy.Initial)
+            return TraversalService.GetInitial(container).Remove(component);
 
         if (container.Remove(component)) return true;
 
@@ -41,12 +41,12 @@ public static class CompositeRemoveMethodsExtensions
         return result;
     }
 
-    public static bool Remove<T>(this IContainer container, CompositeTraversalStrategy strategy, Predicate<T> predicate)
+    public static bool Remove<T>(this IContainer container, TraversalStrategy strategy, Predicate<T> predicate)
         where T : class, IComponent
     {
-        if (strategy == CompositeTraversalStrategy.Current) return container.Remove(predicate);
-        if (strategy == CompositeTraversalStrategy.Initial)
-            return ContainerTreeUtils.GetLast(container).Remove(predicate);
+        if (strategy == TraversalStrategy.Current) return container.Remove(predicate);
+        if (strategy == TraversalStrategy.Initial)
+            return TraversalService.GetInitial(container).Remove(predicate);
 
         var result = container.Remove(predicate);
 
@@ -65,7 +65,7 @@ public static class CompositeRemoveMethodsExtensions
     }
 
     public static bool RemoveLazy<T>(this IContainer container, ILazyComponent<T> component,
-        CompositeTraversalStrategy strategy) where T : class, IComponent
+        TraversalStrategy strategy) where T : class, IComponent
     {
         return container.Remove(component, strategy);
     }
@@ -76,7 +76,7 @@ public static class CompositeRemoveMethodsExtensions
             .FirstLazy<T>(lazy => lazy.IsValueCreated && lazy.Value == component));
     }
 
-    public static bool RemoveLazy<T>(this IContainer container, T component, CompositeTraversalStrategy strategy)
+    public static bool RemoveLazy<T>(this IContainer container, T component, TraversalStrategy strategy)
         where T : class, IComponent
     {
         return container.RemoveLazy(container
@@ -89,7 +89,7 @@ public static class CompositeRemoveMethodsExtensions
         return container.Remove(predicate);
     }
 
-    public static bool RemoveLazy<T>(this IContainer container, CompositeTraversalStrategy strategy,
+    public static bool RemoveLazy<T>(this IContainer container, TraversalStrategy strategy,
         Predicate<ILazyComponent<T>> predicate) where T : class, IComponent
     {
         return container.Remove(strategy, predicate);
