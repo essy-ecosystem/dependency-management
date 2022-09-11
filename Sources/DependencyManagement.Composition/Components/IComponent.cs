@@ -8,4 +8,4 @@ using Core.Disposables;
 /// Also, this object is disposable (asynchronously too).
 /// His lifetime is managed by the <see cref="IContainer" />.
 /// </summary>
-public interface IComponent : IDisposable, IAsyncDisposableObject { }
+public interface IComponent : IDisposable, IAsyncDisposable, IDisposableObject { }
