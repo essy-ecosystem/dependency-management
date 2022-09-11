@@ -14,7 +14,7 @@ public class ModuleBuilder<T> : IModuleBuilder<T> where T : class, IModule, new(
     public ModuleBuilder(IContainer container)
     {
         _container = container;
-        _module = () => ContainerTreeUtils.GetLast(container).LastLazy<T>().Value;
+        _module = () => TraversalService.GetInitial(container).LastLazy<T>().Value;
     }
 
     public IActivationModuleBuilder<T> With(Func<T> module)

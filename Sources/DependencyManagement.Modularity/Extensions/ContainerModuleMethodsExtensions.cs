@@ -5,10 +5,10 @@ using Composition.Extensions;
 using Composition.Utils;
 using Modules;
 
-public static class CompositeModuleMethodsExtensions
+public static class ContainerModuleMethodsExtensions
 {
     public static bool TrySetLazyModule<T>(this IContainer container, Func<T> module) where T : class, IModule
     {
-        return ContainerTreeUtils.GetLast(container).TrySetLazy(module);
+        return TraversalService.GetInitial(container).TrySetLazy(module);
     }
 }
