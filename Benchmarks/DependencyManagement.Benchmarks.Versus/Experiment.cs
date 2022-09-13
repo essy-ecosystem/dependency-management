@@ -16,34 +16,34 @@ using Ninject;
 public class Experiment
 {
     [Benchmark(Description = "DependencyManagement")]
-    public void RunManagement()
+    public Service RunManagement()
     {
-        var container = new Container().WithStrategies().WithProviders();
+        using var container = new Container().WithStrategies().WithProviders();
         container.AddTarget<Service>().ToSingleton();
-        var service = container.LastInstance<Service>();
+        return container.LastInstance<Service>();
     }
     
     [Benchmark(Description = "MSDependencyInjection")]
-    public void RunDependencyInjection()
+    public Service RunDependencyInjection()
     {
-        var provider = new ServiceCollection().AddSingleton<Service>().BuildServiceProvider();
-        var service = provider.GetService<Service>();
+        using var provider = new ServiceCollection().AddSingleton<Service>().BuildServiceProvider();
+        return provider.GetRequiredService<Service>();
     }
     
     [Benchmark(Description = "Autofac")]
-    public void RunAutofac()
+    public Service RunAutofac()
     {
         var builder = new ContainerBuilder();
         builder.RegisterType<Service>().SingleInstance();
-        var container = builder.Build();
-        var service = container.Resolve<Service>();
+        using var container = builder.Build();
+        return container.Resolve<Service>();
     }
     
     [Benchmark(Description = "Ninject")]
-    public void RunNinject()
+    public Service RunNinject()
     {
-        var kernel = new Ninject.StandardKernel();
+        using var kernel = new StandardKernel();
         kernel.Bind<Service>().ToSelf().InSingletonScope();
-        var service = kernel.Get<Service>();
+        return kernel.Get<Service>();
     }
 }

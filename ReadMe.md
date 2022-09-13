@@ -131,16 +131,16 @@ Intel Core i9-9880H CPU 2.30GHz, 1 CPU, 16 logical and 8 physical cores
   .NET 7.0      : .NET 7.0.0 (7.0.22.32404), X64 RyuJIT AVX2
 ```
 
-|                Method |       Runtime |      Mean | Allocated |     Error |    StdDev |    Median |    Gen0 |   Gen1 |   Gen2 |
-|---------------------- |-------------- |----------:|----------:|----------:|----------:|----------:|--------:|-------:|-------:|
-|  DependencyManagement | NativeAOT 7.0 |  10.11 us |   5.88 KB |  0.237 us |  0.676 us |  10.05 us |  2.9297 | 2.7161 | 0.1068 |
-|  DependencyManagement |      .NET 7.0 |  19.63 us |   5.88 KB |  0.363 us |  0.532 us |  19.63 us |  3.0212 | 2.5330 | 0.1831 |
-|               Autofac | NativeAOT 7.0 |  20.96 us |  19.38 KB |  0.459 us |  1.303 us |  20.56 us |  9.4910 | 9.4604 |      - |
-|               Autofac |      .NET 7.0 |  21.75 us |  19.38 KB |  0.339 us |  0.300 us |  21.74 us |  9.3689 | 9.3384 |      - |
-| MSDependencyInjection |      .NET 7.0 |  34.42 us |   5.77 KB |  3.169 us |  9.193 us |  36.33 us | 34.8969 | 1.3275 |      - |
-| MSDependencyInjection | NativeAOT 7.0 |  52.93 us |   5.77 KB |  8.672 us | 25.298 us |  47.85 us | 34.9579 | 1.3504 |      - |
-|               Ninject |      .NET 7.0 | 586.78 us |  29.58 KB | 28.346 us | 83.578 us | 577.85 us | 15.6250 | 1.9531 |      - |
-|               Ninject | NativeAOT 7.0 | 835.09 us |  29.25 KB | 32.496 us | 88.406 us | 827.90 us | 13.6719 | 0.9766 |      - |
+|                Method |           Job |       Runtime |       Mean |      Error |     StdDev |     Gen0 |    Gen1 | Allocated |
+|---------------------- |-------------- |-------------- |-----------:|-----------:|-----------:|---------:|--------:|----------:|
+| MSDependencyInjection | NativeAOT 7.0 | NativeAOT 7.0 |   4.877 us |  0.0932 us |  0.0998 us |  36.1786 |       - |   5.77 KB |
+| MSDependencyInjection |      .NET 7.0 |      .NET 7.0 |   5.055 us |  0.0621 us |  0.0550 us |  36.1786 |       - |   5.77 KB |
+|  DependencyManagement | NativeAOT 7.0 | NativeAOT 7.0 |   7.750 us |  0.0834 us |  0.0697 us |  37.6434 |       - |   6.01 KB |
+|  DependencyManagement |      .NET 7.0 |      .NET 7.0 |   8.153 us |  0.1041 us |  0.0973 us |  37.6434 |       - |   6.01 KB |
+|               Autofac | NativeAOT 7.0 | NativeAOT 7.0 |  24.491 us |  0.3315 us |  0.2939 us |  68.1152 |  3.7231 |  19.93 KB |
+|               Autofac |      .NET 7.0 |      .NET 7.0 |  25.515 us |  0.4707 us |  0.4173 us |  55.2063 |  4.0283 |  19.92 KB |
+|               Ninject |      .NET 7.0 |      .NET 7.0 | 423.103 us |  8.4147 us | 13.8256 us | 184.0820 | 10.2539 |  30.24 KB |
+|               Ninject | NativeAOT 7.0 | NativeAOT 7.0 | 688.578 us | 13.1108 us | 12.8765 us | 186.5234 | 10.7422 |  30.35 KB |
 
 
 ## Contributing
