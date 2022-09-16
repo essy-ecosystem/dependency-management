@@ -12,13 +12,10 @@
     <ItemGroup>
         <ProjectReference Include="..\..\Sources\DependencyManagement.Injection\DependencyManagement.Injection.csproj" />
         <ProjectReference Include="..\..\Sources\DependencyManagement.Injection.Generator\DependencyManagement.Injection.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="Autofac" Version="6.4.0" />
-      <PackageReference Include="BenchmarkDotNet" Version="0.13.2" />
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0-preview.7.22375.6" />
-      <PackageReference Include="Ninject" Version="3.3.6" />
+        <PackageReference Include="Autofac" Version="6.4.0" />
+        <PackageReference Include="BenchmarkDotNet" Version="0.13.2" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0-preview.7.22375.6" />
+        <PackageReference Include="Ninject" Version="3.3.6" />
     </ItemGroup>
 
 </Project>
