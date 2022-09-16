@@ -20,5 +20,7 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-#   - name: Test
+    - name: Benchmarks
+      run: cd Benchmarks/DependencyManagement.Benchmarks.Versus && dotnet run -c Release -r osx-x64 -f net7.0
+#   - name: Tests
 #     run: dotnet test --no-build --verbosity normal
