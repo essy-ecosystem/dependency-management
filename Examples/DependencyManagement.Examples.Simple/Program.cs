@@ -3,7 +3,7 @@ using DependencyManagement.Composition.Enums;
 using DependencyManagement.Examples.Simple;
 using DependencyManagement.Injection.Extensions;
 
-await using var container = new Container()
+var container = new Container()
     .WithStrategies()
     .WithProviders();
 
@@ -13,6 +13,4 @@ container.SetTarget<ExampleService>()
 
 container.SetTarget<ModernExampleService>().ToTransient();
 
-using var service = container.LastInstance<ModernExampleService>();
-
-Console.WriteLine(service.GetHashCode());
+var service = container.LastInstance<ModernExampleService>();
