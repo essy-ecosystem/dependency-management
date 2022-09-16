@@ -23,7 +23,7 @@ public sealed class TransientStrategy : Strategy
 
         Thrower.ThrowIfArgumentNull(context.Container);
         Thrower.ThrowIfObjectDisposed(context.Container);
-
+        
         Thrower.ThrowIfArgumentNull(context.Provider);
         Thrower.ThrowIfObjectDisposed(context.Provider);
 
@@ -61,18 +61,13 @@ public sealed class TransientStrategy : Strategy
 
     private void AddInstanceToDisposableCollection(IReadOnlyContainer container, object instance)
     {
-        if (_disposablesCollections.TryGetValue(container, out var disposableCollection))
+        var disposableCollection = _disposablesCollections.GetOrAdd(container, currentContainer =>
         {
-            disposableCollection.Add(instance);
-            return;
-        }
+            currentContainer.Disposing += OnContainerDisposing;
+            return new DisposableCollection();
+        });
 
-        container.Disposing += OnContainerDisposing;
-
-        var initialDisposableCollection = new DisposableCollection(instance);
-        if (_disposablesCollections.TryAdd(container, initialDisposableCollection)) return;
-
-        AddInstanceToDisposableCollection(container, instance);
+        disposableCollection.Add(instance);
     }
 
     private void OnContainerDisposing(object sender)

@@ -1,21 +1,20 @@
 ﻿using DependencyManagement.Composition.Containers;
-using DependencyManagement.Composition.Enums;
+using DependencyManagement.Composition.Extensions;
 using DependencyManagement.Examples.Scopes;
 using DependencyManagement.Injection.Extensions;
 
-await using var applicationContainer = new Container()
+await using IContainer applicationContainer = new Container()
     .WithStrategies()
     .WithProviders();
 
-applicationContainer.SetTarget<ModernExampleService>().ToScope();
+applicationContainer.AddTarget<ExampleService>().ToScope();
 
 while (true)
 {
-    await using var frameContainer = new Container(applicationContainer);
+    await using IScope applicationScope = new Scope(applicationContainer);
+
+    var service = applicationScope.LastInstance<ExampleService>();
     
-    frameContainer.AddTarget<ExampleService>().ToSingleton();
-    
-    using var service = frameContainer.LastInstance<ModernExampleService>(TraversalStrategy.Inherit);
-    
-    Console.WriteLine(service.GetHashCode());
+    Console.WriteLine(service.Id);
 }
+

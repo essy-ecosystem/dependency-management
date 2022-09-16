@@ -33,13 +33,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\DependencyManagement.Core\DependencyManagement.Core.csproj"/>
+        <ProjectReference Include="..\DependencyManagement.Core\DependencyManagement.Core.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="..\..\Assets\icon-128.png" Pack="true" Visible="false" PackagePath=""/>
-        <None Include="..\..\License.txt" Pack="true" Visible="false" PackagePath=""/>
-        <None Include="..\..\ReadMe.md" Pack="true" Visible="false" PackagePath=""/>
+        <None Include="..\..\Assets\icon-128.png" Pack="true" Visible="false" PackagePath="" />
+        <None Include="..\..\License.txt" Pack="true" Visible="false" PackagePath="" />
+        <None Include="..\..\ReadMe.md" Pack="true" Visible="false" PackagePath="" />
     </ItemGroup>
 
 </Project>

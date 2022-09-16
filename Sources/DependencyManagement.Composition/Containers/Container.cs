@@ -2,6 +2,7 @@ namespace DependencyManagement.Composition.Containers;
 
 using System.Collections;
 using System.Collections.Concurrent;
+using System.Runtime.CompilerServices;
 using Components;
 using Core.Caches;
 using Core.Disposables;
@@ -10,6 +11,7 @@ using Core.Utils;
 public class Container : AsyncDisposableObject, IContainer
 {
     private readonly ConcurrentDictionary<Type, IList> _components = new();
+    
     private readonly DisposableCollection _disposableCollection = new();
 
     public Container() { }
@@ -26,8 +28,8 @@ public class Container : AsyncDisposableObject, IContainer
     public IReadOnlyList<T> All<T>() where T : class, IComponent
     {
         return _components.TryGetValue(typeof(T), out var components)
-            ? (IReadOnlyList<T>)components
-            : new List<T>();
+            ? Unsafe.As<IReadOnlyList<T>>(components)
+            : Array.Empty<T>();
     }
 
     public bool Contains<T>(T component) where T : class, IComponent
