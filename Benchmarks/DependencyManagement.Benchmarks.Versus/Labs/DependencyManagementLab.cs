@@ -20,12 +20,12 @@ public sealed class DependencyManagementLab : Lab
 
     public override void Singleton()
     {
-        JIT(_container!.LastInstance<IService>());
+        JIT(_container!.FirstInstance<IService>());
     }
 
     public override void Transient()
     {
-        JIT(_container!.LastInstance<IRepository>());
+        JIT(_container!.FirstInstance<IRepository>());
     }
 
     public override void Dispose()
@@ -36,8 +36,8 @@ public sealed class DependencyManagementLab : Lab
     private IContainer CreateContainer()
     {
         IContainer container = new Container().WithStrategies().WithProviders();
-        container.AddTarget<Repository>().As<IRepository>().With(_ => new()).ToTransient();
-        container.AddTarget<Service>().As<IService>().With(c => new(c.LastInstance<IRepository>())).ToSingleton();
+        container.AddTarget<Repository>().As<IRepository>().ToTransient();
+        container.AddTarget<Service>().As<IService>().ToSingleton();
         return container;
     }
 }

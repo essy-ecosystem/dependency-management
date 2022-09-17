@@ -1,5 +1,4 @@
 ﻿using DependencyManagement.Composition.Containers;
-using DependencyManagement.Composition.Extensions;
 using DependencyManagement.Examples.Scopes;
 using DependencyManagement.Injection.Extensions;
 
@@ -9,12 +8,15 @@ await using IContainer applicationContainer = new Container()
 
 applicationContainer.AddTarget<ExampleService>().ToScope();
 
-while (true)
+for (var i = 0; i < 10; i++)
 {
     await using IScope applicationScope = new Scope(applicationContainer);
 
-    var service = applicationScope.LastInstance<ExampleService>();
+    var service1 = applicationScope.LastInstance<ExampleService>();
+    var service2 = applicationScope.LastInstance<ExampleService>();
     
-    Console.WriteLine(service.Id);
+    Console.WriteLine(service1.GetHashCode());
+    Console.WriteLine(service2.GetHashCode());
+    Console.WriteLine();
 }
 

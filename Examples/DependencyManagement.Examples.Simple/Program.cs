@@ -14,3 +14,5 @@ container.SetTarget<ExampleService>()
 container.SetTarget<ModernExampleService>().ToTransient();
 
 var service = container.LastInstance<ModernExampleService>();
+
+Console.WriteLine(service.GetHashCode());
