@@ -4,24 +4,25 @@ using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Engines;
 using BenchmarkDotNet.Jobs;
 
-[SimpleJob(RunStrategy.Throughput, RuntimeMoniker.Net70)]
+[SimpleJob(RunStrategy.Monitoring, RuntimeMoniker.Net70, invocationCount: 10, targetCount: 10)]
+[SimpleJob(RunStrategy.Monitoring, RuntimeMoniker.NativeAot70, invocationCount: 10, targetCount: 10)]
 public class TransientStartup : Startup
 {
     [Benchmark(Description = "Dependency Management - Transient", Baseline = true)]
     public void RunTransientDependencyManagement()
     {
-        DependencyManagementLab.Transient();
+        DependencyManagementLab!.Transient();
     }
     
     [Benchmark(Description = "Microsoft Dependency Injection - Transient")]
     public void RunTransientDependencyInjection()
     {
-        MicrosoftDependencyInjectionLab.Transient();
+        MicrosoftDependencyInjectionLab!.Transient();
     }
     
     [Benchmark(Description = "Autofac - Transient")]
     public void RunTransientAutofac()
     {
-        AutofacLab.Transient();
+        AutofacLab!.Transient();
     }
 }
