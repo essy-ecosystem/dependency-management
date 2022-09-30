@@ -15,17 +15,16 @@ public sealed class ProvidersGenerator : IIncrementalGenerator
         var providedTypes = context.SyntaxProvider.Transform(
                 new ProvidersRegistrationTypesSyntaxDiscover(),
                 new ProvidersRegistrationTypesSyntaxTransformer())
-            .Where(providedType => providedType is not null)
-            .Select((providedType, _) => providedType!)
+            .Where(static providedType => providedType is not null)
             .Collect();
 
         context.RegisterSourceOutput(providedTypes, static (context, providedTypes) =>
         {
             Parallel.ForEach(providedTypes, providedType =>
             {
-                var builder = new ProviderBuilder(providedType);
+                var builder = new ProviderBuilder(providedType!);
 
-                context.AddSource($"{providedType.Type.Name}GeneratedProvider.{nameof(ProvidersGenerator)}.cs",
+                context.AddSource($"{providedType!.Type.Name}GeneratedProvider.{nameof(ProvidersGenerator)}.cs",
                     builder.ToString());
             });
         });
