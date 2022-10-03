@@ -27,7 +27,7 @@ public sealed class ProviderBuilder
         builder.AppendLine(
             $"[System.CodeDom.Compiler.GeneratedCode(\"{nameof(ProviderBuilder)}\", \"{FileVersionInfo.GetVersionInfo(GetType().Assembly.Location).ProductVersion}\")]");
         builder.AppendLine(
-            $"public sealed class {_providedType.Type.Name}GeneratedProvider : MethodProvider<{_providedType}>");
+            $"public sealed class {_providedType.Type.TypeName}GeneratedProvider : MethodProvider<{_providedType}>");
         builder.AppendLine("{");
         builder.AppendLine($"    protected override {_providedType} CreateInstanceCore(IReadOnlyContainer container)");
         builder.AppendLine("    {");
