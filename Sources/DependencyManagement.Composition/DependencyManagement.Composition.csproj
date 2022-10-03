@@ -16,7 +16,7 @@
 
     <PropertyGroup>
         <Title>Essy.DependencyManagement.Composition</Title>
-        <Version>1.4.1</Version>
+        <Version>1.4.2</Version>
         <Authors>Roma F.;Timur F.</Authors>
         <Description>
             A very fast dependency injection and component container, with many interesting features, and without reflexion.

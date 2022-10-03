@@ -1,4 +1,4 @@
-[![Version 1.4.1](https://img.shields.io/static/v1?label=version&message=1.4.1&color=21C96E&style=for-the-badge)](https://www.nuget.org/profiles/essy-ecosystem)
+[![Version 1.4.2](https://img.shields.io/static/v1?label=version&message=1.4.2&color=21C96E&style=for-the-badge)](https://www.nuget.org/profiles/essy-ecosystem)
 [![C# 9+](https://img.shields.io/static/v1?label=Csharp&message=9%2B&color=21C96E&style=for-the-badge)](https://dotnet.microsoft.com)
 [![Dot NET 6, 7](https://img.shields.io/static/v1?label=DOTNET&message=6,7&color=21C96E&style=for-the-badge)](https://dotnet.microsoft.com)
 [![Nullable](https://img.shields.io/static/v1?label=&message=Nullable&color=21C96E&style=for-the-badge)](https://docs.microsoft.com/en-us/dotnet/csharp/nullable-references)
@@ -102,13 +102,13 @@ var service = readOnlyContainer.LastInstance<Service>();
 </PropertyGroup>
 
 <ItemGroup>
-    <PackageReference Include="Essy.DependencyManagement.Injection" Version="1.4.1"/>
-    <PackageReference Include="Essy.DependencyManagement.Injection.Generator" Version="1.4.1" 
+    <PackageReference Include="Essy.DependencyManagement.Injection" Version="1.4.2"/>
+    <PackageReference Include="Essy.DependencyManagement.Injection.Generator" Version="1.4.2" 
                       OutputItemType="Analyzer" 
                       ReferenceOutputAssembly="false"/>
     
-    <PackageReference Include="Essy.DependencyManagement.Modularity" Version="1.4.1"/>
-    <PackageReference Include="Essy.DependencyManagement.Modularity.Generator" Version="1.4.1" 
+    <PackageReference Include="Essy.DependencyManagement.Modularity" Version="1.4.2"/>
+    <PackageReference Include="Essy.DependencyManagement.Modularity.Generator" Version="1.4.2" 
                       OutputItemType="Analyzer" 
                       ReferenceOutputAssembly="false"/>
 </ItemGroup>
