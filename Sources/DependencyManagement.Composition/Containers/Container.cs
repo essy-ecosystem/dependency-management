@@ -66,12 +66,16 @@ public class Container : AsyncDisposableObject, IContainer
     {
         Thrower.ThrowIfArgumentNull(component);
 
-        if (!_components.TryGetValue(typeof(T), out var components)) return false;
+        var type = typeof(T);
 
-        var index = components.IndexOf(component);
-        if (index < 0) return false;
+        if (!_components.TryGetValue(type, out var components)) return false;
 
-        components.RemoveAt(index);
+        components.Remove(component);
+
+        if (components.Count == 0)
+        {
+            _components.TryRemove(type, out _);
+        }
 
         return true;
     }
