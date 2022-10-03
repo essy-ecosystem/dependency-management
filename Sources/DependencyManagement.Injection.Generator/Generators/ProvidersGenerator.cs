@@ -1,5 +1,6 @@
 namespace DependencyManagement.Injection.Generator.Generators;
 
+using System.Collections.Immutable;
 using Builders;
 using DependencyManagement.Generator.Core.Extensions;
 using DependencyManagement.Generator.Core.Transformers;
@@ -18,17 +19,6 @@ public sealed class ProvidersGenerator : IIncrementalGenerator
             .Where(static providedType => providedType is not null)
             .Collect();
 
-        context.RegisterSourceOutput(providedTypes, static (context, providedTypes) =>
-        {
-            Parallel.ForEach(providedTypes, providedType =>
-            {
-                var builder = new ProviderBuilder(providedType!);
-
-                context.AddSource($"{providedType!.Type.TypeName}GeneratedProvider.{nameof(ProvidersGenerator)}.cs",
-                    builder.ToString());
-            });
-        });
-
         var assembly = context.CompilationProvider.Transform(
             new AssemblyNameCompilationTransformer());
 
@@ -43,6 +33,17 @@ public sealed class ProvidersGenerator : IIncrementalGenerator
                 liner.Right, liner.Left.Right);
 
             context.AddSource($"ContainerExtensions.{nameof(ProvidersGenerator)}.cs", builder.ToString());
+        });
+        
+        context.RegisterSourceOutput(providedTypes, static (context, providedTypes) =>
+        {
+            Parallel.ForEach(providedTypes.Distinct(), providedType =>
+            {
+                var builder = new ProviderBuilder(providedType!);
+
+                context.AddSource($"{providedType!.Type.TypeName}GeneratedProvider.{nameof(ProvidersGenerator)}.cs",
+                    builder.ToString());
+            });
         });
     }
 }
