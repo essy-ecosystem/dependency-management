@@ -65,18 +65,6 @@ public sealed class SingletonStrategy : Strategy
 
     private void AddInstanceToProvidersInstancesCache(IProvider provider, object instance)
     {
-        if (instance is IDisposableObject disposableInstance)
-        {
-            void OnInstanceDisposing(object _)
-            {
-                if (IsDisposed) return;
-
-                RemoveProvider(provider);
-            }
-
-            disposableInstance.Disposing += OnInstanceDisposing;
-        }
-
         _providersInstances.TryAdd(provider, instance);
     }
 
