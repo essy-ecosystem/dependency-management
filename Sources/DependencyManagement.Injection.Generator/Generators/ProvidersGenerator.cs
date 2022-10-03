@@ -24,7 +24,7 @@ public sealed class ProvidersGenerator : IIncrementalGenerator
             {
                 var builder = new ProviderBuilder(providedType!);
 
-                context.AddSource($"{providedType!.Type.Name}GeneratedProvider.{nameof(ProvidersGenerator)}.cs",
+                context.AddSource($"{providedType!.Type.TypeName}GeneratedProvider.{nameof(ProvidersGenerator)}.cs",
                     builder.ToString());
             });
         });

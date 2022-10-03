@@ -56,7 +56,7 @@ internal class ContainerExtensionsBuilder
         foreach (var providedType in _providedTypes)
         {
             builder.AppendLine(
-                $"        rootContainer.TrySetLazyProvider<{providedType}>(() => new {providedType.Type.Name}GeneratedProvider());");
+                $"        rootContainer.TrySetLazyProvider<{providedType}>(() => new {providedType.Type.TypeName}GeneratedProvider());");
         }
 
         builder.AppendLine("        return container;");

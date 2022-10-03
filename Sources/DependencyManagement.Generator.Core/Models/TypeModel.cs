@@ -2,15 +2,20 @@ namespace DependencyManagement.Generator.Core.Models;
 
 public sealed class TypeModel
 {
-    public TypeModel(string ns, string name)
+    public TypeModel(string ns, string name, string? generic = null)
     {
         Namespace = ns;
-        Name = name;
+        TypeName = name;
+        GenericName = generic;
     }
 
     public string Namespace { get; }
 
-    public string Name { get; }
+    public string Name => GenericName ?? TypeName;
+    
+    public string TypeName { get; }
+
+    public string? GenericName { get; }
 
     public string FullName => $"{Namespace}.{Name}";
 
