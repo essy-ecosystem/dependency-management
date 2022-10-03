@@ -15,8 +15,7 @@ public sealed class ModulesGenerator : IIncrementalGenerator
         var modulesTypes = context.SyntaxProvider.Transform(
                 new ModulesRegistrationTypesSyntaxDiscover(),
                 new ModulesRegistrationTypesSyntaxTransformer())
-            .Where(modulesTypes => modulesTypes is not null)
-            .Select((modulesTypes, _) => modulesTypes!)
+            .Where(static modulesType => modulesType is not null)
             .Collect();
 
         var assembly = context.CompilationProvider.Transform(

@@ -1,5 +1,4 @@
 ﻿using DependencyManagement.Composition.Containers;
-using DependencyManagement.Composition.Enums;
 using DependencyManagement.Examples.Simple;
 using DependencyManagement.Injection.Extensions;
 

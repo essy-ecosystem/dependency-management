@@ -11,7 +11,7 @@ public sealed class ModulesRegistrationTypesSyntaxTransformer : ISyntaxTransform
     {
         var providedType = GetModuleTypeFromGeneric(context);
 
-        return !ValidateProvidedType(providedType)
+        return ValidateProvidedType(providedType)
             ? GetModuleTypeModel(providedType)
             : null;
     }
