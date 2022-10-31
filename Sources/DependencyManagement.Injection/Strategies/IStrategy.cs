@@ -1,13 +1,10 @@
-namespace DependencyManagement.Injection.Strategies;
+namespace DependencyManagement.Strategies;
 
-using Composition.Components;
-using Models;
+using Components;
+using Providers;
+using Targets;
 
 public interface IStrategy : IComponent
 {
-    T GetInstance<T>(StrategyContext<T> context) where T : notnull;
-
-    bool ContainsInstance<T>(T instance) where T : notnull;
-
-    bool RemoveInstance<T>(T instance) where T : notnull;
+    ITarget<T> BuildTarget<T>(IProvider<T> provider) where T : notnull;
 }

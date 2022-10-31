@@ -1,3 +1,3 @@
-namespace DependencyManagement.Injection.Builders;
+namespace DependencyManagement.Builders;
 
-public interface ITargetBuilder<T> : IAbstractionTargetBuilder<T> where T : class { }
+public interface ITargetBuilder<T> : IAliasTargetBuilder<T> where T : notnull { }

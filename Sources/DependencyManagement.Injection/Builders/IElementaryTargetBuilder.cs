@@ -1,3 +1,3 @@
-namespace DependencyManagement.Injection.Builders;
+namespace DependencyManagement.Builders;
 
-public interface IElementaryTargetBuilder<T> where T : class { }
+public interface IElementaryTargetBuilder<T> where T : notnull { }

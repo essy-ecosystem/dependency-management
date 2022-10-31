@@ -1,29 +1,47 @@
-namespace DependencyManagement.Composition.Components;
+namespace DependencyManagement.Components;
 
-public class LazyComponent<T> : Component, ILazyComponent<T> where T : class, IComponent
-{
-    private readonly Lazy<T> _lazy;
+using Disposables;
 
-    public LazyComponent(Func<T> factory)
-    {
-        _lazy = new Lazy<T>(factory, true);
+/// <inheritdoc cref="DependencyManagement.Components.ILazyComponent{T}"/>
+public class LazyComponent<T> : AsyncDisposableObject, ILazyComponent<T> where T : IComponent {
+    private readonly object _lock = new();
+    
+    private T? _instance;
+    
+    private Func<T>? _factory;
+    
+    /// <summary>
+    /// Initializes a new instance of the <see cref="LazyComponent{T}"/> class.
+    /// </summary>
+    /// <param name="factory">
+    /// The factory that creates the component.
+    /// </param>
+    public LazyComponent(Func<T> factory) {
+        _factory = factory;
     }
-
-    public T Value => _lazy.Value;
-
-    public bool IsValueCreated => _lazy.IsValueCreated;
-
-    protected override void DisposeCore(bool disposing)
+    
+    /// <inheritdoc/>
+    public T Value
     {
-        if (disposing && IsValueCreated) Value.Dispose();
+        get
+        {
+            if (_instance is null) TryCreateInstance();
 
-        base.DisposeCore(disposing);
+            return _instance!;
+        }
     }
-
-    protected override async ValueTask DisposeCoreAsync()
+    
+    /// <inheritdoc/>
+    public bool IsCreated => _instance is not null;
+    
+    private void TryCreateInstance()
     {
-        if (IsValueCreated) await Value.DisposeAsync();
+        lock (_lock)
+        {
+            if (_factory is null) return;
 
-        await base.DisposeCoreAsync();
+            _instance = _factory();
+            _factory = null;
+        }
     }
 }

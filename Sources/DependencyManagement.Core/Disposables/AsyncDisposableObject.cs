@@ -1,13 +1,22 @@
-namespace DependencyManagement.Core.Disposables;
+namespace DependencyManagement.Disposables;
 
 using Delegates;
 
-/// <inheritdoc cref="DependencyManagement.Core.Disposables.AsyncDisposable" />
+/// <inheritdoc cref="DependencyManagement.Disposables.AsyncDisposable" />
 public class AsyncDisposableObject<T> : AsyncDisposable<T>, IDisposableObject where T : notnull
 {
-    /// <param name="value">The value to dispose.</param>
-    /// <param name="dispose">The action to perform when disposing the value.</param>
-    /// <param name="asyncDispose">The action to perform when disposing the value asynchronously.</param>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AsyncDisposableObject{T}"/> class.
+    /// </summary>
+    /// <param name="value">
+    /// The value to dispose.
+    /// </param>
+    /// <param name="dispose">
+    /// The action to perform when disposing the value.
+    /// </param>
+    /// <param name="asyncDispose">
+    /// The action to perform when disposing the value asynchronously.
+    /// </param>
     public AsyncDisposableObject(T value, Func<T, ValueTask> asyncDispose, Action<T, bool>? dispose = null)
         : base(value, asyncDispose, dispose) { }
 
@@ -25,7 +34,7 @@ public class AsyncDisposableObject<T> : AsyncDisposable<T>, IDisposableObject wh
     }
 }
 
-/// <inheritdoc cref="DependencyManagement.Core.Disposables.AsyncDisposable" />
+/// <inheritdoc cref="DependencyManagement.Disposables.AsyncDisposable" />
 public abstract class AsyncDisposableObject : AsyncDisposable, IDisposableObject
 {
     /// <inheritdoc />

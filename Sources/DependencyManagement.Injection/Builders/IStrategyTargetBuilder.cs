@@ -1,8 +1,8 @@
-namespace DependencyManagement.Injection.Builders;
+namespace DependencyManagement.Builders;
 
 using Strategies;
 
-public interface IStrategyTargetBuilder<T> : IElementaryTargetBuilder<T> where T : class
+public interface IStrategyTargetBuilder<T> : IElementaryTargetBuilder<T> where T : notnull
 {
-    void To<TStrategy>() where TStrategy : class, IStrategy;
+    void To<TStrategy>(TStrategy strategy) where TStrategy : IStrategy;
 }

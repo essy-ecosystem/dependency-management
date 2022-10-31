@@ -1,11 +1,6 @@
-namespace DependencyManagement.Composition.Components;
+namespace DependencyManagement.Components;
 
-using Containers;
-using Core.Disposables;
+using Disposables;
 
-/// <summary>
-/// This is a object that is stored in the <see cref="IContainer" />.
-/// Also, this object is disposable (asynchronously too).
-/// His lifetime is managed by the <see cref="IContainer" />.
-/// </summary>
+/// <inheritdoc cref="DependencyManagement.Components.IComponent"/>
 public abstract class Component : AsyncDisposableObject, IComponent { }

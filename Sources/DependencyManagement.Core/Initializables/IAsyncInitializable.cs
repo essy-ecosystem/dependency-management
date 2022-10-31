@@ -1,10 +1,12 @@
-namespace DependencyManagement.Core.Initializables;
+namespace DependencyManagement.Initializables;
 
 /// <summary>
 /// An <see cref="IAsyncInitializable" /> object which, after creation, can initialize a <paramref name="Value" />
 /// object asynchronously.
 /// </summary>
-/// <typeparam name="T">The type of the <paramref name="Value" /> object.</typeparam>
+/// <typeparam name="T">
+/// The type of the <paramref name="Value" /> object.
+/// </typeparam>
 /// <remarks>
 /// Use <see cref="IAsyncInitializable{T}" />, if your object does not implement <see cref="IAsyncInitializable" />,
 /// but you need to implement it externally.

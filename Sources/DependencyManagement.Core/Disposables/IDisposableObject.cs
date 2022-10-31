@@ -1,4 +1,4 @@
-namespace DependencyManagement.Core.Disposables;
+namespace DependencyManagement.Disposables;
 
 using Delegates;
 

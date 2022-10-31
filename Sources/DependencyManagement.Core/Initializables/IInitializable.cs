@@ -1,9 +1,11 @@
-namespace DependencyManagement.Core.Initializables;
+namespace DependencyManagement.Initializables;
 
 /// <summary>
-/// An <see cref="IInitializable" /> object which, after creation, can initialize a <paramref name="Value" /> object.
+/// An <see cref="IInitializable" /> object which, after creation, can initialize a Value object.
 /// </summary>
-/// <typeparam name="T">The type of the <paramref name="Value" /> object.</typeparam>
+/// <typeparam name="T">
+/// The type of the Value object.
+/// </typeparam>
 /// <remarks>
 /// Use <see cref="IInitializable{T}" />, if your object does not implement <see cref="IInitializable" />,
 /// but you need to implement it externally.

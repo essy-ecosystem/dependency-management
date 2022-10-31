@@ -1,45 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+        <TargetFramework>net7.0</TargetFramework>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
     <PropertyGroup>
-        <AssemblyName>Essy.DependencyManagement.Injection</AssemblyName>
-        <RootNamespace>DependencyManagement.Injection</RootNamespace>
-        <LangVersion>10</LangVersion>
+        <AssemblyName>DependencyManagement.Injection</AssemblyName>
+        <RootNamespace>DependencyManagement</RootNamespace>
+        <LangVersion>11</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <PropertyGroup>
-        <Title>Essy.DependencyManagement.Injection</Title>
-        <Version>1.4.3</Version>
-        <Authors>Roma F.;Timur F.</Authors>
-        <Description>
-            A very fast dependency injection and component container, with many interesting features, and without reflexion.
-            The Injection library contains extensions, strategies, targets, providers, and mechanisms for Dependency Injection for the container (composite).
-        </Description>
-        <PackageProjectUrl>https://github.com/essy-ecosystem/dependency-management</PackageProjectUrl>
-        <PackageIcon>icon-128.png</PackageIcon>
-        <RepositoryUrl>https://github.com/essy-ecosystem/dependency-management.git</RepositoryUrl>
-        <RepositoryType>git</RepositoryType>
-        <PackageTags>di;ioc;modularity;generator</PackageTags>
-        <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
-        <PackageLicenseFile>License.txt</PackageLicenseFile>
-        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    </PropertyGroup>
-
     <ItemGroup>
-        <ProjectReference Include="..\DependencyManagement.Composition\DependencyManagement.Composition.csproj"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Include="..\..\Assets\icon-128.png" Pack="true" Visible="false" PackagePath=""/>
-        <None Include="..\..\License.txt" Pack="true" Visible="false" PackagePath=""/>
-        <None Include="..\..\ReadMe.md" Pack="true" Visible="false" PackagePath=""/>
+      <ProjectReference Include="..\DependencyManagement.Composition\DependencyManagement.Composition.csproj" />
     </ItemGroup>
 
 </Project>

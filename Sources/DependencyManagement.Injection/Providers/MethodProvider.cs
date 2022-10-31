@@ -1,6 +1,6 @@
-namespace DependencyManagement.Injection.Providers;
+namespace DependencyManagement.Providers;
 
-using Composition.Containers;
+using Containers;
 
 public abstract class MethodProvider<T> : Provider<T> where T : notnull
 {

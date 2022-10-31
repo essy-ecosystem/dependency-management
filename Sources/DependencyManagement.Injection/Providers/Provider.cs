@@ -1,14 +1,9 @@
-namespace DependencyManagement.Injection.Providers;
+namespace DependencyManagement.Providers;
 
-using Composition.Components;
-using Composition.Containers;
+using Components;
+using Containers;
 
 public abstract class Provider<T> : Component, IProvider<T> where T : notnull
 {
     public abstract T CreateInstance(IReadOnlyContainer container);
-
-    object IProvider.CreateInstance(IReadOnlyContainer container)
-    {
-        return CreateInstance(container);
-    }
 }

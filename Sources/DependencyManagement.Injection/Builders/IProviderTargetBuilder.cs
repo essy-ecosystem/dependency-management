@@ -1,8 +1,8 @@
-namespace DependencyManagement.Injection.Builders;
+namespace DependencyManagement.Builders;
 
 using Providers;
 
-public interface IProviderTargetBuilder<T> : IStrategyTargetBuilder<T> where T : class
+public interface IProviderTargetBuilder<T> : IStrategyTargetBuilder<T> where T : notnull
 {
-    IStrategyTargetBuilder<T> With(Func<IProvider<T>> provider);
+    IStrategyTargetBuilder<T> With<TProvider>(TProvider provider) where TProvider : IProvider<T>;
 }

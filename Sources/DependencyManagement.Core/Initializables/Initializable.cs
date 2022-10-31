@@ -1,4 +1,4 @@
-namespace DependencyManagement.Core.Initializables;
+namespace DependencyManagement.Initializables;
 
 /// <inheritdoc cref="IInitializable{T}" />
 /// <seealso cref="IInitializable{T}" />
@@ -6,8 +6,15 @@ public class Initializable<T> : IInitializable<T> where T : notnull
 {
     private readonly Action<T> _initialize;
 
-    /// <param name="value">The value object.</param>
-    /// <param name="initialize">The initializes delegate.</param>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Initializable{T}"/> class.
+    /// </summary>
+    /// <param name="value">
+    /// The value object.
+    /// </param>
+    /// <param name="initialize">
+    /// The initializes delegate.
+    /// </param>
     public Initializable(T value, Action<T> initialize)
     {
         Value = value;

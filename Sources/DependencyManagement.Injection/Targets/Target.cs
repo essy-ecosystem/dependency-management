@@ -1,37 +1,13 @@
-namespace DependencyManagement.Injection.Targets;
+namespace DependencyManagement.Targets;
 
-using Composition.Components;
-using Composition.Containers;
-using Models;
-using Providers;
-using Strategies;
+using Components;
+using Containers;
 
-internal sealed class Target<T> : Component, ITarget<T> where T : notnull
+public abstract class Target<T> : Component, ITarget<T> where T : notnull
 {
-    private readonly ILazyComponent<IProvider> _provider;
-
-    private readonly ILazyComponent<IStrategy> _strategy;
-
-    public Target(ILazyComponent<IStrategy> strategy, ILazyComponent<IProvider> provider)
-    {
-        _strategy = strategy;
-        _provider = provider;
-    }
-
-    public T ProvideInstance(IReadOnlyContainer container)
-    {
-        var context = new StrategyContext<T>(container, _provider.Value);
-
-        return _strategy.Value.GetInstance(context);
-    }
-
-    public bool IsInstanceCached(T instance)
-    {
-        return _strategy.Value.ContainsInstance(instance);
-    }
-
-    public void ResolveInstance(T instance)
-    {
-        _strategy.Value.RemoveInstance(instance);
-    }
+    public abstract T GetInstance(IReadOnlyContainer container);
+    
+    public abstract bool ContainsInstance(T instance);
+    
+    public abstract bool RemoveInstance(T instance);
 }

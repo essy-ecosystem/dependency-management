@@ -1,12 +1,20 @@
-namespace DependencyManagement.Core.Disposables;
+namespace DependencyManagement.Disposables;
 
-/// <inheritdoc cref="DependencyManagement.Core.Disposables.IDisposable{T}" />
+/// <inheritdoc cref="DependencyManagement.Disposables.IDisposable{T}" />
 public class Disposable<T> : Disposable, IDisposable<T> where T : notnull
 {
     private readonly Action<T, bool> _dispose;
 
-    /// <param name="value">The value to dispose.</param>
-    /// <param name="dispose">The action to perform when disposing the value.</param>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Disposable{T}"/> class.
+    /// </summary>
+    /// <param name="value">
+    /// The value to dispose.
+    /// </param>
+    /// <param name="dispose">
+    /// The action to perform when disposing the value.
+    /// </param>
+    // ReSharper disable once MemberCanBeProtected.Global
     public Disposable(T value, Action<T, bool> dispose)
     {
         Value = value;
